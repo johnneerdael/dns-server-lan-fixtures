@@ -1,8 +1,10 @@
 # Maintainers only. End users use compose.yaml and pull the published images.
 services:
   authoritative:
+    image: dns-client-lab-authoritative:local
     build:
       context: ./bind
   fault-proxy:
+    image: dns-client-lab-fault-proxy:local
     build:
       context: ./fault_proxy

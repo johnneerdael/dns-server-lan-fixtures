@@ -56,4 +56,4 @@ The smoke-stdin integration test requires a running lab. Run it explicitly with 
 
 ## Publishing
 
-The release workflow verifies the source-built lab, then publishes both images for Linux amd64 and arm64 when a version tag such as `v0.2.0` is pushed. Update the versioned image references in `compose.yaml` before tagging a new release. The first publication may create private packages; the package owner must set both package visibilities to public and verify anonymous pulls before distributing the Compose download.
+The release workflow verifies the source-built lab, then publishes both images for Linux amd64 and arm64 when a version tag such as `v0.2.0` is pushed. After publishing a new release tag, update the image tags and manifest digests in `compose.yaml`. The distributed Compose setup pins digests so a rebuilt tag cannot silently change a QA baseline. The first publication may create private packages; the package owner must set both package visibilities to public and verify anonymous pulls before distributing the Compose download.
