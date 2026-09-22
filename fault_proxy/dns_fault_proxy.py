@@ -19,6 +19,7 @@ from typing import Any
 
 
 MAX_DNS_PAYLOAD = 65_535
+MAX_TCP_QUERIES = 64
 TRAILING_BYTES = b"DNSLAB-TRAILING"
 LOOPBACK_CLIENTS = (ipaddress.ip_network("127.0.0.1/32"), ipaddress.ip_network("::1/128"))
 
@@ -200,6 +201,16 @@ def scenario_for(qname: str) -> Scenario:
     if len(labels) == 4 and labels[1:] == ["transport", "example", "test"]:
         return SCENARIO_BY_LABEL.get(labels[0], Scenario.NORMAL)
     return Scenario.NORMAL
+
+
+def _query_scenario(query: bytes) -> Scenario:
+    # IQUERY and questionless QUERY (e.g. DNS Cookies) have no scenario name.
+    # Let the upstream handle the complete message without activating faults.
+    if len(query) >= 12:
+        flags, questions = struct.unpack_from("!HH", query, 2)
+        if flags & 0x7800 or questions == 0:
+            return Scenario.NORMAL
+    return scenario_for(parse_question_name(query))
 
 
 def make_truncated_response(query: bytes) -> bytes:
@@ -405,24 +416,29 @@ class _UDPServer(_BoundedThreadingMixIn, socketserver.UDPServer):
 
 class _TCPHandler(socketserver.BaseRequestHandler):
     def handle(self) -> None:
+        from fresh_transport import is_fresh, serve_fresh_tcp
+
         config: Config = self.server.config
         self.request.settimeout(config.io_timeout_seconds)
         scenario = Scenario.NORMAL
         try:
-            query = recv_frame(self.request)
-            if b"\x05fresh\x07example\x04test\x00" in query.lower():
-                from fresh_transport import serve_fresh_tcp
-                serve_fresh_tcp(self.request, query, config.chunk_delay_seconds, config.io_timeout_seconds)
-                return
-            scenario = scenario_for(parse_question_name(query))
-            if scenario == Scenario.CLOSE_BEFORE_RESPONSE:
-                return
-            if scenario == Scenario.STALL:
-                time.sleep(config.stall_seconds)
-                return
-            response = forward_tcp(config, query)
-            send_frame(self.request, response, scenario, config.chunk_delay_seconds)
-            log_event("completed", "tcp", scenario, "complete")
+            for _ in range(MAX_TCP_QUERIES):
+                query = recv_frame(self.request)
+                if is_fresh(query):
+                    if not serve_fresh_tcp(self.request, query, config.chunk_delay_seconds, config.io_timeout_seconds):
+                        return
+                    continue
+                scenario = _query_scenario(query)
+                if scenario == Scenario.CLOSE_BEFORE_RESPONSE:
+                    return
+                if scenario == Scenario.STALL:
+                    time.sleep(config.stall_seconds)
+                    return
+                response = forward_tcp(config, query)
+                send_frame(self.request, response, scenario, config.chunk_delay_seconds)
+                log_event("completed", "tcp", scenario, "complete")
+                if scenario not in (Scenario.NORMAL, Scenario.FORCE_TCP):
+                    return
         except DNSFormatError:
             log_event("failed", "tcp", scenario, "format")
         except socket.timeout:
@@ -435,15 +451,19 @@ class _TCPHandler(socketserver.BaseRequestHandler):
 
 class _UDPHandler(socketserver.BaseRequestHandler):
     def handle(self) -> None:
+        from fresh_transport import is_fresh
+
         query, sock = self.request
         config: Config = self.server.config
         scenario = Scenario.NORMAL
         try:
-            if b"\x05fresh\x07example\x04test\x00" in query.lower():
+            if is_fresh(query):
                 from fresh_fixtures import answer_fresh
-                sock.sendto(answer_fresh(query), self.client_address)
+                response = answer_fresh(query)
+                if response:
+                    sock.sendto(response, self.client_address)
                 return
-            scenario = scenario_for(parse_question_name(query))
+            scenario = _query_scenario(query)
             if scenario in (Scenario.CLOSE_BEFORE_RESPONSE, Scenario.STALL):
                 return
             if scenario == Scenario.FORCE_TCP:

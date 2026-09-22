@@ -17,8 +17,8 @@ https.dns.quality-assurance.fyi. 300 IN HTTPS 1 service.dns.quality-assurance.fy
 *.https.dns.quality-assurance.fyi. 300 IN HTTPS 1 service.dns.quality-assurance.fyi. alpn="h2,h3" port=8443 ipv4hint=192.0.2.40 ipv6hint=2001:db8::40
 svcb.dns.quality-assurance.fyi. 300 IN SVCB 1 service.dns.quality-assurance.fyi. alpn="h2,h3" port=8443 ipv4hint=192.0.2.40
 *.svcb.dns.quality-assurance.fyi. 300 IN SVCB 1 service.dns.quality-assurance.fyi. alpn="h2,h3" port=8443 ipv4hint=192.0.2.40
-cert.dns.quality-assurance.fyi. 300 IN CERT 1 0 8 AQIDBA==
-*.cert.dns.quality-assurance.fyi. 300 IN CERT 1 0 8 AQIDBA==
+cert.dns.quality-assurance.fyi. 300 IN CERT 65280 0 0 AQIDBA==
+*.cert.dns.quality-assurance.fyi. 300 IN CERT 65280 0 0 AQIDBA==
 caa.dns.quality-assurance.fyi. 300 IN CAA 0 issue "ca.invalid"
 *.caa.dns.quality-assurance.fyi. 300 IN CAA 0 issue "ca.invalid"
 naptr.dns.quality-assurance.fyi. 300 IN NAPTR 100 10 "U" "E2U+sip" "!^.*$!sip:test@example.invalid!" .

@@ -123,9 +123,9 @@ Record the app/catalogue version, fixture revision and container image IDs, OS, 
 
 Approve a baseline only after the scenario works as intended and its limitations are documented. Keep a separate baseline per materially different scenario. Compare a candidate run using Compare runs or the comparison CLI. Differences are review items, not automatically regressions. No Violation Observed means the implemented RFC checks found no violation in that evidence; it does not certify all DNS behavior or validate the answer data against the lab.
 
-The app's LAN reference examples are generated from actual local Docker UDP/TCP captures over IPv4 and IPv6, rather than by calling the response-building function directly. Original captures and image digests are linked from each reference. These describe the fixture service; they do not approve a baseline for your network path.
+The app's LAN references come from actual local Docker UDP/TCP captures over IPv4 and IPv6. Internet references are observations through system DNS with the security intermediary disabled. Each records the original question, timestamp, endpoint, flags and all response sections. Original DNS names and IDs are retained alongside your run's response, rather than rewritten to make the two look identical. Linked JSON and the capture manifest preserve the raw evidence and its provenance. These references describe the measured paths; they do not approve a baseline for your environment.
 
-The headline RFC count excludes deliberate-stimulus tests. Inspect their individual findings too. Network errors, incomplete captures, unavailable cases and protocol findings need separate interpretation.
+The headline RFC count includes every finding classified as a violation, including findings in deliberate-stimulus tests. Inspect the scenario and evidence before interpreting the count: some cases intentionally provoke errors or malformed replies, while malformed-request tests assess how a server handles bad input. Network errors, incomplete captures, unavailable cases and protocol findings remain distinct.
 
 ## 8. Transport and caching limits
 

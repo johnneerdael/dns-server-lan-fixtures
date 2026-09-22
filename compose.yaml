@@ -2,7 +2,7 @@ name: dns-client-lab
 
 services:
   authoritative:
-    image: ghcr.io/johnneerdael/dns-lab-bind:0.2.0@sha256:78414f746e1b6d7d66df65d4520ad7d99b3665ee04236c98b9bcbe2939158254
+    image: ghcr.io/johnneerdael/dns-lab-bind:0.2.1
     init: true
     restart: unless-stopped
     read_only: true
@@ -30,14 +30,14 @@ services:
         aliases:
           - authoritative
     healthcheck:
-      test: ["CMD-SHELL", "dig @127.0.0.1 -p 5353 example.test SOA +short | grep -q 2026080301"]
+      test: ["CMD-SHELL", "dig @127.0.0.1 -p 5353 example.test SOA +short | grep -q 2026092201"]
       interval: 2s
       timeout: 2s
       retries: 15
       start_period: 3s
 
   fault-proxy:
-    image: ghcr.io/johnneerdael/dns-lab-fixtures:0.2.0@sha256:1d6156456a9fe67af43ce2b4f2eab149e8e020691cfee93df7ec4473def1f76a
+    image: ghcr.io/johnneerdael/dns-lab-fixtures:0.2.1
     init: true
     restart: unless-stopped
     read_only: true

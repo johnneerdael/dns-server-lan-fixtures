@@ -1,7 +1,7 @@
 ; Local reference only: replace example.invalid nameservers before any public authoritative deployment.
 $ORIGIN dns.quality-assurance.fyi.
 $TTL 0
-@ IN SOA ns1.example.invalid. hostmaster.quality-assurance.fyi. (2026092201 60 60 3600 0)
+@ IN SOA ns1.example.invalid. hostmaster.quality-assurance.fyi. (2026092202 60 60 3600 0)
 @ IN NS ns1.example.invalid.
 @ IN NS ns2.example.invalid.
 
@@ -22,8 +22,8 @@ https.dns.quality-assurance.fyi. 0 IN HTTPS 1 service.dns.quality-assurance.fyi.
 *.https.dns.quality-assurance.fyi. 0 IN HTTPS 1 service.dns.quality-assurance.fyi. alpn="h2,h3" port=8443 ipv4hint=192.0.2.40 ipv6hint=2001:db8::40
 svcb.dns.quality-assurance.fyi. 0 IN SVCB 1 service.dns.quality-assurance.fyi. alpn="h2,h3" port=8443 ipv4hint=192.0.2.40
 *.svcb.dns.quality-assurance.fyi. 0 IN SVCB 1 service.dns.quality-assurance.fyi. alpn="h2,h3" port=8443 ipv4hint=192.0.2.40
-cert.dns.quality-assurance.fyi. 0 IN CERT 1 0 8 AQIDBA==
-*.cert.dns.quality-assurance.fyi. 0 IN CERT 1 0 8 AQIDBA==
+cert.dns.quality-assurance.fyi. 0 IN CERT 65280 0 0 AQIDBA==
+*.cert.dns.quality-assurance.fyi. 0 IN CERT 65280 0 0 AQIDBA==
 caa.dns.quality-assurance.fyi. 0 IN CAA 0 issue "ca.invalid"
 *.caa.dns.quality-assurance.fyi. 0 IN CAA 0 issue "ca.invalid"
 naptr.dns.quality-assurance.fyi. 0 IN NAPTR 100 10 "U" "E2U+sip" "!^.*$!sip:test@example.invalid!" .

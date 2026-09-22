@@ -137,7 +137,7 @@ alias-tree.example.test|DNAME|target-tree.example.test.
 mx.example.test|MX|10 mail.example.test.
 txt.example.test|TXT|dns-parity-fixture
 _service._tcp.example.test|SRV|10 60 8443 service.example.test.
-cert.example.test|CERT|PKIX 0 RSASHA256 AQIDBA==
+cert.example.test|CERT|65280 0 0 AQIDBA==
 caa.example.test|CAA|0 issue "ca.invalid"
 naptr.example.test|NAPTR|E2U+sip
 _8443._tcp.tlsa.example.test|TLSA|3 1 1 0123456789ABCDEF

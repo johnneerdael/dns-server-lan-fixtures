@@ -1,7 +1,7 @@
 $ORIGIN example.test.
 $TTL 60
 @ IN SOA ns1.example.test. hostmaster.example.test. (
-    2026080301 300 60 604800 60
+    2026092201 300 60 604800 60
 )
   IN NS ns1.example.test.
   IN NS ns2.example.test.
@@ -27,7 +27,7 @@ txt IN TXT "dns-parity-fixture"
 _service._tcp IN SRV 10 60 8443 service.example.test.
 service IN A 192.0.2.40
 service IN AAAA 2001:db8::40
-cert IN CERT 1 0 8 AQIDBA==
+cert IN CERT 65280 0 0 AQIDBA==
 
 caa IN CAA 0 issue "ca.invalid"
 naptr IN NAPTR 100 10 "U" "E2U+sip" "!^.*$!sip:test@example.test!" .

@@ -54,6 +54,22 @@ AD is resolver-reported validation evidence, not something that must be set
 by an authoritative server. RRSIG presence alone does not prove a trusted
 DNSSEC chain. The app preserves all flags and sections for inspection.
 
+## Experimental CERT specimen
+
+The CERT records now use `65280 0 0 AQIDBA==`: experimental certificate type
+65280, key tag zero, algorithm zero, and the four bytes `01 02 03 04`.
+[RFC 4398 section 2.1](https://www.rfc-editor.org/rfc/rfc4398.html#section-2.1)
+reserves certificate types 65280–65534 for experiments. This is DNS record data
+for encoding/decoding tests; it makes no PKIX, trust, or usable-certificate claim.
+This certificate-type field is distinct from DNS RR TYPE65280.
+
+Earlier imports used `CERT 1 0 8 AQIDBA==`, incorrectly labeling the placeholder
+as PKIX. Update both `cert.dns.quality-assurance.fyi` and
+`*.cert.dns.quality-assurance.fyi` when applying the revised import. Updating these
+source files does not update Cloudflare or another deployed zone. Live captures
+may still contain the earlier type-1 payload; preserve that evidence and record
+the deployed-data limitation until a new lookup confirms the change.
+
 ## Independent BIND reference deployment
 
 `db.dns.quality-assurance.fyi` is a complete standalone zone, including record types the

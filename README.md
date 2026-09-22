@@ -31,8 +31,8 @@ A fixture is prepared DNS data or server behavior for a test. Fixture data, RFC 
 
 ## Published images
 
-- `ghcr.io/johnneerdael/dns-lab-bind:0.2.0`
-- `ghcr.io/johnneerdael/dns-lab-fixtures:0.2.0`
+- `ghcr.io/johnneerdael/dns-lab-bind:0.2.1`
+- `ghcr.io/johnneerdael/dns-lab-fixtures:0.2.1`
 
 Linux amd64 and arm64 images are published from release tags by GitHub Actions. End users only need Compose and `.env`; source builds are for maintainers.
 
@@ -46,7 +46,7 @@ python3 -m unittest discover -s bind/scripts
 python3 -m unittest discover -s scripts
 ```
 
-`docs/fresh-fixture-contract.md` describes generated answers. `scripts/smoke-test.sh` probes an existing deployment; configure its target variables for host-local BIND diagnostics and the client-facing fixture endpoint. The public images contain only the active unsigned LAN zones and fixture service; no signing keys or local credentials are included.
+[The fixture contract](docs/fresh-fixture-contract.md) describes generated answers; [RFC validation scope](docs/rfc-validation.md) lists the independent protocol checks and their limits. `scripts/smoke-test.sh` probes an existing deployment; configure its target variables for host-local BIND diagnostics and the client-facing fixture endpoint. The public images contain only the active unsigned LAN zones and fixture service; no signing keys or local credentials are included.
 
 ## Migrating
 
@@ -56,4 +56,4 @@ The smoke-stdin integration test requires a running lab. Run it explicitly with 
 
 ## Publishing
 
-The release workflow verifies the source-built lab, then publishes both images for Linux amd64 and arm64 when a version tag such as `v0.2.0` is pushed. After publishing a new release tag, update the image tags and manifest digests in `compose.yaml`. The distributed Compose setup pins digests so a rebuilt tag cannot silently change a QA baseline. The first publication may create private packages; the package owner must set both package visibilities to public and verify anonymous pulls before distributing the Compose download.
+The release workflow verifies the source-built lab, then publishes both images for Linux amd64 and arm64 when a version tag such as `v0.2.1` is pushed. During release preparation, `compose.yaml` references the next image tags without an old or guessed digest. After publishing, pin each tag to its verified manifest digest before distributing the release Compose file; this prevents a rebuilt tag from silently changing a QA baseline. The first publication may create private packages; the package owner must set both package visibilities to public and verify anonymous pulls before distributing the Compose download.
