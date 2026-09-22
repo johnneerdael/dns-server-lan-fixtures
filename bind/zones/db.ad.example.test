@@ -1,0 +1,31 @@
+$ORIGIN ad.example.test.
+$TTL 60
+@ IN SOA ns1.ad.example.test. hostmaster.ad.example.test. (
+    2026080301 300 60 604800 60
+)
+  IN NS ns1.ad.example.test.
+  IN NS ns2.ad.example.test.
+  IN A 198.51.100.20
+
+ns1 IN A 198.51.100.53
+ns1 IN AAAA 2001:db8:ad::53
+ns2 IN A 198.51.100.54
+ns2 IN AAAA 2001:db8:ad::54
+dc1 IN A 198.51.100.10
+dc1 IN AAAA 2001:db8:ad::10
+dc2 IN A 198.51.100.11
+dc2 IN AAAA 2001:db8:ad::11
+
+_ldap._tcp IN SRV 0 100 389 dc1.ad.example.test.
+_ldap._tcp IN SRV 10 50 389 dc2.ad.example.test.
+_kerberos._tcp IN SRV 0 100 88 dc1.ad.example.test.
+_kerberos._tcp IN SRV 10 50 88 dc2.ad.example.test.
+_kerberos._udp IN SRV 0 100 88 dc1.ad.example.test.
+_kerberos._udp IN SRV 10 50 88 dc2.ad.example.test.
+_kpasswd._tcp IN SRV 0 100 464 dc1.ad.example.test.
+_kpasswd._udp IN SRV 0 100 464 dc1.ad.example.test.
+_kerberos IN TXT "AD.EXAMPLE.TEST"
+_kerberos.hq._sites IN TXT "AD.EXAMPLE.TEST"
+
+_msdcs IN NS ns1.ad.example.test.
+_msdcs IN NS ns2.ad.example.test.

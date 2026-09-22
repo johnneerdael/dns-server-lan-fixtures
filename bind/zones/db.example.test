@@ -1,0 +1,74 @@
+$ORIGIN example.test.
+$TTL 60
+@ IN SOA ns1.example.test. hostmaster.example.test. (
+    2026080301 300 60 604800 60
+)
+  IN NS ns1.example.test.
+  IN NS ns2.example.test.
+
+ns1 IN A 192.0.2.53
+ns1 IN AAAA 2001:db8::53
+ns2 IN A 192.0.2.54
+ns2 IN AAAA 2001:db8::54
+
+a IN A 192.0.2.10
+aaaa IN AAAA 2001:db8::10
+multi-address IN A 192.0.2.20
+multi-address IN A 192.0.2.21
+multi-address IN AAAA 2001:db8::20
+multi-address IN AAAA 2001:db8::21
+cname IN CNAME a.example.test.
+cname-chain IN CNAME cname.example.test.
+alias-tree IN DNAME target-tree.example.test.
+target-tree IN A 192.0.2.30
+mx IN MX 10 mail.example.test.
+mail IN A 192.0.2.25
+txt IN TXT "dns-parity-fixture"
+_service._tcp IN SRV 10 60 8443 service.example.test.
+service IN A 192.0.2.40
+service IN AAAA 2001:db8::40
+cert IN CERT 1 0 8 AQIDBA==
+
+caa IN CAA 0 issue "ca.invalid"
+naptr IN NAPTR 100 10 "U" "E2U+sip" "!^.*$!sip:test@example.test!" .
+_8443._tcp.tlsa IN TLSA 3 1 1 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+sshfp IN SSHFP 1 1 123456789abcdef67890123456789abcdef67890
+uri IN URI 10 1 "https://service.example.test/discovery"
+loc IN LOC 37 47 0.0 N 122 24 0.0 W 10m 1m 10000m 10m
+hinfo IN HINFO "x86_64" "Linux"
+rp IN RP hostmaster.example.test. contact.example.test.
+afsdb IN AFSDB 1 service.example.test.
+svcb IN SVCB 1 svc-target.example.test. alpn="h2,h3" port=8443 ipv4hint=192.0.2.40 ipv6hint=2001:db8::40
+https IN HTTPS 1 svc-target.example.test. alpn="h2,h3" port=8443 ipv4hint=192.0.2.40 ipv6hint=2001:db8::40
+svc-target IN A 192.0.2.40
+svc-target IN AAAA 2001:db8::40
+unknown IN TYPE65280 \# 4 DEADBEEF
+
+nodata IN A 192.0.2.41
+*.wild IN A 192.0.2.42
+exact IN A 192.0.2.43
+partial-name IN A 192.0.2.44
+transparent-upstream IN A 192.0.2.45
+ttl-zero 0 IN A 192.0.2.46
+ttl-normal 60 IN A 192.0.2.47
+ttl-high 86400 IN A 192.0.2.48
+
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa IN A 192.0.2.49
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc.ddddddddddddddddddddddddddddddddddddddddddd IN A 192.0.2.50
+
+normal.transport IN A 192.0.2.60
+force-tcp.transport IN TXT "force-tcp-canonical-answer"
+split-prefix.transport IN A 192.0.2.61
+split-body.transport IN A 192.0.2.62
+bytewise.transport IN A 192.0.2.63
+delayed.transport IN A 192.0.2.64
+close-before-response.transport IN A 192.0.2.65
+close-after-prefix.transport IN A 192.0.2.66
+close-mid-body.transport IN A 192.0.2.67
+length-mismatch.transport IN A 192.0.2.68
+stall.transport IN A 192.0.2.69
+duplicate-response.transport IN A 192.0.2.70
+trailing-bytes.transport IN A 192.0.2.71
+
+$GENERATE 1-64 srv-$ 60 IN A 192.0.2.$
+$INCLUDE "/etc/bind/zones/generated/db.large.inc"

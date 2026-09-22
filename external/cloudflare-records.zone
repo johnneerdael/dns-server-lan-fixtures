@@ -1,0 +1,51 @@
+; Import into the existing quality-assurance.fyi zone. Keep DNS-only.
+; TTL 300 is compatible with Cloudflare. Fresh query names reduce cache reuse.
+; No SOA, NS or signing keys are imported. Disable proxying for all fixture records.
+a.dns.quality-assurance.fyi. 300 IN A 192.0.2.10
+*.a.dns.quality-assurance.fyi. 300 IN A 192.0.2.10
+aaaa.dns.quality-assurance.fyi. 300 IN AAAA 2001:db8::10
+*.aaaa.dns.quality-assurance.fyi. 300 IN AAAA 2001:db8::10
+mx.dns.quality-assurance.fyi. 300 IN MX 10 mail.dns.quality-assurance.fyi.
+*.mx.dns.quality-assurance.fyi. 300 IN MX 10 mail.dns.quality-assurance.fyi.
+txt.dns.quality-assurance.fyi. 300 IN TXT "DNS QA public fixture"
+*.txt.dns.quality-assurance.fyi. 300 IN TXT "DNS QA public fixture"
+ptr.dns.quality-assurance.fyi. 300 IN PTR a.dns.quality-assurance.fyi.
+*.ptr.dns.quality-assurance.fyi. 300 IN PTR a.dns.quality-assurance.fyi.
+srv.dns.quality-assurance.fyi. 300 IN SRV 10 60 8443 service.dns.quality-assurance.fyi.
+*.srv.dns.quality-assurance.fyi. 300 IN SRV 10 60 8443 service.dns.quality-assurance.fyi.
+https.dns.quality-assurance.fyi. 300 IN HTTPS 1 service.dns.quality-assurance.fyi. alpn="h2,h3" port=8443 ipv4hint=192.0.2.40 ipv6hint=2001:db8::40
+*.https.dns.quality-assurance.fyi. 300 IN HTTPS 1 service.dns.quality-assurance.fyi. alpn="h2,h3" port=8443 ipv4hint=192.0.2.40 ipv6hint=2001:db8::40
+svcb.dns.quality-assurance.fyi. 300 IN SVCB 1 service.dns.quality-assurance.fyi. alpn="h2,h3" port=8443 ipv4hint=192.0.2.40
+*.svcb.dns.quality-assurance.fyi. 300 IN SVCB 1 service.dns.quality-assurance.fyi. alpn="h2,h3" port=8443 ipv4hint=192.0.2.40
+cert.dns.quality-assurance.fyi. 300 IN CERT 1 0 8 AQIDBA==
+*.cert.dns.quality-assurance.fyi. 300 IN CERT 1 0 8 AQIDBA==
+caa.dns.quality-assurance.fyi. 300 IN CAA 0 issue "ca.invalid"
+*.caa.dns.quality-assurance.fyi. 300 IN CAA 0 issue "ca.invalid"
+naptr.dns.quality-assurance.fyi. 300 IN NAPTR 100 10 "U" "E2U+sip" "!^.*$!sip:test@example.invalid!" .
+*.naptr.dns.quality-assurance.fyi. 300 IN NAPTR 100 10 "U" "E2U+sip" "!^.*$!sip:test@example.invalid!" .
+tlsa.dns.quality-assurance.fyi. 300 IN TLSA 3 1 1 0101010101010101010101010101010101010101010101010101010101010101
+*.tlsa.dns.quality-assurance.fyi. 300 IN TLSA 3 1 1 0101010101010101010101010101010101010101010101010101010101010101
+sshfp.dns.quality-assurance.fyi. 300 IN SSHFP 1 1 123456789abcdef67890123456789abcdef67890
+*.sshfp.dns.quality-assurance.fyi. 300 IN SSHFP 1 1 123456789abcdef67890123456789abcdef67890
+uri.dns.quality-assurance.fyi. 300 IN URI 10 1 "https://example.invalid/fixture"
+*.uri.dns.quality-assurance.fyi. 300 IN URI 10 1 "https://example.invalid/fixture"
+loc.dns.quality-assurance.fyi. 300 IN LOC 37 47 0.0 N 122 24 0.0 W 10m 1m 10000m 10m
+*.loc.dns.quality-assurance.fyi. 300 IN LOC 37 47 0.0 N 122 24 0.0 W 10m 1m 10000m 10m
+cname.dns.quality-assurance.fyi. 300 IN CNAME a.dns.quality-assurance.fyi.
+*.cname.dns.quality-assurance.fyi. 300 IN CNAME a.dns.quality-assurance.fyi.
+cname-a.dns.quality-assurance.fyi. 300 IN CNAME a.dns.quality-assurance.fyi.
+*.cname-a.dns.quality-assurance.fyi. 300 IN CNAME a.dns.quality-assurance.fyi.
+cname-chain.dns.quality-assurance.fyi. 300 IN CNAME cname.dns.quality-assurance.fyi.
+*.cname-chain.dns.quality-assurance.fyi. 300 IN CNAME cname.dns.quality-assurance.fyi.
+svcb-alias.dns.quality-assurance.fyi. 300 IN SVCB 0 service.dns.quality-assurance.fyi.
+*.svcb-alias.dns.quality-assurance.fyi. 300 IN SVCB 0 service.dns.quality-assurance.fyi.
+https-alias.dns.quality-assurance.fyi. 300 IN HTTPS 0 service.dns.quality-assurance.fyi.
+*.https-alias.dns.quality-assurance.fyi. 300 IN HTTPS 0 service.dns.quality-assurance.fyi.
+signed.dns.quality-assurance.fyi. 300 IN A 192.0.2.10
+*.signed.dns.quality-assurance.fyi. 300 IN A 192.0.2.10
+nodata.dns.quality-assurance.fyi. 300 IN A 192.0.2.41
+*.nodata.dns.quality-assurance.fyi. 300 IN A 192.0.2.41
+mail.dns.quality-assurance.fyi. 300 IN A 192.0.2.25
+service.dns.quality-assurance.fyi. 300 IN A 192.0.2.40
+*.large-512.dns.quality-assurance.fyi. 300 IN TXT "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+*.large-1232.dns.quality-assurance.fyi. 300 IN TXT "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"

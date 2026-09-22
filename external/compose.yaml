@@ -1,0 +1,12 @@
+name: dns-qa-external
+services:
+  authoritative:
+    build: .
+    ports:
+      - "127.0.0.1:5302:5353/udp"
+      - "127.0.0.1:5302:5353/tcp"
+    volumes:
+      - external-zone:/var/cache/bind
+    restart: unless-stopped
+volumes:
+  external-zone:

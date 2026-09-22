@@ -1,0 +1,20 @@
+$ORIGIN _msdcs.ad.example.test.
+$TTL 60
+@ IN SOA ns1.ad.example.test. hostmaster.ad.example.test. (
+    2026080301 300 60 604800 60
+)
+  IN NS ns1.ad.example.test.
+  IN NS ns2.ad.example.test.
+
+_ldap._tcp.dc IN SRV 0 100 389 dc1.ad.example.test.
+_ldap._tcp.dc IN SRV 10 50 389 dc2.ad.example.test.
+_ldap._tcp.pdc IN SRV 0 100 389 dc1.ad.example.test.
+_ldap._tcp.gc IN SRV 0 100 3268 dc1.ad.example.test.
+_ldap._tcp.gc IN SRV 10 50 3268 dc2.ad.example.test.
+_gc._tcp IN SRV 0 100 3268 dc1.ad.example.test.
+_gc._tcp IN SRV 10 50 3268 dc2.ad.example.test.
+_ldap._tcp.hq._sites.dc IN SRV 0 100 389 dc1.ad.example.test.
+_kerberos._tcp.hq._sites.dc IN SRV 0 100 88 dc1.ad.example.test.
+
+6f9619ff-8b86-d011-b42d-00c04fc964ff IN CNAME ad.example.test.
+0e4f3b21-98d7-4b76-a62d-8d6f6a9b0101 IN CNAME dc1.ad.example.test.

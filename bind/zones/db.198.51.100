@@ -1,0 +1,9 @@
+$ORIGIN 100.51.198.in-addr.arpa.
+$TTL 60
+@ IN SOA ns1.ad.example.test. hostmaster.ad.example.test. (2026080301 300 60 604800 60)
+  IN NS ns1.ad.example.test.
+10 IN PTR dc1.ad.example.test.
+11 IN PTR dc2.ad.example.test.
+20 IN PTR ad.example.test.
+53 IN PTR ns1.ad.example.test.
+54 IN PTR ns2.ad.example.test.

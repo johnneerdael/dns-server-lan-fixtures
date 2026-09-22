@@ -1,0 +1,14 @@
+$ORIGIN 8.b.d.0.1.0.0.2.ip6.arpa.
+$TTL 60
+@ IN SOA ns1.example.test. hostmaster.example.test. (2026080301 300 60 604800 60)
+  IN NS ns1.example.test.
+0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0 IN PTR aaaa.example.test.
+0.2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0 IN PTR multi-address.example.test.
+1.2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0 IN PTR multi-address.example.test.
+0.4.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0 IN PTR service.example.test.
+3.5.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0 IN PTR ns1.example.test.
+4.5.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0 IN PTR ns2.example.test.
+0.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.d.a.0.0 IN PTR dc1.ad.example.test.
+1.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.d.a.0.0 IN PTR dc2.ad.example.test.
+3.5.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.d.a.0.0 IN PTR ns1.ad.example.test.
+4.5.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.d.a.0.0 IN PTR ns2.ad.example.test.

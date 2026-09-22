@@ -1,0 +1,8 @@
+# Maintainers only. End users use compose.yaml and pull the published images.
+services:
+  authoritative:
+    build:
+      context: ./bind
+  fault-proxy:
+    build:
+      context: ./fault_proxy
