@@ -9,8 +9,7 @@
     "publication": "Internet local socket endpoint metadata omitted; DNS wire data and remaining evidence unchanged"
   },
   "limitations": [
-    "Normal responses pass implemented protocol checks; checker controls and fixture semantic gates have finite documented coverage.",
-    "Internet CERT records still label placeholder bytes as PKIX; corrected source requires Cloudflare deployment and recapture."
+    "Normal responses pass implemented protocol checks; checker controls and fixture semantic gates have finite documented coverage."
   ],
   "images": [
     {
@@ -84,9 +83,9 @@
     },
     {
       "file": "internet-system-dns.json",
-      "sha256": "3f61c46ffdb4bdca89be6a4e1e6d9223912dfe58583afbfde275c64a354c31b8",
-      "run_id": "6b41173dd3fe61f1f321bcd0a5c737e8",
-      "started_at": "2026-09-22T16:20:55.822544+00:00",
+      "sha256": "a51bedd5a1f52f096831d106710dd7e299cd49bc6a5290478177e4954636929e",
+      "run_id": "862a032a290c180d5ac551cde441d98c",
+      "started_at": "2026-09-22T16:25:48.546179+00:00",
       "scope": "internet",
       "endpoint": null,
       "results": 82,
@@ -94,5 +93,6 @@
         "completed": 82
       }
     }
-  ]
+  ],
+  "deployed_cert_verified": "CERT 65280 0 0 AQIDBA== confirmed on fixed and fresh wildcard names; key tag and payload were unchanged."
 }

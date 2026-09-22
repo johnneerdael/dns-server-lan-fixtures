@@ -46,13 +46,16 @@ The original 0.2.0 reports remain available at immutable revision
 That release predates the target-consistency, DNAME, EDNS and ordinary TCP corrections.
 Its lack of findings under the earlier checker did **not** establish RFC compliance.
 
-## Known Internet data limitation
+## Corrected Internet CERT records
 
-The recorded Cloudflare CERT fixtures still declare PKIX while carrying four
-placeholder bytes. This is not a valid X.509 payload. The corrected zone source
-uses experimental certificate type 65280/key tag 0/algorithm 0. Source changes do
-not update Cloudflare: edit both existing CERT records, confirm the live response,
-and recapture. These old payloads remain visible as evidence, not valid PKIX controls.
+The operator corrected the certificate type and algorithm in both existing
+Cloudflare CERT records. Fixed and fresh wildcard lookups now return experimental
+certificate type 65280, key tag 0, algorithm 0 and `AQIDBA==`; the key tag and payload
+were already correct. The current Internet report was recaptured after verification.
+This tests DNS transport of an experimental record, not PKIX certificate validity.
+
+The earlier observation of the mislabeled PKIX payload remains in immutable
+revision `13843cc` for traceability; it is not the current reference.
 
 ## Repeat the capture
 
