@@ -1,4 +1,4 @@
-# DNS test lab: installation and validation
+# DNS test server installation guide
 
 A vendor-neutral environment for observing expected DNS behavior and investigating regressions.
 
@@ -6,7 +6,7 @@ A vendor-neutral environment for observing expected DNS behavior and investigati
 
 Use this lab with DNS Client to evaluate local DNS resolvers, internal cloud DNS services, VPNs and Zero Trust Network Access (ZTNA) solutions. It supplies controlled DNS answers so you can observe what a device receives through the network path you are testing: addresses, aliases, service records, flags, additional data, negative answers and UDP/TCP behavior.
 
-A fixture is prepared test data or server behavior. It is a software-testing term, not a DNS record type. For example, our A fixture returns 192.0.2.10, while another fixture deliberately closes a TCP connection before sending a complete response. Those two tests require different interpretations.
+DNS test records are prepared names and answers used to exercise specific lookups. For example, the A test record returns 192.0.2.10. The DNS test server also provides controlled transport scenarios, such as closing a TCP connection before sending a complete response. Each scenario explains what is being tested and how to interpret the observation.
 
 This lab is independent of any DNS, VPN, cloud or ZTNA vendor. It does not assume that one product's address rewriting, policy decisions or connection handling is the correct behavior for another. Establish a reviewed, valid baseline for each scenario before using comparisons to identify regressions. RFC protocol checks and expected product behavior are separate assessments.
 
@@ -14,9 +14,9 @@ The documentation-range addresses in the answers are DNS test data, not applicat
 
 ## 2. What the package contains
 
-One Docker Compose project runs two services. The fixture service is the client-facing DNS endpoint on UDP and TCP port 53. It generates random-name answers, related CNAME/MX/SRV targets and controlled transport faults. BIND 9 serves static zones and resolves other names using the upstream DNS servers you configure.
+One Docker Compose project runs two services. The DNS test service is the client-facing DNS endpoint on UDP and TCP port 53. It generates random-name answers, related CNAME/MX/SRV targets and controlled transport faults. BIND 9 serves static zones and resolves other names using the upstream DNS servers you configure.
 
-The client-facing path is: DNS Client -> the resolver or access path under test -> fixture service -> BIND -> upstream DNS, where needed. Queries for fresh.example.test are answered by the fixture service itself. BIND is exposed on host loopback port 5300 only for local diagnostics; route normal tests to port 53.
+The client-facing path is: DNS Client -> the resolver or access path under test -> DNS test service -> BIND -> upstream DNS, where needed. Queries for fresh.example.test are answered by the DNS test service itself. BIND is exposed on host loopback port 5300 only for local diagnostics; route normal tests to port 53.
 
 The lab uses BIND 9, Python and dnspython. Public prebuilt images are published at ghcr.io/johnneerdael/dns-lab-bind and ghcr.io/johnneerdael/dns-lab-fixtures. The download contains the Compose configuration and instructions; users do not need source files, Python or local image builds. Docker Engine and the Compose plugin pull the images from GitHub Container Registry. The first installation requires registry access or an approved image mirror. No GitHub login is required for public pulls.
 
@@ -39,15 +39,15 @@ Cloud security groups and host networking must agree with the lab's client allow
 
 ## 4. Download, unpack and configure
 
-In DNS Client, open Downloads and save the LAN fixture package and installation guide. Transfer the ZIP to the chosen host, then unpack it:
+In DNS Client, open Downloads and save the DNS test server package and installation guide. Transfer the ZIP to the chosen host, then unpack it:
 
 ```sh
-unzip dns-lan-fixtures.zip
-cd DNS-Client-LAN-Fixtures
+unzip DNS-Test-Server.zip
+cd DNS-Test-Server
 cp .env.example .env
 ```
 
-Release downloads may be named DNS-Client-LAN-Fixtures.zip instead; use the name you saved. On Linux, verify the extracted package with sha256sum -c SHA256SUMS.txt before editing its files.
+The app and GitHub release provide DNS-Test-Server.zip and a separate DNS-Test-Server-Installation-Guide.pdf. On Linux, verify the extracted package with sha256sum -c SHA256SUMS.txt before editing its files.
 
 Edit the first three values in .env. The following values illustrate a lab on 192.168.10.53; replace them with your real host, source networks and upstream resolver. Do not paste these example addresses unchanged into a different network.
 
@@ -59,11 +59,11 @@ DNS_FAULT_PORT=53
 DNS_PORT=5300
 ```
 
-DNS_BIND_IPV4 is an address actually assigned to the host. DNS_ALLOWED_CLIENTS is a comma-separated list of the source IPs or networks the fixture service will see: this may be an intermediate resolver, cloud DNS endpoint, NAT gateway or VPN/ZTNA connector rather than the end-user device. Explicit /0 networks are rejected. Container-local health checks are always allowed. The shipped default permits loopback only until you configure the lab.
+DNS_BIND_IPV4 is an address actually assigned to the host. DNS_ALLOWED_CLIENTS is a comma-separated list of the source IPs or networks the DNS test service will see: this may be an intermediate resolver, cloud DNS endpoint, NAT gateway or VPN/ZTNA connector rather than the end-user device. Explicit /0 networks are rejected. Container-local health checks are always allowed. The shipped default permits loopback only until you configure the lab.
 
 DNS_UPSTREAMS is a required comma-separated list of DNS resolver IP addresses. There is no automatic public-resolver fallback. BIND uses forward-only recursion and DNSSEC validation. Choose upstream servers reachable from the container and suitable for the public/private names in your scenario. Do not point an upstream back to this lab, or to a resolver that forwards all its queries back here.
 
-The frontend enforces client access before forwarding; BIND sees proxied requests as originating from the fixture service. This is why a BIND-only allowlist cannot enforce the original client boundary. Host-local port 5300 is for administrators and has a separate container-local recursion policy.
+The frontend enforces client access before forwarding; BIND sees proxied requests as originating from the DNS test service. This is why a BIND-only allowlist cannot enforce the original client boundary. Host-local port 5300 is for administrators and has a separate container-local recursion policy.
 
 ## 5. Start and verify the services
 
@@ -90,7 +90,7 @@ dig @192.168.10.53 a.00000000000000000000000000000000.fresh.example.test A +tcp
 dig @192.168.10.53 example.test SOA
 ```
 
-The A probes should return NOERROR and A 192.0.2.10 at TTL 0. Zero TTL is valid: the answer is usable for the current transaction, without being retained for later cache reuse. The fresh response is authoritative and does not advertise recursion availability; an RD warning on this direct fixture response does not mean that BIND's separate recursion path is disabled. The SOA query confirms the static zone behind the fixture service.
+The A probes should return NOERROR and A 192.0.2.10 at TTL 0. Zero TTL is valid: the answer is usable for the current transaction, without being retained for later cache reuse. The fresh response is authoritative and does not advertise recursion availability; an RD warning on this direct DNS test server response does not mean that BIND's separate recursion path is disabled. The SOA query confirms the static zone behind the DNS test service.
 
 Check recursive public resolution separately:
 
@@ -111,15 +111,15 @@ For VPN or ZTNA testing, arrange the solution's DNS steering or private-DNS inte
 
 Alternatively, configure a dedicated test device's normal system DNS to use the lab endpoint. The service then answers lab names and forwards unrelated names upstream. This topology makes the lab a resolver for that device. Record the previous device DNS configuration so it can be restored after testing.
 
-If a scenario queries static reverse zones directly, forward those test-only namespaces as well: 2.0.192.in-addr.arpa, 100.51.198.in-addr.arpa and 8.b.d.0.1.0.0.2.ip6.arpa. The app's current fresh-name PTR fixtures are reached beneath fresh.example.test.
+If a scenario queries static reverse zones directly, forward those test-only namespaces as well: 2.0.192.in-addr.arpa, 100.51.198.in-addr.arpa and 8.b.d.0.1.0.0.2.ip6.arpa. The app's current fresh-name PTR DNS test records are reached beneath fresh.example.test.
 
-From the test device, repeat a fresh question without an @server override and confirm the system path reaches the intended fixture. A displayed socket destination does not by itself identify which resolver or access intermediary generated the answer.
+From the test device, repeat a fresh question without an @server override and confirm the system path reaches the intended DNS test server. A displayed socket destination does not by itself identify which resolver or access intermediary generated the answer.
 
 ## 7. Collect evidence and approve a baseline
 
-In DNS Client choose LAN tests only, Internet tests only or Full test. Full test needs both the private lab path and a functioning public-fixture path. Save the original PDF and JSON reports. Exporting a report does not approve it as a baseline.
+In DNS Client choose LAN tests only, Internet tests only or Full test. Full test needs both the private lab path and a functioning public DNS test path. Save the original PDF and JSON reports. Exporting a report does not approve it as a baseline.
 
-Record the app/catalogue version, fixture revision and container image IDs, OS, resolver endpoints, network, forwarding rules and VPN/ZTNA policy and build. Verify the direct fixture responses first, then review what the normal client path returns. Repeat the run to identify stable behavior and expected variation. An address substituted by an access solution may be intentional; a preserved CNAME chain or additional record may be important even when the final address is unchanged.
+Record the app/catalogue version, DNS test server revision and container image IDs, OS, resolver endpoints, network, forwarding rules and VPN/ZTNA policy and build. Verify the direct DNS test server responses first, then review what the normal client path returns. Repeat the run to identify stable behavior and expected variation. An address substituted by an access solution may be intentional; a preserved CNAME chain or additional record may be important even when the final address is unchanged.
 
 Approve a baseline only after the scenario works as intended and its limitations are documented. Keep a separate baseline per materially different scenario. Compare a candidate run using Compare runs or the comparison CLI. Differences are review items, not automatically regressions. No Violation Observed means the implemented RFC checks found no violation in that evidence; it does not certify all DNS behavior or validate the answer data against the lab.
 
@@ -131,9 +131,9 @@ The headline RFC count includes every finding classified as a violation, includi
 
 Ordinary fresh-name tests generate random identifiers and related targets to reduce reuse of cached answers. Connection reuse, pipelining and fallback tests intentionally preserve questions inside their scenario. Static names, upstream metadata, wildcard data and negative proofs can still involve caches. DNS has no universal no-cache flag.
 
-A recursive resolver usually creates its own upstream exchanges and reconstructs replies. It can change flags, omit optional additional records, retry over TCP or hide the exact split/closure behavior of the fixture service. Therefore a test through a resolver describes the end-to-end observation through that resolver, not a transparent copy of the server-side TCP stream.
+A recursive resolver usually creates its own upstream exchanges and reconstructs replies. It can change flags, omit optional additional records, retry over TCP or hide the exact split/closure behavior of the DNS test service. Therefore a test through a resolver describes the end-to-end observation through that resolver, not a transparent copy of the server-side TCP stream.
 
-Use a separately labelled direct-endpoint diagnostic when you need to isolate fixture behavior. Do not silently replace the system-DNS baseline with an override. Compare persistence and pipelining separately from ordinary UDP/TCP lookups and from application reachability.
+Use a separately labelled direct-endpoint diagnostic when you need to isolate DNS test server behavior. Do not silently replace the system-DNS baseline with an override. Compare persistence and pipelining separately from ordinary UDP/TCP lookups and from application reachability.
 
 ## 9. Troubleshooting
 
@@ -141,9 +141,9 @@ If Compose says DNS_UPSTREAMS is missing, edit .env in the same folder as compos
 
 If port 53 is already allocated or the address cannot be bound, inspect the host's listeners and interfaces. Use a dedicated host or another assigned interface. Publishing BIND on host-local 5300 does not make that port the correct endpoint for the app's fresh-name suite.
 
-If direct UDP and TCP queries both time out, check allowed source addresses, security groups, routes and listeners. The fixture service logs rejected access requests; unauthorized UDP traffic is discarded and unauthorized TCP connections are closed before queries are processed. A Docker health check can pass while a remote client remains unauthorized.
+If direct UDP and TCP queries both time out, check allowed source addresses, security groups, routes and listeners. The DNS test service logs rejected access requests; unauthorized UDP traffic is discarded and unauthorized TCP connections are closed before queries are processed. A Docker health check can pass while a remote client remains unauthorized.
 
-If direct fixture queries work but system-DNS queries return NXDOMAIN, inspect forwarding, private DNS zones, negative caches and VPN/ZTNA steering. An NXDOMAIN from a public resolver or the .test namespace does not establish that the fixture server returned it.
+If direct test queries work but system-DNS queries return NXDOMAIN, inspect forwarding, private DNS zones, negative caches and VPN/ZTNA steering. An NXDOMAIN from a public resolver or the .test namespace does not establish that the DNS test server returned it.
 
 If lab lookups succeed but public recursion fails, check DNS_UPSTREAMS, outbound UDP/TCP 53, forwarding loops and DNSSEC validation. Upstreams must return DNSSEC records when requested. An upstream that strips root DNSKEY signatures can cause SERVFAIL even though non-validating lookups succeed; select an appropriate upstream rather than silently disabling validation. Review BIND logs and the host clock. Do not disable validation merely to make a screenshot look successful; record any intentionally different validation policy as a separate scenario.
 

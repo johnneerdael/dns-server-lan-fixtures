@@ -30,7 +30,7 @@ snapshots are omitted from these captures to prevent circular evidence.
 ## Protocol checks and QA baselines
 
 The independent packet controls test the app's checker. Source and live-container
-checks test finite fixture semantics. The reports preserve observed data. These
+checks test finite DNS test server semantics. The reports preserve observed data. These
 are separate forms of evidence, none of which certifies compliance with every DNS
 RFC or approves a product's address rewriting or access policy.
 
@@ -61,7 +61,7 @@ revision `13843cc` for traceability; it is not the current reference.
 
 Run the published images on isolated loopback ports with the IPv6 override and a
 source allowlist appropriate for Docker's local NAT path. Use the app's explicit
-loopback override only for this controlled fixture experiment. The application
+loopback override only for this controlled DNS test server experiment. The application
 repository provides `capture_lan_reference`, `capture_internet_reference`, and
 `scripts/generate-fixture-references.py`. The latter makes no network calls or DNS
 reply construction; it consumes completed, hash-verified reports.

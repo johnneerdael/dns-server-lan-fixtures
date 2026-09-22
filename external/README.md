@@ -1,4 +1,4 @@
-# Public DNS fixtures: dns.quality-assurance.fyi
+# Public DNS test records: dns.quality-assurance.fyi
 
 These files are independent of the unsigned `example.test` lab. The application
 observes the returned records and DNSSEC evidence; QA chooses the baseline.
@@ -26,7 +26,7 @@ Internet baseline. These files prepare the migration; they do not prove that
 the public zone is already deployed.
 
 Use TTL 300 for Cloudflare compatibility. Independent ordinary queries use
-`<random nonce>.<fixture>.dns.quality-assurance.fyi`. This avoids reusing exact question
+`<random nonce>.<record-name>.dns.quality-assurance.fyi`. This avoids reusing exact question
 names, but it cannot force a recursive resolver to bypass cached wildcard
 data, CNAME targets, negative proofs, or DNSSEC metadata. The client records
 the actual names and cache strategy. There is no DNS no-cache flag.
@@ -37,7 +37,7 @@ TYPE65280 fixtures. Those types can be observed in the independent BIND lab
 or in the LAN suite; an absent public record is evidence, not automatically
 an RFC failure. Cloudflare may synthesize minimal ANY/negative answers and
 apply provider limits. Test framing faults and controlled pipelining against
-the internal fixture service, not by trying to configure Cloudflare faults.
+the internal DNS test service, not by trying to configure Cloudflare faults.
 
 Verify after import, using a resolver on the QA endpoint:
 

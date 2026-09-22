@@ -1,10 +1,10 @@
-# Fresh DNS fixture contract
+# Fresh DNS test data contract
 
 The client-facing service answers generated names under `fresh.example.test` and
 forwards other names to BIND. The lab is vendor-neutral: route `example.test` and
 its descendants through the resolver, VPN, private-access gateway, or cloud DNS
 path under test. Importing the static BIND zone alone does not install the fresh
-fixtures or transport scenarios.
+DNS test records or transport scenarios.
 
 ## Deployment and query paths
 
@@ -28,8 +28,8 @@ Fresh names are answered locally without recursive lookup. BIND serves the
 unsigned static LAN zones and provides DNSSEC-validating, forward-only recursion
 for other names through `DNS_UPSTREAMS`. The client-facing service forwards those
 non-fresh queries to BIND over the query's transport. Never configure an upstream
-that routes queries back to this service. Internet fixtures are independent of
-the LAN package; see [external fixtures](../external/README.md).
+that routes queries back to this service. Internet DNS test records are independent of
+the LAN package; see [external DNS test records](../external/README.md).
 
 Source builds are for maintainers and require `compose.build.yaml`. A default
 Compose deployment pulls images; changing zone files or Python source on the
@@ -40,7 +40,7 @@ host does not update a running published image.
 A normal generated name is:
 
 ```text
-<fixture>.<32 hexadecimal characters>.fresh.example.test.
+<record-name>.<32 hexadecimal characters>.fresh.example.test.
 ```
 
 Clients generate lowercase hexadecimal nonces; DNS lookup matching accepts
@@ -49,9 +49,9 @@ Keep the same nonce for related alias/target lookups, TCP exchanges, and UDP-to-
 fallback. Fresh names and zero TTLs reduce cache reuse; they do not prove that an
 intermediary has no cached state.
 
-Each existing fixture has defined records. Answers select records by QTYPE;
+Each existing DNS test case has defined records. Answers select records by QTYPE;
 requesting an absent type produces authoritative NOERROR/NODATA with an SOA.
-Unrecognized fixture names and the `negative`/`dnssec-negative` subtrees produce
+Unrecognized DNS test case names and the `negative`/`dnssec-negative` subtrees produce
 NXDOMAIN. IN records are returned for IN and ANY-class questions; other classes
 are refused. The fresh responder rejects unsupported opcodes with NOTIMP and
 refuses AXFR/IXFR. Non-fresh operations are passed to BIND, including obsolete
@@ -59,7 +59,7 @@ IQUERY messages with no question and questionless QUERY messages.
 
 | Family | Behavior |
 |---|---|
-| Ordinary records | A, AAAA, NS, SOA, MX, TXT, PTR, SRV, SVCB, HTTPS, CERT, CAA, NAPTR, TLSA, SSHFP, URI, LOC, HINFO, RP, AFSDB, and private TYPE65280 fixtures |
+| Ordinary records | A, AAAA, NS, SOA, MX, TXT, PTR, SRV, SVCB, HTTPS, CERT, CAA, NAPTR, TLSA, SSHFP, URI, LOC, HINFO, RP, AFSDB, and private TYPE65280 DNS test records |
 | `cname`, `cname-a`, `ad-guid` | Alias to `a.<nonce>.fresh.example.test`; follow requested types at the target |
 | `cname-chain` | Alias through `chain-hop` to `a`; each hop also works as a direct lookup |
 | `dname`, `dname-child` | Fixed DNAME owner redirecting descendants to the corresponding prefix below `target-tree` |
@@ -68,7 +68,7 @@ IQUERY messages with no question and questionless QUERY messages.
 | `negative`, `dnssec-negative` | NXDOMAIN across QTYPEs, including DNSSEC types |
 | `nodata`, `unsupported` | Existing A owners; the catalogue's AAAA and TYPE65400 questions receive NODATA |
 | `referral` | Fixed delegation with NS and glue; descendant queries keep the same cut; DS at the cut receives parent-side unsigned denial |
-| `refused` | Explicit policy-refusal fixture |
+| `refused` | Explicit policy-refusal DNS test case |
 | `any` | A minimal answer containing an existing RRset, not an inventory of every type |
 | `large-512`, `large-1232`, `near-max` | Large TXT RDATA, subject to transport size limits |
 | `large-multi-a`, `large-multi-aaaa`, `large-srv` | Large A, AAAA, and SRV RRsets |
@@ -81,7 +81,7 @@ TTL and MINIMUM are zero.
 All fresh data is unsigned. DO does not create DNSSEC records, and fresh answers
 clear AD. DNSSEC-type questions at existing owners receive NODATA; nonexistent
 names still receive NXDOMAIN. BIND's recursive responses may contain validated
-public DNSSEC data and AD independently of these unsigned local fixtures.
+public DNSSEC data and AD independently of these unsigned local DNS test records.
 
 ## DNAME questions
 
@@ -133,7 +133,7 @@ Fault selection requires the exact scenario owner immediately before the nonce;
 a name such as `child.close-before.<nonce>.fresh.example.test` does not trigger a
 close fault. The legacy `transport.example.test` scenario names remain available.
 Client-side tests may instead send a partial/zero-length frame or malformed DNS
-request; their fixture labels do not instruct the server to manufacture that
+request; their test-name labels do not instruct the server to manufacture that
 request fault.
 
 ## Application-payload limits
@@ -148,12 +148,12 @@ DNS RR TYPE65280.
 
 TLSA and SSHFP data are synthetic values, not proofs about a running TLS or SSH
 service. PTR at a generated owner tests record handling; it does not establish a
-reverse-zone delegation. SRV/service addresses are fixture data, not deployed
+reverse-zone delegation. SRV/service addresses are DNS test data, not deployed
 application endpoints.
 
 ## Example observations
 
-Set `DNS_SERVER` to the address on which the fixture endpoint is published. These
+Set `DNS_SERVER` to the address on which the DNS test server endpoint is published. These
 examples use the default loopback binding and client port:
 
 ```sh

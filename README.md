@@ -1,8 +1,8 @@
-# DNS test lab
+# DNS test server
 
-A vendor-neutral DNS fixture server for evaluating local resolvers, internal cloud DNS services, VPNs and ZTNA solutions. Observe expected DNS behavior and investigate regressions against a reviewed baseline.
+A vendor-neutral DNS test server for evaluating local resolvers, internal cloud DNS services, VPNs and ZTNA solutions. Observe expected DNS behavior and investigate regressions against a reviewed baseline.
 
-One Docker Compose project runs BIND 9 and a Python fixture service. The client-facing service generates fresh names under `fresh.example.test`, related records and deliberate transport faults. BIND serves the static `example.test` zones and provides DNSSEC-validating, forward-only recursion through explicitly configured upstream DNS servers.
+One Docker Compose project runs BIND 9 and a Python DNS test service. The client-facing service generates fresh names under `fresh.example.test`, related records and deliberate transport faults. BIND serves the static `example.test` zones and provides DNSSEC-validating, forward-only recursion through explicitly configured upstream DNS servers.
 
 ## Install
 
@@ -21,13 +21,13 @@ docker compose up -d --wait
 docker compose ps
 ```
 
-Use UDP/TCP port **53** for client traffic. BIND port **5300** is published on host loopback only. Keep DNS Client on **system DNS**; configure the resolver or access path under test to route `example.test` and its descendants to the fixture service. Importing the static BIND records alone is insufficient for the fresh-name and transport suite.
+Use UDP/TCP port **53** for client traffic. BIND port **5300** is published on host loopback only. Keep DNS Client on **system DNS**; configure the resolver or access path under test to route `example.test` and its descendants to the DNS test service. Importing the static BIND records alone is insufficient for the fresh-name and transport suite.
 
 ## Public tests and interpretation
 
-The LAN zones are intentionally unsigned. Internet tests use the independent `dns.quality-assurance.fyi` fixtures described in [external/README.md](external/README.md). The LAN package does not deploy the public zone.
+The LAN zones are intentionally unsigned. Internet tests use the independent `dns.quality-assurance.fyi` DNS test records described in [external/README.md](external/README.md). The LAN package does not deploy the public zone.
 
-A fixture is prepared DNS data or server behavior for a test. Fixture data, RFC requirements and an approved product/environment baseline are different things. The lab does not assume a particular vendor's answer rewriting or policy behavior is universally correct.
+DNS test records supply prepared names and answers; transport scenarios exercise connection behavior. DNS test data, RFC requirements and an approved product/environment baseline are different things. The lab does not assume a particular vendor's answer rewriting or policy behavior is universally correct.
 
 ## Published images
 
@@ -46,7 +46,7 @@ python3 -m unittest discover -s bind/scripts
 python3 -m unittest discover -s scripts
 ```
 
-[The fixture contract](docs/fresh-fixture-contract.md) describes generated answers; [RFC validation scope](docs/rfc-validation.md) lists the independent protocol checks and their limits. `scripts/smoke-test.sh` probes an existing deployment; configure its target variables for host-local BIND diagnostics and the client-facing fixture endpoint. The public images contain only the active unsigned LAN zones and fixture service; no signing keys or local credentials are included.
+[The DNS test data contract](docs/fresh-fixture-contract.md) describes generated answers; [RFC validation scope](docs/rfc-validation.md) lists the independent protocol checks and their limits. `scripts/smoke-test.sh` probes an existing deployment; configure its target variables for host-local BIND diagnostics and the client-facing DNS test server endpoint. The public images contain only the active unsigned LAN zones and DNS test service; no signing keys or local credentials are included.
 
 ## Migrating
 
