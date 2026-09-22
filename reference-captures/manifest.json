@@ -83,7 +83,7 @@
     },
     {
       "file": "internet-system-dns.json",
-      "sha256": "a51bedd5a1f52f096831d106710dd7e299cd49bc6a5290478177e4954636929e",
+      "sha256": "dbaa9fb098d8ba4839784321aedc5f122cd600515140657bbf3a706059d0ea4f",
       "run_id": "862a032a290c180d5ac551cde441d98c",
       "started_at": "2026-09-22T16:25:48.546179+00:00",
       "scope": "internet",
@@ -91,7 +91,9 @@
       "results": 82,
       "execution_counts": {
         "completed": 82
-      }
+      },
+      "original_capture_sha256": "a51bedd5a1f52f096831d106710dd7e299cd49bc6a5290478177e4954636929e",
+      "provenance_annotation": "Structured operator acknowledgement added from the original capture-session confirmation; original DNS results unchanged. The pre-annotation report remains available at revision c4ec51d."
     }
   ],
   "deployed_cert_verified": "CERT 65280 0 0 AQIDBA== confirmed on fixed and fresh wildcard names; key tag and payload were unchanged."

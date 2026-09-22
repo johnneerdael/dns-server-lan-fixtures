@@ -27,6 +27,21 @@ answered the current run's nonce. Requests, accepted and rejected packets, error
 framing and transport events remain available in the full JSON. Previous reference
 snapshots are omitted from these captures to prevent circular evidence.
 
+## Operator acknowledgement metadata
+
+The Internet report's `target_provenance.security_intermediary_state` is
+`operator_confirmed_disabled`, based on the operator's explicit confirmation in
+the original capture session. This structured annotation was added afterward;
+it is not a new capture or an independent network-state check. The manifest
+records both the original report hash and the annotated report hash. DNS bytes,
+results, timestamps and run identity are unchanged. The original report remains
+available at immutable revision `c4ec51d`.
+
+New Internet captures default to `unverified`. The helper only records an
+operator confirmation when invoked with `--confirm-intermediary-disabled`.
+Reports without this structured acknowledgement remain unverified even if
+older helper-generated notes claimed that the intermediary was disabled.
+
 ## Protocol checks and QA baselines
 
 The independent packet controls test the app's checker. Source and live-container
