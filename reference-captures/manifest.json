@@ -1,48 +1,98 @@
 {
-  "purpose": "Observed local fixture responses; not a QA-approved product baseline",
-  "method": "Native DNS engine using explicit loopback sockets to published Docker images; no system DNS discovery",
+  "purpose": "Recorded DNS references; not QA-approved product baselines or full RFC certification",
+  "fixture_source_revision": "0616f4425c380a0af0eb33787fe27f5dd4b99b42",
+  "engine_source_repository": "https://github.com/johnneerdael/dns-client-gui",
+  "engine_source_revision": "78807ba393bf91b89ca2d0d55f8c90f056533e1b",
+  "methods": {
+    "lan": "Native DNS engine using direct loopback UDP/TCP sockets to published Docker images; no system DNS selection",
+    "internet": "Native DNS engine using configured system DNS; operator confirmed security intermediary disabled; recursive observation, not direct-authoritative",
+    "publication": "Internet local socket endpoint metadata omitted; DNS wire data and remaining evidence unchanged"
+  },
+  "limitations": [
+    "Normal responses pass implemented protocol checks; checker controls and fixture semantic gates have finite documented coverage.",
+    "Internet CERT records still label placeholder bytes as PKIX; corrected source requires Cloudflare deployment and recapture."
+  ],
   "images": [
     {
-      "tags": [
-        "ghcr.io/johnneerdael/dns-lab-bind:0.2.0"
+      "image": "ghcr.io/johnneerdael/dns-lab-bind",
+      "version": "0.2.1",
+      "digest": "sha256:785479ccdd284d59d6be65c504c4cdda66ba12eb7382746e9669c79bc7837b6e",
+      "platforms": [
+        {
+          "architecture": "amd64",
+          "os": "linux"
+        },
+        {
+          "architecture": "arm64",
+          "os": "linux"
+        }
       ],
-      "digests": [
-        "ghcr.io/johnneerdael/dns-lab-bind@sha256:78414f746e1b6d7d66df65d4520ad7d99b3665ee04236c98b9bcbe2939158254"
-      ],
-      "architecture": "arm64"
+      "captured_architecture": "arm64",
+      "captured_image_id": "sha256:785479ccdd284d59d6be65c504c4cdda66ba12eb7382746e9669c79bc7837b6e"
     },
     {
-      "tags": [
-        "ghcr.io/johnneerdael/dns-lab-fixtures:0.2.0"
+      "image": "ghcr.io/johnneerdael/dns-lab-fixtures",
+      "version": "0.2.1",
+      "digest": "sha256:c6d79124f96cd66f4c4d908e28849b7aa5085a8f71067055e210c7105236306e",
+      "platforms": [
+        {
+          "architecture": "amd64",
+          "os": "linux"
+        },
+        {
+          "architecture": "arm64",
+          "os": "linux"
+        }
       ],
-      "digests": [
-        "ghcr.io/johnneerdael/dns-lab-fixtures@sha256:1d6156456a9fe67af43ce2b4f2eab149e8e020691cfee93df7ec4473def1f76a"
-      ],
-      "architecture": "arm64"
+      "captured_architecture": "arm64",
+      "captured_image_id": "sha256:c6d79124f96cd66f4c4d908e28849b7aa5085a8f71067055e210c7105236306e"
     }
   ],
   "reports": [
     {
       "file": "lan-ipv4.json",
-      "sha256": "e94bc558d2d83cc9d720583a076e57c36ae232aadcbbc0d8e48818758d49566d",
-      "run_id": "4c48f73edffaef306ad8010d9005da00",
-      "started_at": "2026-09-22T14:53:06.545599+00:00",
+      "sha256": "f9d1f8fe4adf056e4fac4c6dc11e715c9ede5573086e9b8f3ea325f411474691",
+      "run_id": "d1e5af98ebf8b84f6fe66beb9916763a",
+      "started_at": "2026-09-22T16:23:31.755290+00:00",
+      "scope": "lan",
       "endpoint": {
         "address": "127.0.0.1",
         "port": 5531
       },
-      "results": 162
+      "results": 162,
+      "execution_counts": {
+        "completed": 149,
+        "network_error": 11,
+        "unavailable": 2
+      }
     },
     {
       "file": "lan-ipv6.json",
-      "sha256": "6d0a67a9905ca35121b3de65c0ade4ed330d0dd4f1957379dac9d63e2b7f5f73",
-      "run_id": "1633c50783aed4de66167582e0ccd9d8",
-      "started_at": "2026-09-22T14:54:35.058068+00:00",
+      "sha256": "bc737119f73f64b1065a19602718ca7ba70047d09bb2b526b17d7d5850ebaa55",
+      "run_id": "b1e3ff3babd8becf4b527952bd30de47",
+      "started_at": "2026-09-22T16:23:31.755324+00:00",
+      "scope": "lan",
       "endpoint": {
         "address": "::1",
         "port": 5531
       },
-      "results": 162
+      "results": 162,
+      "execution_counts": {
+        "completed": 151,
+        "network_error": 11
+      }
+    },
+    {
+      "file": "internet-system-dns.json",
+      "sha256": "3f61c46ffdb4bdca89be6a4e1e6d9223912dfe58583afbfde275c64a354c31b8",
+      "run_id": "6b41173dd3fe61f1f321bcd0a5c737e8",
+      "started_at": "2026-09-22T16:20:55.822544+00:00",
+      "scope": "internet",
+      "endpoint": null,
+      "results": 82,
+      "execution_counts": {
+        "completed": 82
+      }
     }
   ]
 }

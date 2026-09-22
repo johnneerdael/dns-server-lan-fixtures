@@ -1,13 +1,68 @@
-# Observed local LAN references
+# Recorded DNS references
 
-These reports were collected from the published `0.2.0` Docker images on a local macOS ARM64 host. The native DNS engine connected directly to `127.0.0.1:5531` and `[::1]:5531`; it did not discover or select system DNS or a private-access publisher. Only loopback host ports were published during capture. Docker Desktop gateway CIDRs were allowed for this isolated local test.
+The LAN reports in this directory use the corrected **0.2.1** published Docker images
+on a local macOS ARM64 host. The native DNS engine connects directly to loopback
+IPv4/IPv6; it does not select system DNS or a private-access publisher. Host ports
+are bound only to loopback. Docker Desktop gateway CIDRs are allowed for this
+isolated capture, not as a recommended production allowlist.
 
-- `lan-ipv4.json`: complete 162-case run; 149 completed exchanges, 11 deliberate transport errors, 2 IPv6-only cases unavailable on the IPv4 endpoint.
-- `lan-ipv6.json`: complete 162-case run; 151 completed exchanges and 11 deliberate transport errors. This supplies actual evidence for the two IPv6-only cases.
-- `manifest.json`: image digests, architecture, run identities, capture timestamps and SHA-256 hashes.
+The Internet report uses the machine's configured system-DNS endpoint. The operator
+confirmed that the security intermediary was disabled. This is a **recursive resolver
+observation**, not a direct-authoritative response or a proof that no cache was used.
+Provider-managed DNSSEC records, TTLs and negative synthesis can vary.
 
-The app generates each LAN fixture reference from the captured IPv4 result, using IPv6 evidence for IPv6-only cases. Original JSON preserves all request/response bytes and transport events. No prior fixture reference is embedded in these captures, avoiding circular evidence. The displayed reference templates replace random names with placeholders and shorten unusually large records for readability; the linked original evidence is unchanged.
+- `lan-ipv4.json`: 162-case run; 149 completed exchanges, 11 deliberate transport
+  errors, 2 IPv6-only cases unavailable on the IPv4 endpoint.
+- `lan-ipv6.json`: 162-case run; 151 completed exchanges and 11 deliberate transport
+  errors. This supplies reference evidence for the two IPv6-only cases.
+- `internet-system-dns.json`: 82 completed Internet cases. Only local socket endpoint
+  metadata is omitted from the published copy; all DNS request/response bytes,
+  decoded content, remote endpoints, timing and events remain unchanged.
+- `manifest.json`: image digests, architecture, source revisions, run identities,
+  timestamps and SHA-256 hashes of each published report.
 
-These are observations of the controlled fixture service, not approved regression baselines for a DNS resolver, VPN or ZTNA product. Such a baseline must be reviewed independently on the intended network path. The Internet references remain explicitly identified as public-zone configuration examples; DNSSEC provider values are not invented from the zone file.
+The app shows the actual original response text, including names, transaction IDs,
+flags, TTLs and every record. It never rewrites the reference to look as though it
+answered the current run's nonce. Requests, accepted and rejected packets, errors,
+framing and transport events remain available in the full JSON. Previous reference
+snapshots are omitted from these captures to prevent circular evidence.
 
-To reproduce, run the published images on isolated loopback ports, select LAN tests in DNS Client, and use an explicit loopback resolver override for this reference experiment. Export the original JSON for each address family. The application repository also provides `capture_lan_reference` and `scripts/generate-fixture-references.py` for repeatable maintainer collection and rendering.
+## Protocol checks and QA baselines
+
+The independent packet controls test the app's checker. Source and live-container
+checks test finite fixture semantics. The reports preserve observed data. These
+are separate forms of evidence, none of which certifies compliance with every DNS
+RFC or approves a product's address rewriting or access policy.
+
+Review a working run through the intended network path and explicitly approve its
+baseline before using comparison results as regression evidence. Missing optional
+additional data and changed addresses are not automatically RFC violations.
+See [RFC validation scope](../docs/rfc-validation.md).
+
+## Historical evidence
+
+The original 0.2.0 reports remain available at immutable revision
+[`cbc9c73`](https://github.com/johnneerdael/dns-server-lan-fixtures/tree/cbc9c73/reference-captures).
+That release predates the target-consistency, DNAME, EDNS and ordinary TCP corrections.
+Its lack of findings under the earlier checker did **not** establish RFC compliance.
+
+## Known Internet data limitation
+
+The recorded Cloudflare CERT fixtures still declare PKIX while carrying four
+placeholder bytes. This is not a valid X.509 payload. The corrected zone source
+uses experimental certificate type 65280/key tag 0/algorithm 0. Source changes do
+not update Cloudflare: edit both existing CERT records, confirm the live response,
+and recapture. These old payloads remain visible as evidence, not valid PKIX controls.
+
+## Repeat the capture
+
+Run the published images on isolated loopback ports with the IPv6 override and a
+source allowlist appropriate for Docker's local NAT path. Use the app's explicit
+loopback override only for this controlled fixture experiment. The application
+repository provides `capture_lan_reference`, `capture_internet_reference`, and
+`scripts/generate-fixture-references.py`. The latter makes no network calls or DNS
+reply construction; it consumes completed, hash-verified reports.
+
+Publish and review the original reports and their manifest before regenerating the
+app's catalogue. The Internet helper uses normal system DNS without an override.
+Record security/intermediary state and any remaining limitations with that report.
