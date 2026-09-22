@@ -1,0 +1,48 @@
+{
+  "purpose": "Observed local fixture responses; not a QA-approved product baseline",
+  "method": "Native DNS engine using explicit loopback sockets to published Docker images; no system DNS discovery",
+  "images": [
+    {
+      "tags": [
+        "ghcr.io/johnneerdael/dns-lab-bind:0.2.0"
+      ],
+      "digests": [
+        "ghcr.io/johnneerdael/dns-lab-bind@sha256:78414f746e1b6d7d66df65d4520ad7d99b3665ee04236c98b9bcbe2939158254"
+      ],
+      "architecture": "arm64"
+    },
+    {
+      "tags": [
+        "ghcr.io/johnneerdael/dns-lab-fixtures:0.2.0"
+      ],
+      "digests": [
+        "ghcr.io/johnneerdael/dns-lab-fixtures@sha256:1d6156456a9fe67af43ce2b4f2eab149e8e020691cfee93df7ec4473def1f76a"
+      ],
+      "architecture": "arm64"
+    }
+  ],
+  "reports": [
+    {
+      "file": "lan-ipv4.json",
+      "sha256": "e94bc558d2d83cc9d720583a076e57c36ae232aadcbbc0d8e48818758d49566d",
+      "run_id": "4c48f73edffaef306ad8010d9005da00",
+      "started_at": "2026-09-22T14:53:06.545599+00:00",
+      "endpoint": {
+        "address": "127.0.0.1",
+        "port": 5531
+      },
+      "results": 162
+    },
+    {
+      "file": "lan-ipv6.json",
+      "sha256": "6d0a67a9905ca35121b3de65c0ade4ed330d0dd4f1957379dac9d63e2b7f5f73",
+      "run_id": "1633c50783aed4de66167582e0ccd9d8",
+      "started_at": "2026-09-22T14:54:35.058068+00:00",
+      "endpoint": {
+        "address": "::1",
+        "port": 5531
+      },
+      "results": 162
+    }
+  ]
+}
