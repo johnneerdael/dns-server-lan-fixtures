@@ -15,10 +15,10 @@
   "schema_version": 1,
   "app_version": "0.4.0",
   "catalogue_version": "1.4.0",
-  "catalogue_digest": "db42bc1933f76248a734395785e1d9ece2fcfff4bbc7b0059a468232271b0cb2",
-  "run_id": "3975db676c56712220c06aacd9e8d938",
-  "started_at": "2026-09-23T00:28:03.133461+00:00",
-  "finished_at": "2026-09-23T00:28:03.230460+00:00",
+  "catalogue_digest": "0b3421c5adce78bb51741cfd5de136081483bcc2eb0dbad2dc7766b351272da1",
+  "run_id": "c123d15638b7b053a73649ea8594c108",
+  "started_at": "2026-09-23T01:06:27.251608+00:00",
+  "finished_at": "2026-09-23T01:06:27.344096+00:00",
   "state": "completed",
   "target_provenance": {
     "endpoint": {
@@ -32,7 +32,7 @@
       "Explicit authoritative endpoint control for the six public additional-data tests only. This differs from normal system-DNS collection; interception is not inferred from the socket destination. Original wire evidence is preserved.",
       "Publication omits local socket endpoint metadata; DNS wire data and remaining evidence are unchanged. Full local captures retained by the operator."
     ],
-    "security_intermediary_state": "unverified"
+    "security_intermediary_state": "operator_confirmed_disabled"
   },
   "limits": {
     "exchange_timeout_ms": 3000,
@@ -60,9 +60,9 @@
         "udp"
       ],
       "logical_name": "additional-mx.dns.quality-assurance.fyi.",
-      "actual_question": "823f23c1aac5b6a50d8a451cf7047513.additional-mx.dns.quality-assurance.fyi.",
+      "actual_question": "931057509774e3280462d17c25805584.additional-mx.dns.quality-assurance.fyi.",
       "cache_strategy": "unique_name",
-      "nonce": "823f23c1aac5b6a50d8a451cf7047513",
+      "nonce": "931057509774e3280462d17c25805584",
       "execution": "completed",
       "assessment": "no_violation_observed",
       "findings": [],
@@ -71,18 +71,18 @@
           "matched_message_indices": [
             0
           ],
-          "sent_base64": "7FQBAAABAAAAAAABIDgyM2YyM2MxYWFjNWI2YTUwZDhhNDUxY2Y3MDQ3NTEzDWFkZGl0aW9uYWwtbXgDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAADwABAAApBNAAAAAAAAA=",
-          "attempt_id": "9d2ea3242a0c1265b654e57b4906e027",
+          "sent_base64": "P1IBAAABAAAAAAABIDkzMTA1NzUwOTc3NGUzMjgwNDYyZDE3YzI1ODA1NTg0DWFkZGl0aW9uYWwtbXgDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAADwABAAApBNAAAAAAAAA=",
+          "attempt_id": "da195c47be2d3690f6873f7c5f4980be",
           "connection_id": null,
           "transport": "udp",
           "remote_endpoint": "108.162.192.65:53",
           "local_endpoint": null,
-          "started_at": "2026-09-23T00:28:03.133593+00:00",
-          "elapsed_ms": 15,
+          "started_at": "2026-09-23T01:06:27.251722+00:00",
+          "elapsed_ms": 13,
           "query_base64": [
-            "7FQBAAABAAAAAAABIDgyM2YyM2MxYWFjNWI2YTUwZDhhNDUxY2Y3MDQ3NTEzDWFkZGl0aW9uYWwtbXgDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAADwABAAApBNAAAAAAAAA="
+            "P1IBAAABAAAAAAABIDkzMTA1NzUwOTc3NGUzMjgwNDYyZDE3YzI1ODA1NTg0DWFkZGl0aW9uYWwtbXgDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAADwABAAApBNAAAAAAAAA="
           ],
-          "received_base64": "7FSFAAABAAEAAAADIDgyM2YyM2MxYWFjNWI2YTUwZDhhNDUxY2Y3MDQ3NTEzDWFkZGl0aW9uYWwtbXgDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAADwABwAwADwABAAABLAAUAAoPYWRkaXRpb25hbC1tYWlswDvAaAABAAEAAAEsAATAAAIZwGgAHAABAAABLAAQIAENuAAAAAAAAAAAAAAAJQAAKQTQAAAAAAAA",
+          "received_base64": "P1KFAAABAAEAAAADIDkzMTA1NzUwOTc3NGUzMjgwNDYyZDE3YzI1ODA1NTg0DWFkZGl0aW9uYWwtbXgDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAADwABwAwADwABAAABLAAUAAoPYWRkaXRpb25hbC1tYWlswDvAaAABAAEAAAEsAATAAAIZwGgAHAABAAABLAAQIAENuAAAAAAAAAAAAAAAJQAAKQTQAAAAAAAA",
           "received_length": 177,
           "capture_complete": true,
           "frames": [
@@ -94,10 +94,10 @@
           ],
           "messages": [
             {
-              "wire_base64": "7FSFAAABAAEAAAADIDgyM2YyM2MxYWFjNWI2YTUwZDhhNDUxY2Y3MDQ3NTEzDWFkZGl0aW9uYWwtbXgDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAADwABwAwADwABAAABLAAUAAoPYWRkaXRpb25hbC1tYWlswDvAaAABAAEAAAEsAATAAAIZwGgAHAABAAABLAAQIAENuAAAAAAAAAAAAAAAJQAAKQTQAAAAAAAA",
+              "wire_base64": "P1KFAAABAAEAAAADIDkzMTA1NzUwOTc3NGUzMjgwNDYyZDE3YzI1ODA1NTg0DWFkZGl0aW9uYWwtbXgDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAADwABwAwADwABAAABLAAUAAoPYWRkaXRpb25hbC1tYWlswDvAaAABAAEAAAEsAATAAAIZwGgAHAABAAABLAAQIAENuAAAAAAAAAAAAAAAJQAAKQTQAAAAAAAA",
               "wire_length": 177,
               "header": {
-                "id": 60500,
+                "id": 16210,
                 "flags_value": 34048,
                 "flags": [
                   "qr",
@@ -114,7 +114,7 @@
               },
               "question": [
                 {
-                  "name": "823f23c1aac5b6a50d8a451cf7047513.additional-mx.dns.quality-assurance.fyi.",
+                  "name": "931057509774e3280462d17c25805584.additional-mx.dns.quality-assurance.fyi.",
                   "type_code": 15,
                   "type_name": "MX",
                   "class_code": 1
@@ -122,7 +122,7 @@
               ],
               "answer": [
                 {
-                  "owner": "823f23c1aac5b6a50d8a451cf7047513.additional-mx.dns.quality-assurance.fyi.",
+                  "owner": "931057509774e3280462d17c25805584.additional-mx.dns.quality-assurance.fyi.",
                   "ttl": 300,
                   "class_code": 1,
                   "type_code": 15,
@@ -186,7 +186,7 @@
               ],
               "decode_error": null,
               "consumed_bytes": 177,
-              "presentation": ";; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 60500\n;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 3\n;; flags value: 0x8500\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:  (0x0000); udp: 1232\n;; QUESTION SECTION:\n;823f23c1aac5b6a50d8a451cf7047513.additional-mx.dns.quality-assurance.fyi.\tIN\tMX\n;; ANSWER SECTION:\n823f23c1aac5b6a50d8a451cf7047513.additional-mx.dns.quality-assurance.fyi.\t300\tIN\tMX\t10 additional-mail.dns.quality-assurance.fyi.\n;; AUTHORITY SECTION:\n; (empty; any OPT records are shown above)\n;; ADDITIONAL SECTION:\nadditional-mail.dns.quality-assurance.fyi.\t300\tIN\tA\t192.0.2.25\nadditional-mail.dns.quality-assurance.fyi.\t300\tIN\tAAAA\t2001:db8::25\n;; MSG SIZE rcvd: 177"
+              "presentation": ";; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 16210\n;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 3\n;; flags value: 0x8500\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:  (0x0000); udp: 1232\n;; QUESTION SECTION:\n;931057509774e3280462d17c25805584.additional-mx.dns.quality-assurance.fyi.\tIN\tMX\n;; ANSWER SECTION:\n931057509774e3280462d17c25805584.additional-mx.dns.quality-assurance.fyi.\t300\tIN\tMX\t10 additional-mail.dns.quality-assurance.fyi.\n;; AUTHORITY SECTION:\n; (empty; any OPT records are shown above)\n;; ADDITIONAL SECTION:\nadditional-mail.dns.quality-assurance.fyi.\t300\tIN\tA\t192.0.2.25\nadditional-mail.dns.quality-assurance.fyi.\t300\tIN\tAAAA\t2001:db8::25\n;; MSG SIZE rcvd: 177"
             }
           ],
           "stream_events": [
@@ -196,7 +196,7 @@
               "bytes": 101
             },
             {
-              "elapsed_ms": 15,
+              "elapsed_ms": 13,
               "event": "received_datagram",
               "bytes": 177
             }
@@ -228,9 +228,9 @@
         "tcp"
       ],
       "logical_name": "additional-mx.dns.quality-assurance.fyi.",
-      "actual_question": "acfb1c4bca718f4dfe1c4b647deb8c91.additional-mx.dns.quality-assurance.fyi.",
+      "actual_question": "23ae12f3ac6683139cda93989e6bccd9.additional-mx.dns.quality-assurance.fyi.",
       "cache_strategy": "unique_name",
-      "nonce": "acfb1c4bca718f4dfe1c4b647deb8c91",
+      "nonce": "23ae12f3ac6683139cda93989e6bccd9",
       "execution": "completed",
       "assessment": "no_violation_observed",
       "findings": [],
@@ -239,18 +239,18 @@
           "matched_message_indices": [
             0
           ],
-          "sent_base64": "AGW5sQEAAAEAAAAAAAEgYWNmYjFjNGJjYTcxOGY0ZGZlMWM0YjY0N2RlYjhjOTENYWRkaXRpb25hbC1teANkbnMRcXVhbGl0eS1hc3N1cmFuY2UDZnlpAAAPAAEAACkE0AAAAAAAAA==",
-          "attempt_id": "e68de02dcd6cbe3454becec41ec3ddd5",
-          "connection_id": "bad96c40e6503095",
+          "sent_base64": "AGX2IwEAAAEAAAAAAAEgMjNhZTEyZjNhYzY2ODMxMzljZGE5Mzk4OWU2YmNjZDkNYWRkaXRpb25hbC1teANkbnMRcXVhbGl0eS1hc3N1cmFuY2UDZnlpAAAPAAEAACkE0AAAAAAAAA==",
+          "attempt_id": "93ba53e233081566a631fa23764fcb57",
+          "connection_id": "9092c7a323079a4e",
           "transport": "tcp",
           "remote_endpoint": "108.162.192.65:53",
           "local_endpoint": null,
-          "started_at": "2026-09-23T00:28:03.149444+00:00",
-          "elapsed_ms": 19,
+          "started_at": "2026-09-23T01:06:27.265639+00:00",
+          "elapsed_ms": 20,
           "query_base64": [
-            "ubEBAAABAAAAAAABIGFjZmIxYzRiY2E3MThmNGRmZTFjNGI2NDdkZWI4YzkxDWFkZGl0aW9uYWwtbXgDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAADwABAAApBNAAAAAAAAA="
+            "9iMBAAABAAAAAAABIDIzYWUxMmYzYWM2NjgzMTM5Y2RhOTM5ODllNmJjY2Q5DWFkZGl0aW9uYWwtbXgDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAADwABAAApBNAAAAAAAAA="
           ],
-          "received_base64": "ALG5sYUAAAEAAQAAAAMgYWNmYjFjNGJjYTcxOGY0ZGZlMWM0YjY0N2RlYjhjOTENYWRkaXRpb25hbC1teANkbnMRcXVhbGl0eS1hc3N1cmFuY2UDZnlpAAAPAAHADAAPAAEAAAEsABQACg9hZGRpdGlvbmFsLW1haWzAO8BoAAEAAQAAASwABMAAAhnAaAAcAAEAAAEsABAgAQ24AAAAAAAAAAAAAAAlAAAp//8AAAAAAAA=",
+          "received_base64": "ALH2I4UAAAEAAQAAAAMgMjNhZTEyZjNhYzY2ODMxMzljZGE5Mzk4OWU2YmNjZDkNYWRkaXRpb25hbC1teANkbnMRcXVhbGl0eS1hc3N1cmFuY2UDZnlpAAAPAAHADAAPAAEAAAEsABQACg9hZGRpdGlvbmFsLW1haWzAO8BoAAEAAQAAASwABMAAAhnAaAAcAAEAAAEsABAgAQ24AAAAAAAAAAAAAAAlAAAp//8AAAAAAAA=",
           "received_length": 179,
           "capture_complete": true,
           "frames": [
@@ -262,10 +262,10 @@
           ],
           "messages": [
             {
-              "wire_base64": "ubGFAAABAAEAAAADIGFjZmIxYzRiY2E3MThmNGRmZTFjNGI2NDdkZWI4YzkxDWFkZGl0aW9uYWwtbXgDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAADwABwAwADwABAAABLAAUAAoPYWRkaXRpb25hbC1tYWlswDvAaAABAAEAAAEsAATAAAIZwGgAHAABAAABLAAQIAENuAAAAAAAAAAAAAAAJQAAKf//AAAAAAAA",
+              "wire_base64": "9iOFAAABAAEAAAADIDIzYWUxMmYzYWM2NjgzMTM5Y2RhOTM5ODllNmJjY2Q5DWFkZGl0aW9uYWwtbXgDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAADwABwAwADwABAAABLAAUAAoPYWRkaXRpb25hbC1tYWlswDvAaAABAAEAAAEsAATAAAIZwGgAHAABAAABLAAQIAENuAAAAAAAAAAAAAAAJQAAKf//AAAAAAAA",
               "wire_length": 177,
               "header": {
-                "id": 47537,
+                "id": 63011,
                 "flags_value": 34048,
                 "flags": [
                   "qr",
@@ -282,7 +282,7 @@
               },
               "question": [
                 {
-                  "name": "acfb1c4bca718f4dfe1c4b647deb8c91.additional-mx.dns.quality-assurance.fyi.",
+                  "name": "23ae12f3ac6683139cda93989e6bccd9.additional-mx.dns.quality-assurance.fyi.",
                   "type_code": 15,
                   "type_name": "MX",
                   "class_code": 1
@@ -290,7 +290,7 @@
               ],
               "answer": [
                 {
-                  "owner": "acfb1c4bca718f4dfe1c4b647deb8c91.additional-mx.dns.quality-assurance.fyi.",
+                  "owner": "23ae12f3ac6683139cda93989e6bccd9.additional-mx.dns.quality-assurance.fyi.",
                   "ttl": 300,
                   "class_code": 1,
                   "type_code": 15,
@@ -354,22 +354,22 @@
               ],
               "decode_error": null,
               "consumed_bytes": 177,
-              "presentation": ";; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 47537\n;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 3\n;; flags value: 0x8500\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:  (0x0000); udp: 65535\n;; QUESTION SECTION:\n;acfb1c4bca718f4dfe1c4b647deb8c91.additional-mx.dns.quality-assurance.fyi.\tIN\tMX\n;; ANSWER SECTION:\nacfb1c4bca718f4dfe1c4b647deb8c91.additional-mx.dns.quality-assurance.fyi.\t300\tIN\tMX\t10 additional-mail.dns.quality-assurance.fyi.\n;; AUTHORITY SECTION:\n; (empty; any OPT records are shown above)\n;; ADDITIONAL SECTION:\nadditional-mail.dns.quality-assurance.fyi.\t300\tIN\tA\t192.0.2.25\nadditional-mail.dns.quality-assurance.fyi.\t300\tIN\tAAAA\t2001:db8::25\n;; MSG SIZE rcvd: 177"
+              "presentation": ";; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 63011\n;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 3\n;; flags value: 0x8500\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:  (0x0000); udp: 65535\n;; QUESTION SECTION:\n;23ae12f3ac6683139cda93989e6bccd9.additional-mx.dns.quality-assurance.fyi.\tIN\tMX\n;; ANSWER SECTION:\n23ae12f3ac6683139cda93989e6bccd9.additional-mx.dns.quality-assurance.fyi.\t300\tIN\tMX\t10 additional-mail.dns.quality-assurance.fyi.\n;; AUTHORITY SECTION:\n; (empty; any OPT records are shown above)\n;; ADDITIONAL SECTION:\nadditional-mail.dns.quality-assurance.fyi.\t300\tIN\tA\t192.0.2.25\nadditional-mail.dns.quality-assurance.fyi.\t300\tIN\tAAAA\t2001:db8::25\n;; MSG SIZE rcvd: 177"
             }
           ],
           "stream_events": [
             {
-              "elapsed_ms": 8,
+              "elapsed_ms": 7,
               "event": "connected",
               "bytes": 0
             },
             {
-              "elapsed_ms": 8,
+              "elapsed_ms": 7,
               "event": "write",
               "bytes": 103
             },
             {
-              "elapsed_ms": 19,
+              "elapsed_ms": 20,
               "event": "read",
               "bytes": 179
             }
@@ -401,9 +401,9 @@
         "udp"
       ],
       "logical_name": "additional-srv.dns.quality-assurance.fyi.",
-      "actual_question": "39f73bf8877d58fd08879a43b1b38c2d.additional-srv.dns.quality-assurance.fyi.",
+      "actual_question": "9276cd75a8a9dd5fb4fb70e8036e2e09.additional-srv.dns.quality-assurance.fyi.",
       "cache_strategy": "unique_name",
-      "nonce": "39f73bf8877d58fd08879a43b1b38c2d",
+      "nonce": "9276cd75a8a9dd5fb4fb70e8036e2e09",
       "execution": "completed",
       "assessment": "no_violation_observed",
       "findings": [],
@@ -412,18 +412,18 @@
           "matched_message_indices": [
             0
           ],
-          "sent_base64": "rxgBAAABAAAAAAABIDM5ZjczYmY4ODc3ZDU4ZmQwODg3OWE0M2IxYjM4YzJkDmFkZGl0aW9uYWwtc3J2A2RucxFxdWFsaXR5LWFzc3VyYW5jZQNmeWkAACEAAQAAKQTQAAAAAAAA",
-          "attempt_id": "45333de4d5fe48f2d6f8e14e39ecd8c3",
+          "sent_base64": "tugBAAABAAAAAAABIDkyNzZjZDc1YThhOWRkNWZiNGZiNzBlODAzNmUyZTA5DmFkZGl0aW9uYWwtc3J2A2RucxFxdWFsaXR5LWFzc3VyYW5jZQNmeWkAACEAAQAAKQTQAAAAAAAA",
+          "attempt_id": "998f1aef37a1353875641f6199416a6f",
           "connection_id": null,
           "transport": "udp",
           "remote_endpoint": "108.162.192.65:53",
           "local_endpoint": null,
-          "started_at": "2026-09-23T00:28:03.169488+00:00",
-          "elapsed_ms": 11,
+          "started_at": "2026-09-23T01:06:27.286011+00:00",
+          "elapsed_ms": 10,
           "query_base64": [
-            "rxgBAAABAAAAAAABIDM5ZjczYmY4ODc3ZDU4ZmQwODg3OWE0M2IxYjM4YzJkDmFkZGl0aW9uYWwtc3J2A2RucxFxdWFsaXR5LWFzc3VyYW5jZQNmeWkAACEAAQAAKQTQAAAAAAAA"
+            "tugBAAABAAAAAAABIDkyNzZjZDc1YThhOWRkNWZiNGZiNzBlODAzNmUyZTA5DmFkZGl0aW9uYWwtc3J2A2RucxFxdWFsaXR5LWFzc3VyYW5jZQNmeWkAACEAAQAAKQTQAAAAAAAA"
           ],
-          "received_base64": "rxiFAAABAAEAAAADIDM5ZjczYmY4ODc3ZDU4ZmQwODg3OWE0M2IxYjM4YzJkDmFkZGl0aW9uYWwtc3J2A2RucxFxdWFsaXR5LWFzc3VyYW5jZQNmeWkAACEAAcAMACEAAQAAASwANAAKADwg+xJhZGRpdGlvbmFsLXNlcnZpY2UDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQDAbQABAAEAAAEsAATAAAIowG0AHAABAAABLAAQIAENuAAAAAAAAAAAAAAAQAAAKQTQAAAAAAAA",
+          "received_base64": "tuiFAAABAAEAAAADIDkyNzZjZDc1YThhOWRkNWZiNGZiNzBlODAzNmUyZTA5DmFkZGl0aW9uYWwtc3J2A2RucxFxdWFsaXR5LWFzc3VyYW5jZQNmeWkAACEAAcAMACEAAQAAASwANAAKADwg+xJhZGRpdGlvbmFsLXNlcnZpY2UDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQDAbQABAAEAAAEsAATAAAIowG0AHAABAAABLAAQIAENuAAAAAAAAAAAAAAAQAAAKQTQAAAAAAAA",
           "received_length": 210,
           "capture_complete": true,
           "frames": [
@@ -435,10 +435,10 @@
           ],
           "messages": [
             {
-              "wire_base64": "rxiFAAABAAEAAAADIDM5ZjczYmY4ODc3ZDU4ZmQwODg3OWE0M2IxYjM4YzJkDmFkZGl0aW9uYWwtc3J2A2RucxFxdWFsaXR5LWFzc3VyYW5jZQNmeWkAACEAAcAMACEAAQAAASwANAAKADwg+xJhZGRpdGlvbmFsLXNlcnZpY2UDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQDAbQABAAEAAAEsAATAAAIowG0AHAABAAABLAAQIAENuAAAAAAAAAAAAAAAQAAAKQTQAAAAAAAA",
+              "wire_base64": "tuiFAAABAAEAAAADIDkyNzZjZDc1YThhOWRkNWZiNGZiNzBlODAzNmUyZTA5DmFkZGl0aW9uYWwtc3J2A2RucxFxdWFsaXR5LWFzc3VyYW5jZQNmeWkAACEAAcAMACEAAQAAASwANAAKADwg+xJhZGRpdGlvbmFsLXNlcnZpY2UDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQDAbQABAAEAAAEsAATAAAIowG0AHAABAAABLAAQIAENuAAAAAAAAAAAAAAAQAAAKQTQAAAAAAAA",
               "wire_length": 210,
               "header": {
-                "id": 44824,
+                "id": 46824,
                 "flags_value": 34048,
                 "flags": [
                   "qr",
@@ -455,7 +455,7 @@
               },
               "question": [
                 {
-                  "name": "39f73bf8877d58fd08879a43b1b38c2d.additional-srv.dns.quality-assurance.fyi.",
+                  "name": "9276cd75a8a9dd5fb4fb70e8036e2e09.additional-srv.dns.quality-assurance.fyi.",
                   "type_code": 33,
                   "type_name": "SRV",
                   "class_code": 1
@@ -463,7 +463,7 @@
               ],
               "answer": [
                 {
-                  "owner": "39f73bf8877d58fd08879a43b1b38c2d.additional-srv.dns.quality-assurance.fyi.",
+                  "owner": "9276cd75a8a9dd5fb4fb70e8036e2e09.additional-srv.dns.quality-assurance.fyi.",
                   "ttl": 300,
                   "class_code": 1,
                   "type_code": 33,
@@ -527,7 +527,7 @@
               ],
               "decode_error": null,
               "consumed_bytes": 210,
-              "presentation": ";; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 44824\n;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 3\n;; flags value: 0x8500\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:  (0x0000); udp: 1232\n;; QUESTION SECTION:\n;39f73bf8877d58fd08879a43b1b38c2d.additional-srv.dns.quality-assurance.fyi.\tIN\tSRV\n;; ANSWER SECTION:\n39f73bf8877d58fd08879a43b1b38c2d.additional-srv.dns.quality-assurance.fyi.\t300\tIN\tSRV\t10 60 8443 additional-service.dns.quality-assurance.fyi.\n;; AUTHORITY SECTION:\n; (empty; any OPT records are shown above)\n;; ADDITIONAL SECTION:\nadditional-service.dns.quality-assurance.fyi.\t300\tIN\tA\t192.0.2.40\nadditional-service.dns.quality-assurance.fyi.\t300\tIN\tAAAA\t2001:db8::40\n;; MSG SIZE rcvd: 210"
+              "presentation": ";; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 46824\n;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 3\n;; flags value: 0x8500\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:  (0x0000); udp: 1232\n;; QUESTION SECTION:\n;9276cd75a8a9dd5fb4fb70e8036e2e09.additional-srv.dns.quality-assurance.fyi.\tIN\tSRV\n;; ANSWER SECTION:\n9276cd75a8a9dd5fb4fb70e8036e2e09.additional-srv.dns.quality-assurance.fyi.\t300\tIN\tSRV\t10 60 8443 additional-service.dns.quality-assurance.fyi.\n;; AUTHORITY SECTION:\n; (empty; any OPT records are shown above)\n;; ADDITIONAL SECTION:\nadditional-service.dns.quality-assurance.fyi.\t300\tIN\tA\t192.0.2.40\nadditional-service.dns.quality-assurance.fyi.\t300\tIN\tAAAA\t2001:db8::40\n;; MSG SIZE rcvd: 210"
             }
           ],
           "stream_events": [
@@ -537,7 +537,7 @@
               "bytes": 102
             },
             {
-              "elapsed_ms": 11,
+              "elapsed_ms": 10,
               "event": "received_datagram",
               "bytes": 210
             }
@@ -569,9 +569,9 @@
         "tcp"
       ],
       "logical_name": "additional-srv.dns.quality-assurance.fyi.",
-      "actual_question": "4ae95df98bf1a954d1976ba03810d9bb.additional-srv.dns.quality-assurance.fyi.",
+      "actual_question": "b1d68348b2373b778b729a3aacc1d972.additional-srv.dns.quality-assurance.fyi.",
       "cache_strategy": "unique_name",
-      "nonce": "4ae95df98bf1a954d1976ba03810d9bb",
+      "nonce": "b1d68348b2373b778b729a3aacc1d972",
       "execution": "completed",
       "assessment": "no_violation_observed",
       "findings": [],
@@ -580,18 +580,18 @@
           "matched_message_indices": [
             0
           ],
-          "sent_base64": "AGYTRQEAAAEAAAAAAAEgNGFlOTVkZjk4YmYxYTk1NGQxOTc2YmEwMzgxMGQ5YmIOYWRkaXRpb25hbC1zcnYDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAAIQABAAApBNAAAAAAAAA=",
-          "attempt_id": "3fd5292f2f3549de386cdb461ef745b5",
-          "connection_id": "11a3d27ffe7c5daf",
+          "sent_base64": "AGaDmAEAAAEAAAAAAAEgYjFkNjgzNDhiMjM3M2I3NzhiNzI5YTNhYWNjMWQ5NzIOYWRkaXRpb25hbC1zcnYDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAAIQABAAApBNAAAAAAAAA=",
+          "attempt_id": "e2aa7fca34efb3bce486dd850310a2e8",
+          "connection_id": "912273b83e38211c",
           "transport": "tcp",
           "remote_endpoint": "108.162.192.65:53",
           "local_endpoint": null,
-          "started_at": "2026-09-23T00:28:03.180873+00:00",
-          "elapsed_ms": 19,
+          "started_at": "2026-09-23T01:06:27.296971+00:00",
+          "elapsed_ms": 20,
           "query_base64": [
-            "E0UBAAABAAAAAAABIDRhZTk1ZGY5OGJmMWE5NTRkMTk3NmJhMDM4MTBkOWJiDmFkZGl0aW9uYWwtc3J2A2RucxFxdWFsaXR5LWFzc3VyYW5jZQNmeWkAACEAAQAAKQTQAAAAAAAA"
+            "g5gBAAABAAAAAAABIGIxZDY4MzQ4YjIzNzNiNzc4YjcyOWEzYWFjYzFkOTcyDmFkZGl0aW9uYWwtc3J2A2RucxFxdWFsaXR5LWFzc3VyYW5jZQNmeWkAACEAAQAAKQTQAAAAAAAA"
           ],
-          "received_base64": "ANITRYUAAAEAAQAAAAMgNGFlOTVkZjk4YmYxYTk1NGQxOTc2YmEwMzgxMGQ5YmIOYWRkaXRpb25hbC1zcnYDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAAIQABwAwAIQABAAABLAA0AAoAPCD7EmFkZGl0aW9uYWwtc2VydmljZQNkbnMRcXVhbGl0eS1hc3N1cmFuY2UDZnlpAMBtAAEAAQAAASwABMAAAijAbQAcAAEAAAEsABAgAQ24AAAAAAAAAAAAAABAAAAp//8AAAAAAAA=",
+          "received_base64": "ANKDmIUAAAEAAQAAAAMgYjFkNjgzNDhiMjM3M2I3NzhiNzI5YTNhYWNjMWQ5NzIOYWRkaXRpb25hbC1zcnYDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAAIQABwAwAIQABAAABLAA0AAoAPCD7EmFkZGl0aW9uYWwtc2VydmljZQNkbnMRcXVhbGl0eS1hc3N1cmFuY2UDZnlpAMBtAAEAAQAAASwABMAAAijAbQAcAAEAAAEsABAgAQ24AAAAAAAAAAAAAABAAAAp//8AAAAAAAA=",
           "received_length": 212,
           "capture_complete": true,
           "frames": [
@@ -603,10 +603,10 @@
           ],
           "messages": [
             {
-              "wire_base64": "E0WFAAABAAEAAAADIDRhZTk1ZGY5OGJmMWE5NTRkMTk3NmJhMDM4MTBkOWJiDmFkZGl0aW9uYWwtc3J2A2RucxFxdWFsaXR5LWFzc3VyYW5jZQNmeWkAACEAAcAMACEAAQAAASwANAAKADwg+xJhZGRpdGlvbmFsLXNlcnZpY2UDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQDAbQABAAEAAAEsAATAAAIowG0AHAABAAABLAAQIAENuAAAAAAAAAAAAAAAQAAAKf//AAAAAAAA",
+              "wire_base64": "g5iFAAABAAEAAAADIGIxZDY4MzQ4YjIzNzNiNzc4YjcyOWEzYWFjYzFkOTcyDmFkZGl0aW9uYWwtc3J2A2RucxFxdWFsaXR5LWFzc3VyYW5jZQNmeWkAACEAAcAMACEAAQAAASwANAAKADwg+xJhZGRpdGlvbmFsLXNlcnZpY2UDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQDAbQABAAEAAAEsAATAAAIowG0AHAABAAABLAAQIAENuAAAAAAAAAAAAAAAQAAAKf//AAAAAAAA",
               "wire_length": 210,
               "header": {
-                "id": 4933,
+                "id": 33688,
                 "flags_value": 34048,
                 "flags": [
                   "qr",
@@ -623,7 +623,7 @@
               },
               "question": [
                 {
-                  "name": "4ae95df98bf1a954d1976ba03810d9bb.additional-srv.dns.quality-assurance.fyi.",
+                  "name": "b1d68348b2373b778b729a3aacc1d972.additional-srv.dns.quality-assurance.fyi.",
                   "type_code": 33,
                   "type_name": "SRV",
                   "class_code": 1
@@ -631,7 +631,7 @@
               ],
               "answer": [
                 {
-                  "owner": "4ae95df98bf1a954d1976ba03810d9bb.additional-srv.dns.quality-assurance.fyi.",
+                  "owner": "b1d68348b2373b778b729a3aacc1d972.additional-srv.dns.quality-assurance.fyi.",
                   "ttl": 300,
                   "class_code": 1,
                   "type_code": 33,
@@ -695,7 +695,7 @@
               ],
               "decode_error": null,
               "consumed_bytes": 210,
-              "presentation": ";; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 4933\n;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 3\n;; flags value: 0x8500\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:  (0x0000); udp: 65535\n;; QUESTION SECTION:\n;4ae95df98bf1a954d1976ba03810d9bb.additional-srv.dns.quality-assurance.fyi.\tIN\tSRV\n;; ANSWER SECTION:\n4ae95df98bf1a954d1976ba03810d9bb.additional-srv.dns.quality-assurance.fyi.\t300\tIN\tSRV\t10 60 8443 additional-service.dns.quality-assurance.fyi.\n;; AUTHORITY SECTION:\n; (empty; any OPT records are shown above)\n;; ADDITIONAL SECTION:\nadditional-service.dns.quality-assurance.fyi.\t300\tIN\tA\t192.0.2.40\nadditional-service.dns.quality-assurance.fyi.\t300\tIN\tAAAA\t2001:db8::40\n;; MSG SIZE rcvd: 210"
+              "presentation": ";; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 33688\n;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 3\n;; flags value: 0x8500\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:  (0x0000); udp: 65535\n;; QUESTION SECTION:\n;b1d68348b2373b778b729a3aacc1d972.additional-srv.dns.quality-assurance.fyi.\tIN\tSRV\n;; ANSWER SECTION:\nb1d68348b2373b778b729a3aacc1d972.additional-srv.dns.quality-assurance.fyi.\t300\tIN\tSRV\t10 60 8443 additional-service.dns.quality-assurance.fyi.\n;; AUTHORITY SECTION:\n; (empty; any OPT records are shown above)\n;; ADDITIONAL SECTION:\nadditional-service.dns.quality-assurance.fyi.\t300\tIN\tA\t192.0.2.40\nadditional-service.dns.quality-assurance.fyi.\t300\tIN\tAAAA\t2001:db8::40\n;; MSG SIZE rcvd: 210"
             }
           ],
           "stream_events": [
@@ -710,7 +710,7 @@
               "bytes": 104
             },
             {
-              "elapsed_ms": 19,
+              "elapsed_ms": 20,
               "event": "read",
               "bytes": 212
             }
@@ -744,7 +744,7 @@
       "logical_name": "quality-assurance.fyi.",
       "actual_question": "quality-assurance.fyi.",
       "cache_strategy": "fixed_name_cache_possible",
-      "nonce": "3b1268f8a941f917b41616028a9f7309",
+      "nonce": "a46ac4974ad85226102e3e6f96592ba6",
       "execution": "completed",
       "assessment": "no_violation_observed",
       "findings": [],
@@ -753,18 +753,18 @@
           "matched_message_indices": [
             0
           ],
-          "sent_base64": "ta4BAAABAAAAAAABEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAAAgABAAApBNAAAAAAAAA=",
-          "attempt_id": "f4a498dd44a68603a6fbf19ad25011f4",
+          "sent_base64": "Z0UBAAABAAAAAAABEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAAAgABAAApBNAAAAAAAAA=",
+          "attempt_id": "66021e462a1a9110a76b821422eb83cf",
           "connection_id": null,
           "transport": "udp",
           "remote_endpoint": "108.162.192.65:53",
           "local_endpoint": null,
-          "started_at": "2026-09-23T00:28:03.200458+00:00",
-          "elapsed_ms": 11,
+          "started_at": "2026-09-23T01:06:27.317365+00:00",
+          "elapsed_ms": 10,
           "query_base64": [
-            "ta4BAAABAAAAAAABEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAAAgABAAApBNAAAAAAAAA="
+            "Z0UBAAABAAAAAAABEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAAAgABAAApBNAAAAAAAAA="
           ],
-          "received_base64": "ta6FAAABAAIAAAABEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAAAgABwAwAAgABAAFRgAAaBmFuZ2VsYQJucwpjbG91ZGZsYXJlA2NvbQDADAACAAEAAVGAAAgFaHVudHPAOgAAKQTQAAAAAAAA",
+          "received_base64": "Z0WFAAABAAIAAAABEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAAAgABwAwAAgABAAFRgAAaBmFuZ2VsYQJucwpjbG91ZGZsYXJlA2NvbQDADAACAAEAAVGAAAgFaHVudHPAOgAAKQTQAAAAAAAA",
           "received_length": 108,
           "capture_complete": true,
           "frames": [
@@ -776,10 +776,10 @@
           ],
           "messages": [
             {
-              "wire_base64": "ta6FAAABAAIAAAABEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAAAgABwAwAAgABAAFRgAAaBmFuZ2VsYQJucwpjbG91ZGZsYXJlA2NvbQDADAACAAEAAVGAAAgFaHVudHPAOgAAKQTQAAAAAAAA",
+              "wire_base64": "Z0WFAAABAAIAAAABEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAAAgABwAwAAgABAAFRgAAaBmFuZ2VsYQJucwpjbG91ZGZsYXJlA2NvbQDADAACAAEAAVGAAAgFaHVudHPAOgAAKQTQAAAAAAAA",
               "wire_length": 108,
               "header": {
-                "id": 46510,
+                "id": 26437,
                 "flags_value": 34048,
                 "flags": [
                   "qr",
@@ -856,7 +856,7 @@
               ],
               "decode_error": null,
               "consumed_bytes": 108,
-              "presentation": ";; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 46510\n;; flags: qr aa rd; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1\n;; flags value: 0x8500\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:  (0x0000); udp: 1232\n;; QUESTION SECTION:\n;quality-assurance.fyi.\tIN\tNS\n;; ANSWER SECTION:\nquality-assurance.fyi.\t86400\tIN\tNS\tangela.ns.cloudflare.com.\nquality-assurance.fyi.\t86400\tIN\tNS\thunts.ns.cloudflare.com.\n;; AUTHORITY SECTION:\n; (empty; any OPT records are shown above)\n;; ADDITIONAL SECTION:\n; (empty; any OPT records are shown above)\n;; MSG SIZE rcvd: 108"
+              "presentation": ";; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 26437\n;; flags: qr aa rd; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1\n;; flags value: 0x8500\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:  (0x0000); udp: 1232\n;; QUESTION SECTION:\n;quality-assurance.fyi.\tIN\tNS\n;; ANSWER SECTION:\nquality-assurance.fyi.\t86400\tIN\tNS\tangela.ns.cloudflare.com.\nquality-assurance.fyi.\t86400\tIN\tNS\thunts.ns.cloudflare.com.\n;; AUTHORITY SECTION:\n; (empty; any OPT records are shown above)\n;; ADDITIONAL SECTION:\n; (empty; any OPT records are shown above)\n;; MSG SIZE rcvd: 108"
             }
           ],
           "stream_events": [
@@ -900,7 +900,7 @@
       "logical_name": "quality-assurance.fyi.",
       "actual_question": "quality-assurance.fyi.",
       "cache_strategy": "fixed_name_cache_possible",
-      "nonce": "17f741ea3f5b51c7bdfae8c68d2b169e",
+      "nonce": "5e5413fc621a0edf0f7bf577062d3c2b",
       "execution": "completed",
       "assessment": "no_violation_observed",
       "findings": [],
@@ -909,18 +909,18 @@
           "matched_message_indices": [
             0
           ],
-          "sent_base64": "ADLGlQEAAAEAAAAAAAERcXVhbGl0eS1hc3N1cmFuY2UDZnlpAAACAAEAACkE0AAAAAAAAA==",
-          "attempt_id": "5d68f0b5e35c9f98df92b11f25ad7dc6",
-          "connection_id": "ab0c3969f82422f0",
+          "sent_base64": "ADIUYgEAAAEAAAAAAAERcXVhbGl0eS1hc3N1cmFuY2UDZnlpAAACAAEAACkE0AAAAAAAAA==",
+          "attempt_id": "b29786a75c39fa9f75ffe090135df4c1",
+          "connection_id": "c93f78b671bf43d5",
           "transport": "tcp",
           "remote_endpoint": "108.162.192.65:53",
           "local_endpoint": null,
-          "started_at": "2026-09-23T00:28:03.211536+00:00",
-          "elapsed_ms": 18,
+          "started_at": "2026-09-23T01:06:27.327746+00:00",
+          "elapsed_ms": 16,
           "query_base64": [
-            "xpUBAAABAAAAAAABEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAAAgABAAApBNAAAAAAAAA="
+            "FGIBAAABAAAAAAABEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAAAgABAAApBNAAAAAAAAA="
           ],
-          "received_base64": "AGzGlYUAAAEAAgAAAAERcXVhbGl0eS1hc3N1cmFuY2UDZnlpAAACAAHADAACAAEAAVGAABoGYW5nZWxhAm5zCmNsb3VkZmxhcmUDY29tAMAMAAIAAQABUYAACAVodW50c8A6AAAp//8AAAAAAAA=",
+          "received_base64": "AGwUYoUAAAEAAgAAAAERcXVhbGl0eS1hc3N1cmFuY2UDZnlpAAACAAHADAACAAEAAVGAABoGYW5nZWxhAm5zCmNsb3VkZmxhcmUDY29tAMAMAAIAAQABUYAACAVodW50c8A6AAAp//8AAAAAAAA=",
           "received_length": 110,
           "capture_complete": true,
           "frames": [
@@ -932,10 +932,10 @@
           ],
           "messages": [
             {
-              "wire_base64": "xpWFAAABAAIAAAABEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAAAgABwAwAAgABAAFRgAAaBmFuZ2VsYQJucwpjbG91ZGZsYXJlA2NvbQDADAACAAEAAVGAAAgFaHVudHPAOgAAKf//AAAAAAAA",
+              "wire_base64": "FGKFAAABAAIAAAABEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAAAgABwAwAAgABAAFRgAAaBmFuZ2VsYQJucwpjbG91ZGZsYXJlA2NvbQDADAACAAEAAVGAAAgFaHVudHPAOgAAKf//AAAAAAAA",
               "wire_length": 108,
               "header": {
-                "id": 50837,
+                "id": 5218,
                 "flags_value": 34048,
                 "flags": [
                   "qr",
@@ -1012,22 +1012,22 @@
               ],
               "decode_error": null,
               "consumed_bytes": 108,
-              "presentation": ";; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 50837\n;; flags: qr aa rd; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1\n;; flags value: 0x8500\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:  (0x0000); udp: 65535\n;; QUESTION SECTION:\n;quality-assurance.fyi.\tIN\tNS\n;; ANSWER SECTION:\nquality-assurance.fyi.\t86400\tIN\tNS\tangela.ns.cloudflare.com.\nquality-assurance.fyi.\t86400\tIN\tNS\thunts.ns.cloudflare.com.\n;; AUTHORITY SECTION:\n; (empty; any OPT records are shown above)\n;; ADDITIONAL SECTION:\n; (empty; any OPT records are shown above)\n;; MSG SIZE rcvd: 108"
+              "presentation": ";; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 5218\n;; flags: qr aa rd; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1\n;; flags value: 0x8500\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:  (0x0000); udp: 65535\n;; QUESTION SECTION:\n;quality-assurance.fyi.\tIN\tNS\n;; ANSWER SECTION:\nquality-assurance.fyi.\t86400\tIN\tNS\tangela.ns.cloudflare.com.\nquality-assurance.fyi.\t86400\tIN\tNS\thunts.ns.cloudflare.com.\n;; AUTHORITY SECTION:\n; (empty; any OPT records are shown above)\n;; ADDITIONAL SECTION:\n; (empty; any OPT records are shown above)\n;; MSG SIZE rcvd: 108"
             }
           ],
           "stream_events": [
             {
-              "elapsed_ms": 10,
+              "elapsed_ms": 7,
               "event": "connected",
               "bytes": 0
             },
             {
-              "elapsed_ms": 10,
+              "elapsed_ms": 7,
               "event": "write",
               "bytes": 52
             },
             {
-              "elapsed_ms": 18,
+              "elapsed_ms": 16,
               "event": "read",
               "bytes": 110
             }

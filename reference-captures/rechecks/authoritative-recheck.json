@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "report_type": "dns_run_comparison",
+  "comparison_id": "310c859798bf490296b52d9130a7deb0",
+  "created_at": "2026-09-23T01:09:01.702Z",
+  "mode": "dns_behavior",
+  "normalization": [
+    "Compare decoded DNS behavior, execution status, RFC findings, transport type, response matching, and capture completeness.",
+    "Ignore run IDs, timestamps, durations, local/remote endpoint addresses, transaction IDs, generated 32-hex nonces, and socket read/write chunking.",
+    "Ignore all differences between positive record TTL values, including configured TTL changes; retain zero versus positive. Use Exact evidence when TTL policy matters. Record order within a section and DNS message arrival order are ignored; duplicates and section placement remain significant.",
+    "For RRSIG, ignore signature bytes and changing inception/expiry values while retaining their validity at each lookup's recorded timestamp, covered type, algorithm, labels, original TTL, key tag, and signer.",
+    "Raw byte-only changes, including opaque malformed payloads, require Exact evidence mode. No changed result is automatically labelled a product fault."
+  ],
+  "baseline": {
+    "test_profile": {
+      "id": "profile-authoritative-additional",
+      "name": "Authoritative additional-section control",
+      "test_ids": [
+        "external-additional-mx-udp",
+        "external-additional-mx-tcp",
+        "external-additional-srv-udp",
+        "external-additional-srv-tcp",
+        "external-additional-ns-udp",
+        "external-additional-ns-tcp"
+      ]
+    },
+    "test_scope": "internet",
+    "schema_version": 1,
+    "app_version": "0.4.0",
+    "catalogue_version": "1.4.0",
+    "catalogue_digest": "db42bc1933f76248a734395785e1d9ece2fcfff4bbc7b0059a468232271b0cb2",
+    "run_id": "3975db676c56712220c06aacd9e8d938",
+    "started_at": "2026-09-23T00:28:03.133461+00:00",
+    "finished_at": "2026-09-23T00:28:03.230460+00:00",
+    "state": "completed",
+    "target_provenance": {
+      "endpoint": {
+        "address": "108.162.192.65",
+        "port": 53
+      },
+      "source": "authoritative_control",
+      "notes": [
+        "Native UDP/TCP probes; OS caches, private DNS, and VPN interception are not inferred from discovery.",
+        "Fresh questions avoid exact-name cache hits; external wildcard synthesis and fixed DNSSEC metadata may still involve caches.",
+        "Explicit authoritative endpoint control for the six public additional-data tests only. This differs from normal system-DNS collection; interception is not inferred from the socket destination. Original wire evidence is preserved.",
+        "Publication omits local socket endpoint metadata; DNS wire data and remaining evidence are unchanged. Full local captures retained by the operator."
+      ],
+      "security_intermediary_state": "unverified"
+    },
+    "limits": {
+      "exchange_timeout_ms": 3000,
+      "capture_bytes": 262144,
+      "max_tcp_connections": 1
+    },
+    "volatility": [
+      "run_id, timestamps, durations, message IDs, local ports, nonces and nonce-bearing owners/targets",
+      "TTL, signature inception/expiration/signature bytes, and record ordering may vary; the external comparator chooses its policy"
+    ],
+    "interruption_reason": null
+  },
+  "candidate": {
+    "test_profile": {
+      "id": "profile-authoritative-additional",
+      "name": "Authoritative additional-section control",
+      "test_ids": [
+        "external-additional-mx-udp",
+        "external-additional-mx-tcp",
+        "external-additional-srv-udp",
+        "external-additional-srv-tcp",
+        "external-additional-ns-udp",
+        "external-additional-ns-tcp"
+      ]
+    },
+    "test_scope": "internet",
+    "schema_version": 1,
+    "app_version": "0.4.0",
+    "catalogue_version": "1.4.0",
+    "catalogue_digest": "0b3421c5adce78bb51741cfd5de136081483bcc2eb0dbad2dc7766b351272da1",
+    "run_id": "c123d15638b7b053a73649ea8594c108",
+    "started_at": "2026-09-23T01:06:27.251608+00:00",
+    "finished_at": "2026-09-23T01:06:27.344096+00:00",
+    "state": "completed",
+    "target_provenance": {
+      "endpoint": {
+        "address": "108.162.192.65",
+        "port": 53
+      },
+      "source": "authoritative_control",
+      "notes": [
+        "Native UDP/TCP probes; OS caches, private DNS, and VPN interception are not inferred from discovery.",
+        "Fresh questions avoid exact-name cache hits; external wildcard synthesis and fixed DNSSEC metadata may still involve caches.",
+        "Explicit authoritative endpoint control for the six public additional-data tests only. This differs from normal system-DNS collection; interception is not inferred from the socket destination. Original wire evidence is preserved."
+      ],
+      "security_intermediary_state": "operator_confirmed_disabled"
+    },
+    "limits": {
+      "exchange_timeout_ms": 3000,
+      "capture_bytes": 262144,
+      "max_tcp_connections": 1
+    },
+    "volatility": [
+      "run_id, timestamps, durations, message IDs, local ports, nonces and nonce-bearing owners/targets",
+      "TTL, signature inception/expiration/signature bytes, and record ordering may vary; the external comparator chooses its policy"
+    ],
+    "interruption_reason": null
+  },
+  "summary": {
+    "changed": 0,
+    "added": 0,
+    "removed": 0,
+    "unchanged": 6
+  },
+  "warnings": [
+    "The catalogues differ; added/removed tests or changed RFC checks can affect this comparison."
+  ],
+  "changes": []
+}

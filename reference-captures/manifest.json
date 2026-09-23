@@ -2,7 +2,7 @@
   "purpose": "Recorded DNS references, not QA-approved product baselines or full RFC certification",
   "fixture_source_revision": "06a78e6410e7ada848ec60fa1da5af245fffacc1",
   "engine_source_repository": "https://github.com/johnneerdael/dns-client-gui",
-  "engine_source_revision": "4d98d181b186a0a76f7f5481050d7086668ee722",
+  "engine_source_revision": "719ad76f353d6fc41c7d7b4d3e1ab69f81c6b1ba",
   "engine_working_tree_changes": true,
   "engine_source_files_sha256": {
     "crates/dns-engine/src/additional.rs": "37992fb2a8ec94a8a5104f6d205ba9b6a7b856299edd936c92be1d48c9bdf758",
@@ -21,14 +21,17 @@
     "catalogue/tests.json": "f45b05e270577dfde2a2d81a8b1d43522321dd4353d1ffcafc918015f5a0c537"
   },
   "methods": {
-    "lan": "Native DNS engine using direct loopback UDP/TCP to published 0.4.0 Docker images over IPv4 and IPv6; no system DNS selection",
-    "internet": "Configured system DNS; intermediary state unverified; recursive observation",
-    "additional_control": "Separate explicit public authoritative endpoint 108.162.192.65 for six public additional-data cases; not system DNS; interception not independently excluded",
-    "publication": "Local socket endpoint metadata omitted; original DNS wire bytes retained"
+    "lan": "Native DNS engine using explicit loopback UDP/TCP endpoints 127.0.0.1:5531 and [::1]:5531 against published 0.4.0 Docker images; no system DNS selection. Operator confirmed the client disabled; not independently detected.",
+    "internet": "Configured system DNS at the observed 1.1.1.1:53 endpoint; operator confirmed the security intermediary disabled. Recursive observation, not direct authoritative or cache-free proof.",
+    "additional_control": "Separate explicit public authoritative endpoint 108.162.192.65:53 for six public additional-data cases; not system DNS. Operator confirmed client disabled; socket destination alone does not exclude interception.",
+    "publication": "Set local socket endpoint metadata to null and append a publication note. Preserve all DNS wire bytes, decoded records, timings, remote endpoints and run identity."
   },
   "limitations": [
-    "Normal exchanges pass the implemented protocol checks, not full RFC certification. Eleven intentional-fault cases produce transport failures; IPv6-only tests are unavailable in the IPv4 control.",
-    "Optional additional records can be omitted by recursive paths; captured-reference differences are separate from RFC findings."
+    "Implemented protocol checks are bounded, not full DNS RFC certification or product-baseline approval. Eleven deliberate-fault cases have network_error/inconclusive outcomes in each LAN report; two IPv6-only cases are unavailable in the IPv4 report.",
+    "Operator-confirmed-disabled records the supplied acknowledgement, not independent detection of client state or the complete network path.",
+    "Optional additional addresses and policy rewrites require scenario interpretation; a reference difference is separate from an RFC finding.",
+    "The DNS-behavior recheck ignores all positive TTL differences, generated nonces, timings and other documented volatility. It is not byte identity or an explicit-expectations policy pass.",
+    "Old/new catalogue digests differ; the comparison warning remains visible in the published recheck reports."
   ],
   "images": [
     {
@@ -69,32 +72,149 @@
   "reports": [
     {
       "file": "lan-ipv4.json",
-      "sha256": "be165a61423e8a22038782789fd45177ea7085c755c371c9c78133f4ed898044",
+      "sha256": "ea541638dcd22219dc44cc0228839bb4a464208605f32b366a22fa510559c7de",
+      "original_capture_sha256": "f0f3d0e049783f38665d69d47496368b83a056be8091b94a64d8f21fe39e095f",
       "tests": 176,
-      "run_id": "052fa3561f6e0b4937c87336d48d0a67",
-      "started_at": "2026-09-23T00:38:53.099641+00:00"
+      "run_id": "73a51dd7e0639291e1f64c0f8809c1c7",
+      "started_at": "2026-09-23T01:07:19.510430+00:00",
+      "finished_at": "2026-09-23T01:07:25.174892+00:00",
+      "app_version": "0.4.0",
+      "catalogue_digest": "0b3421c5adce78bb51741cfd5de136081483bcc2eb0dbad2dc7766b351272da1",
+      "security_intermediary_state": "operator_confirmed_disabled",
+      "execution_counts": {
+        "completed": 163,
+        "network_error": 11,
+        "unavailable": 2
+      },
+      "assessment_counts": {
+        "no_violation_observed": 163,
+        "inconclusive": 11,
+        "not_assessed": 2
+      }
     },
     {
       "file": "lan-ipv6.json",
-      "sha256": "fd2b67641c41dc6d3b2252380e3538dbef5e298be7939df12f53a176eda47c6d",
+      "sha256": "f58bba3331a4109cb76eb3a896ec22459a5ebdcbf973c467c810bdda996662d6",
+      "original_capture_sha256": "bb5f999a6eefda0e55a8938233bddb12a79df153aa2175b73d4f2564c691daa5",
       "tests": 176,
-      "run_id": "c16714171aecd7fee41e0ee29489513a",
-      "started_at": "2026-09-23T00:38:53.109071+00:00"
+      "run_id": "191d9f49ec3acd2efd32f9b81dc39ea1",
+      "started_at": "2026-09-23T01:07:19.497934+00:00",
+      "finished_at": "2026-09-23T01:07:25.175636+00:00",
+      "app_version": "0.4.0",
+      "catalogue_digest": "0b3421c5adce78bb51741cfd5de136081483bcc2eb0dbad2dc7766b351272da1",
+      "security_intermediary_state": "operator_confirmed_disabled",
+      "execution_counts": {
+        "completed": 165,
+        "network_error": 11
+      },
+      "assessment_counts": {
+        "no_violation_observed": 165,
+        "inconclusive": 11
+      }
     },
     {
       "file": "internet-system-dns.json",
-      "sha256": "ff052078c36363aa6c19a25cda0e240875579d4842051027cb6fe77ffc1c6ffb",
+      "sha256": "60f5c25b07b8c6f870c0c851cecefab07cda0efb74ac3fa581259a0a957fa670",
+      "original_capture_sha256": "ad5344b60afdf26a1c70abb3defcdd8a7cccb9fa4de626b7aaee290d78727399",
       "tests": 92,
-      "run_id": "13574b0645dfd13c547d243f029b9800",
-      "started_at": "2026-09-23T00:37:48.490651+00:00"
+      "run_id": "2456402b5c2244577d591bae7b6b8bc2",
+      "started_at": "2026-09-23T01:06:07.923807+00:00",
+      "finished_at": "2026-09-23T01:06:10.346919+00:00",
+      "app_version": "0.4.0",
+      "catalogue_digest": "0b3421c5adce78bb51741cfd5de136081483bcc2eb0dbad2dc7766b351272da1",
+      "security_intermediary_state": "operator_confirmed_disabled",
+      "execution_counts": {
+        "completed": 92
+      },
+      "assessment_counts": {
+        "no_violation_observed": 92
+      }
     },
     {
       "file": "internet-authoritative-additional.json",
-      "sha256": "b703bf8d5101685d808d752327551f967cec2f89f4d5facbadc44e8c1c959fe3",
+      "sha256": "3ab1ae52223bc273ee7d8b956033813e1e9d9395c6efc292e465fa1cb4763d2e",
+      "original_capture_sha256": "087f04a95c32cee0bfbac940cee6a75d067bc658ec609d81224b21f097f1911b",
       "tests": 6,
-      "run_id": "3975db676c56712220c06aacd9e8d938",
-      "started_at": "2026-09-23T00:28:03.133461+00:00"
+      "run_id": "c123d15638b7b053a73649ea8594c108",
+      "started_at": "2026-09-23T01:06:27.251608+00:00",
+      "finished_at": "2026-09-23T01:06:27.344096+00:00",
+      "app_version": "0.4.0",
+      "catalogue_digest": "0b3421c5adce78bb51741cfd5de136081483bcc2eb0dbad2dc7766b351272da1",
+      "security_intermediary_state": "operator_confirmed_disabled",
+      "execution_counts": {
+        "completed": 6
+      },
+      "assessment_counts": {
+        "no_violation_observed": 6
+      }
     }
   ],
-  "previous_reference_revision": "0bd49ccdcbbb26e35407ce9ffeae199b58a8f863"
+  "previous_reference_revision": "8e330aade76c84aac259f0d82004391c3e7789c3",
+  "engine_source_files_provenance": "Retained pre-recheck source hash map from the prior capture manifest. Every listed hash was independently verified against the tracked file at engine_source_revision. The capture workspace had uncommitted work (including authoritative-control acknowledgement handling); this map fingerprints the listed core files, not every helper/build input. Captures precede the 0.4.1 RP/AFSDB/DNAME decoder change and preserve their original 0.4.0 decoding.",
+  "behavior_rechecks": [
+    {
+      "file": "rechecks/lan-ipv4-recheck.json",
+      "sha256": "b92cc60f3827fadcd3f4472ba9132de587557bd52f5314987bde6ee9a4838e8e",
+      "mode": "dns_behavior",
+      "baseline_reference_revision": "8e330aade76c84aac259f0d82004391c3e7789c3",
+      "baseline_run_id": "052fa3561f6e0b4937c87336d48d0a67",
+      "candidate_run_id": "73a51dd7e0639291e1f64c0f8809c1c7",
+      "summary": {
+        "changed": 0,
+        "added": 0,
+        "removed": 0,
+        "unchanged": 176
+      },
+      "comparison_created_at": "2026-09-23T01:12:09.000Z",
+      "normalization_note": "0.4.1 development comparator includes nonce-aware RP/AFSDB/DNAME normalization of legacy opaque presentation; captured DNS bytes and decoded records were not modified."
+    },
+    {
+      "file": "rechecks/lan-ipv6-recheck.json",
+      "sha256": "a98e018fc38a4d3bd39388b02e9b8be42e4fabf09540ed7cca40c38c81db4e39",
+      "mode": "dns_behavior",
+      "baseline_reference_revision": "8e330aade76c84aac259f0d82004391c3e7789c3",
+      "baseline_run_id": "c16714171aecd7fee41e0ee29489513a",
+      "candidate_run_id": "191d9f49ec3acd2efd32f9b81dc39ea1",
+      "summary": {
+        "changed": 0,
+        "added": 0,
+        "removed": 0,
+        "unchanged": 176
+      },
+      "comparison_created_at": "2026-09-23T01:12:09.003Z",
+      "normalization_note": "0.4.1 development comparator includes nonce-aware RP/AFSDB/DNAME normalization of legacy opaque presentation; captured DNS bytes and decoded records were not modified."
+    },
+    {
+      "file": "rechecks/internet-recheck.json",
+      "sha256": "0d7322f7bd064997e4c70ca31cae2753666fcf86e9f5f58d162cf0290a5006f1",
+      "mode": "dns_behavior",
+      "baseline_reference_revision": "8e330aade76c84aac259f0d82004391c3e7789c3",
+      "baseline_run_id": "13574b0645dfd13c547d243f029b9800",
+      "candidate_run_id": "2456402b5c2244577d591bae7b6b8bc2",
+      "summary": {
+        "changed": 0,
+        "added": 0,
+        "removed": 0,
+        "unchanged": 92
+      },
+      "comparison_created_at": "2026-09-23T01:08:36.851Z",
+      "normalization_note": "0.4.1 development comparator includes nonce-aware RP/AFSDB/DNAME normalization of legacy opaque presentation; captured DNS bytes and decoded records were not modified."
+    },
+    {
+      "file": "rechecks/authoritative-recheck.json",
+      "sha256": "744ab8e8d4d886d62f5e481d7807b11138c93dfd790ae33204183745ad703c83",
+      "mode": "dns_behavior",
+      "baseline_reference_revision": "8e330aade76c84aac259f0d82004391c3e7789c3",
+      "baseline_run_id": "3975db676c56712220c06aacd9e8d938",
+      "candidate_run_id": "c123d15638b7b053a73649ea8594c108",
+      "summary": {
+        "changed": 0,
+        "added": 0,
+        "removed": 0,
+        "unchanged": 6
+      },
+      "comparison_created_at": "2026-09-23T01:09:01.702Z",
+      "normalization_note": "0.4.1 development comparator includes nonce-aware RP/AFSDB/DNAME normalization of legacy opaque presentation; captured DNS bytes and decoded records were not modified."
+    }
+  ]
 }

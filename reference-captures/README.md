@@ -1,6 +1,6 @@
 # Recorded DNS references
 
-The LAN reports in this directory use the corrected **0.2.1** published Docker images
+The LAN reports in this directory use the published **0.4.0** Docker images
 on a local macOS ARM64 host. The native DNS engine connects directly to loopback
 IPv4/IPv6; it does not select system DNS or a private-access publisher. Host ports
 are bound only to loopback. Docker Desktop gateway CIDRs are allowed for this
@@ -11,15 +11,26 @@ confirmed that the security intermediary was disabled. This is a **recursive res
 observation**, not a direct-authoritative response or a proof that no cache was used.
 Provider-managed DNSSEC records, TTLs and negative synthesis can vary.
 
-- `lan-ipv4.json`: 162-case run; 149 completed exchanges, 11 deliberate transport
+- `lan-ipv4.json`: 176-case run; 163 completed exchanges, 11 deliberate transport
   errors, 2 IPv6-only cases unavailable on the IPv4 endpoint.
-- `lan-ipv6.json`: 162-case run; 151 completed exchanges and 11 deliberate transport
+- `lan-ipv6.json`: 176-case run; 165 completed exchanges and 11 deliberate transport
   errors. This supplies reference evidence for the two IPv6-only cases.
-- `internet-system-dns.json`: 82 completed Internet cases. Only local socket endpoint
-  metadata is omitted from the published copy; all DNS request/response bytes,
-  decoded content, remote endpoints, timing and events remain unchanged.
+- `internet-system-dns.json`: 92 completed Internet cases through configured system
+  DNS, observed at `1.1.1.1:53` in this capture.
+- `internet-authoritative-additional.json`: six completed additional-data controls
+  directed explicitly at `108.162.192.65:53`. This is separate from system DNS.
 - `manifest.json`: image digests, architecture, source revisions, run identities,
-  timestamps and SHA-256 hashes of each published report.
+  timestamps, original-local and published-report SHA-256 hashes, and recheck hashes.
+- `rechecks/`: four DNS-behavior comparisons against the immediately previous
+  published references: **176 + 176 + 92 + 6 unchanged results**. These comparisons
+  preserve the differing-catalogue warning and use the corrected nonce handling
+  for legacy RP, AFSDB and DNAME presentation.
+
+Every published capture sets `local_endpoint` to null and appends an explanatory
+publication note. DNS request/response bytes, decoded content, remote endpoints,
+timing and events remain unchanged. These captures retain their original **0.4.0**
+metadata and decoding; they were not redecoded using the subsequent 0.4.1 changes.
+See [the recheck provenance](../docs/reference-recheck-2026-09-23.md).
 
 The app shows the actual original response text, including names, transaction IDs,
 flags, TTLs and every record. It never rewrites the reference to look as though it
@@ -29,13 +40,12 @@ snapshots are omitted from these captures to prevent circular evidence.
 
 ## Operator acknowledgement metadata
 
-The Internet report's `target_provenance.security_intermediary_state` is
-`operator_confirmed_disabled`, based on the operator's explicit confirmation in
-the original capture session. This structured annotation was added afterward;
-it is not a new capture or an independent network-state check. The manifest
-records both the original report hash and the annotated report hash. DNS bytes,
-results, timestamps and run identity are unchanged. The original report remains
-available at immutable revision `c4ec51d`.
+All four current reports record
+`target_provenance.security_intermediary_state=operator_confirmed_disabled`, based
+on the operator's explicit confirmation before this recheck. This is not an
+independent network-state check. The two LAN reports also explicitly identify
+their loopback path. A socket destination alone does not prove the absence of
+interception or other intermediaries.
 
 New Internet captures default to `unverified`. The helper only records an
 operator confirmation when invoked with `--confirm-intermediary-disabled`.
@@ -55,6 +65,11 @@ additional data and changed addresses are not automatically RFC violations.
 See [RFC validation scope](../docs/rfc-validation.md).
 
 ## Historical evidence
+
+The immediately previous 0.4.0 references remain at immutable revision
+[`8e330aa`](https://github.com/johnneerdael/dns-server-lan-fixtures/tree/8e330aade76c84aac259f0d82004391c3e7789c3/reference-captures).
+Those Internet reports recorded unverified intermediary state. The current
+reports are new collections, not retroactive changes to that prior state.
 
 The original 0.2.0 reports remain available at immutable revision
 [`cbc9c73`](https://github.com/johnneerdael/dns-server-lan-fixtures/tree/cbc9c73/reference-captures).

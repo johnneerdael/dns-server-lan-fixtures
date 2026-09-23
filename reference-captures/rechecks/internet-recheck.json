@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "report_type": "dns_run_comparison",
+  "comparison_id": "c8f081d42ddf957fba1afe4267de872b",
+  "created_at": "2026-09-23T01:08:36.851Z",
+  "mode": "dns_behavior",
+  "normalization": [
+    "Compare decoded DNS behavior, execution status, RFC findings, transport type, response matching, and capture completeness.",
+    "Ignore run IDs, timestamps, durations, local/remote endpoint addresses, transaction IDs, generated 32-hex nonces, and socket read/write chunking.",
+    "Ignore all differences between positive record TTL values, including configured TTL changes; retain zero versus positive. Use Exact evidence when TTL policy matters. Record order within a section and DNS message arrival order are ignored; duplicates and section placement remain significant.",
+    "For RRSIG, ignore signature bytes and changing inception/expiry values while retaining their validity at each lookup's recorded timestamp, covered type, algorithm, labels, original TTL, key tag, and signer.",
+    "Raw byte-only changes, including opaque malformed payloads, require Exact evidence mode. No changed result is automatically labelled a product fault."
+  ],
+  "baseline": {
+    "test_scope": "internet",
+    "schema_version": 1,
+    "app_version": "0.4.0",
+    "catalogue_version": "1.4.0",
+    "catalogue_digest": "f1ca93d206f0333884119298206d9efab01a1f6ec647626d8f60d8e2464b6983",
+    "run_id": "13574b0645dfd13c547d243f029b9800",
+    "started_at": "2026-09-23T00:37:48.490651+00:00",
+    "finished_at": "2026-09-23T00:37:50.626692+00:00",
+    "state": "completed",
+    "target_provenance": {
+      "endpoint": null,
+      "source": "configured_device_resolvers",
+      "notes": [
+        "Native UDP/TCP probes; OS caches, private DNS, and VPN interception are not inferred from discovery.",
+        "Fresh questions avoid exact-name cache hits; external wildcard synthesis and fixed DNSSEC metadata may still involve caches.",
+        "Security intermediary state is unverified; no operator acknowledgement was supplied.",
+        "Internet control capture through configured device DNS. This is a recursive-resolver observation, not a direct-authoritative response or product certification.",
+        "Publication omits local socket endpoint metadata; DNS wire data and remaining evidence are unchanged. Full local captures retained by the operator."
+      ],
+      "security_intermediary_state": "unverified"
+    },
+    "limits": {
+      "exchange_timeout_ms": 3000,
+      "capture_bytes": 262144,
+      "max_tcp_connections": 1
+    },
+    "volatility": [
+      "run_id, timestamps, durations, message IDs, local ports, nonces and nonce-bearing owners/targets",
+      "TTL, signature inception/expiration/signature bytes, and record ordering may vary; the external comparator chooses its policy"
+    ],
+    "interruption_reason": null
+  },
+  "candidate": {
+    "test_scope": "internet",
+    "schema_version": 1,
+    "app_version": "0.4.0",
+    "catalogue_version": "1.4.0",
+    "catalogue_digest": "0b3421c5adce78bb51741cfd5de136081483bcc2eb0dbad2dc7766b351272da1",
+    "run_id": "2456402b5c2244577d591bae7b6b8bc2",
+    "started_at": "2026-09-23T01:06:07.923807+00:00",
+    "finished_at": "2026-09-23T01:06:10.346919+00:00",
+    "state": "completed",
+    "target_provenance": {
+      "endpoint": null,
+      "source": "configured_device_resolvers",
+      "notes": [
+        "Native UDP/TCP probes; OS caches, private DNS, and VPN interception are not inferred from discovery.",
+        "Fresh questions avoid exact-name cache hits; external wildcard synthesis and fixed DNSSEC metadata may still involve caches.",
+        "The operator confirmed the security intermediary was disabled; this was not independently verified.",
+        "Internet control capture through configured device DNS. This is a recursive-resolver observation, not a direct-authoritative response or product certification."
+      ],
+      "security_intermediary_state": "operator_confirmed_disabled"
+    },
+    "limits": {
+      "exchange_timeout_ms": 3000,
+      "capture_bytes": 262144,
+      "max_tcp_connections": 1
+    },
+    "volatility": [
+      "run_id, timestamps, durations, message IDs, local ports, nonces and nonce-bearing owners/targets",
+      "TTL, signature inception/expiration/signature bytes, and record ordering may vary; the external comparator chooses its policy"
+    ],
+    "interruption_reason": null
+  },
+  "summary": {
+    "changed": 0,
+    "added": 0,
+    "removed": 0,
+    "unchanged": 92
+  },
+  "warnings": [
+    "The catalogues differ; added/removed tests or changed RFC checks can affect this comparison."
+  ],
+  "changes": []
+}
