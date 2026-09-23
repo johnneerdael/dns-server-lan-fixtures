@@ -21,14 +21,14 @@
     "catalogue/tests.json": "f45b05e270577dfde2a2d81a8b1d43522321dd4353d1ffcafc918015f5a0c537"
   },
   "methods": {
-    "lan": "Native DNS engine direct loopback UDP/TCP to published0.4.0 Dockerimages, IPv4 andIPv6; nosystemDNSselection",
-    "internet": "Configured systemDNS; intermediary state unverified; recursive observation",
-    "additional_control": "Separate explicit publicauthoritativeendpoint108.162.192.65 for six publicadditional cases; not systemDNS and interception not independently excluded",
-    "publication": "Local socket endpoint metadata omitted; original DNSwire bytes retained"
+    "lan": "Native DNS engine using direct loopback UDP/TCP to published 0.4.0 Docker images over IPv4 and IPv6; no system DNS selection",
+    "internet": "Configured system DNS; intermediary state unverified; recursive observation",
+    "additional_control": "Separate explicit public authoritative endpoint 108.162.192.65 for six public additional-data cases; not system DNS; interception not independently excluded",
+    "publication": "Local socket endpoint metadata omitted; original DNS wire bytes retained"
   },
   "limitations": [
-    "Normal exchanges pass implemented protocol checks, not fullRFCcertification. Eleven intentionalfault casesproduce transportfailures; IPv6-onlytests unavailableinIPv4control.",
-    "Optional additionalrecords canbe omitted by recursive paths; capturedreference differences are separate fromRFCfindings."
+    "Normal exchanges pass the implemented protocol checks, not full RFC certification. Eleven intentional-fault cases produce transport failures; IPv6-only tests are unavailable in the IPv4 control.",
+    "Optional additional records can be omitted by recursive paths; captured-reference differences are separate from RFC findings."
   ],
   "images": [
     {
