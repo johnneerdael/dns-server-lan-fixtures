@@ -70,10 +70,29 @@ def raw_reply(wire, tcp):
         return dns.message.from_wire(sock.recv(65535))
 
 for exchange in (dns.query.udp, dns.query.tcp):
+    for key, kind, target, suffix in [
+        ('additional-mx','MX','additional-mail','25'),
+        ('additional-srv','SRV','additional-service','40'),
+        ('additional-ad','SRV','additional-dc','60'),
+        ('additional-ns','NS','additional-ns-host','53'),
+        ('additional-referral','A','ns.additional-referral','53'),
+    ]:
+        response = ask(exchange, key, kind)
+        assert response.rcode() == dns.rcode.NOERROR
+        assert {(rrset.name.to_text(), rrset.rdtype, rr.address)
+                for rrset in response.additional for rr in rrset} == {
+            (target + '.' + zone_name, dns.rdatatype.A, '192.0.2.' + suffix),
+            (target + '.' + zone_name, dns.rdatatype.AAAA, '2001:db8::' + suffix),
+        }, key
     response = ask(exchange, 'aaaa', 'AAAA')
     assert response.rcode() == dns.rcode.NOERROR
     assert [r.address for r in records(response, 'AAAA')] == ['2001:db8::10']
     assert not response.flags & dns.flags.AD
+
+    for key,kind in [('openpgpkey','OPENPGPKEY'),('smimea','SMIMEA')]:
+        security = ask(exchange,key,kind,use_edns=True,payload=1232)
+        assert security.rcode() == dns.rcode.NOERROR
+        assert len(records(security,kind)) == 1
 
     mx = ask(exchange, 'mx', 'MX')
     assert [(r.preference, r.exchange.to_text()) for r in records(mx, 'MX')] == [(10, 'mail.' + zone_name)]

@@ -15,6 +15,7 @@ import dns.rdataclass
 import dns.rcode
 import dns.rdatatype
 import dns.rrset
+from security_records import OPENPGPKEY, SMIMEA
 
 SUFFIX = (b"fresh", b"example", b"test", b"")
 TRANSPORT_KEYS = frozenset({
@@ -56,8 +57,8 @@ def _rr(owner, kind, *data, ttl=0):
     return dns.rrset.from_text(owner, ttl, "IN", kind, *data)
 
 
-def _soa(zone, owner=None):
-    return _rr(owner or zone, "SOA", f"ns.{zone} hostmaster.{zone} 2026092101 60 60 3600 0")
+def _soa(zone, owner=None, primary=None):
+    return _rr(owner or zone, "SOA", f"{primary or 'ns.' + zone} hostmaster.{zone} 2026092101 60 60 3600 0")
 
 
 def _error_response(wire, rcode):
@@ -112,6 +113,20 @@ def _records(owner, key, zone):
         if key == "ns":
             records.append(_rr(owner, "A", "192.0.2.53"))
         return records
+    if key == "additional-ns":
+        return [_rr(owner, "NS", target("additional-ns-host")),
+                _soa(owner.to_text(), primary=target("additional-ns-host"))]
+    additional_addresses = {"additional-mail": "25", "additional-service": "40",
+                            "additional-dc": "60", "additional-ns-host": "53"}
+    if key in additional_addresses:
+        address = additional_addresses[key]
+        return [_rr(owner, "A", f"192.0.2.{address}"),
+                _rr(owner, "AAAA", f"2001:db8::{address}")]
+    if key == "additional-mx":
+        return [_rr(owner, "MX", f"10 {target('additional-mail')}")]
+    if key in {"additional-srv", "additional-ad"}:
+        host, port = ("additional-dc", 389) if key == "additional-ad" else ("additional-service", 8443)
+        return [_rr(owner, "SRV", f"10 60 {port} {target(host)}")]
     if key in ADDRESS_KEYS:
         ttl = {"ttl-normal": 60, "ttl-high": 86400}.get(key, 0)
         records = [_rr(owner, "A", "192.0.2.10", ttl=ttl)]
@@ -166,6 +181,8 @@ def _records(owner, key, zone):
         "cert": ("CERT", "65280 0 0 AQIDBA=="),
         "sshfp": ("SSHFP", "1 1 123456789abcdef67890123456789abcdef67890"),
         "tlsa": ("TLSA", "3 1 1 " + "01" * 32),
+        "openpgpkey": ("OPENPGPKEY", OPENPGPKEY),
+        "smimea": ("SMIMEA", SMIMEA),
         "uri": ("URI", '10 1 "https://example.invalid/fixture"'),
         "caa": ("CAA", '0 issue "ca.invalid"'),
         "unknown": ("TYPE65280", r"\# 4 DEADBEEF"),
@@ -203,17 +220,22 @@ def _answer(response, owner, kind, zone):
             return
         key, _ = parsed
         authority_owner = zone
-        if key in {"ns", "soa"}:
+        if key in {"ns", "soa", "additional-ns"}:
             child_zone = dns.name.from_text(f"{key}.{zone}")
             if owner != child_zone or kind != dns.rdatatype.DS:
                 authority_owner = child_zone
-        cut = dns.name.from_text(f"referral.{zone}")
-        if key == "referral" and not (owner == cut and kind == dns.rdatatype.DS):
+        authority_soa = (_soa(str(authority_owner), primary=f"additional-ns-host.{zone}")
+                         if key == "additional-ns" and str(authority_owner) != zone
+                         else _soa(zone, authority_owner))
+        cut = dns.name.from_text(f"{key}.{zone}")
+        if key in {"referral", "additional-referral"} and not (owner == cut and kind == dns.rdatatype.DS):
             response.flags &= ~dns.flags.AA
             response.authority.append(_rr(cut, "NS", f"ns.{cut}"))
             response.additional.append(_rr(f"ns.{cut}", "A", "192.0.2.53"))
+            if key == "additional-referral":
+                response.additional.append(_rr(f"ns.{cut}", "AAAA", "2001:db8::53"))
             return
-        if key == "referral":
+        if key in {"referral", "additional-referral"}:
             response.authority.append(_soa(zone))
             return
         if key == "refused":
@@ -238,7 +260,7 @@ def _answer(response, owner, kind, zone):
         records = _records(owner, key, zone)
         if records is None:
             response.set_rcode(dns.rcode.NXDOMAIN)
-            response.authority.append(_soa(zone, authority_owner))
+            response.authority.append(authority_soa)
             return
         cname = next((rr for rr in records if rr.rdtype == dns.rdatatype.CNAME), None)
         if cname is not None:
@@ -252,9 +274,30 @@ def _answer(response, owner, kind, zone):
             response.answer.extend(selected)
             _additional(response, selected, zone)
         else:
-            response.authority.append(_soa(zone, authority_owner))
+            response.authority.append(authority_soa)
         return
     response.set_rcode(dns.rcode.SERVFAIL)
+
+
+def _encode_response(response, size):
+    """Keep RFC 9471's mandatory in-domain glue rule when limiting message size."""
+    try:
+        return response.to_wire(max_size=size)
+    except dns.exception.TooBig:
+        wire = response.to_wire(max_size=size, prefer_truncation=True)
+    # dnspython treats additional records as optional when truncating. A
+    # referral's available in-domain glue is the important exception.
+    if not response.answer and not response.flags & dns.flags.AA:
+        glue_targets = {rr.target for rrset in response.authority
+                        if rrset.rdtype == dns.rdatatype.NS for rr in rrset
+                        if rr.target.is_subdomain(rrset.name)}
+        required = [rrset for rrset in response.additional
+                    if rrset.name in glue_targets and rrset.rdtype in (dns.rdatatype.A, dns.rdatatype.AAAA)]
+        if required:
+            sent = dns.message.from_wire(wire)
+            if any(rrset not in sent.additional for rrset in required):
+                wire = wire[:2] + struct.pack("!H", sent.flags | dns.flags.TC) + wire[4:]
+    return wire
 
 
 def answer_fresh(query_wire: bytes, tcp: bool = False) -> bytes:
@@ -291,4 +334,4 @@ def answer_fresh(query_wire: bytes, tcp: bool = False) -> bytes:
             zone = f"{parsed[1]}.fresh.example.test."
             _answer(response, question.name, question.rdtype, zone)
     size = 65535 if tcp else max(512, min(query.payload, 4096)) if query.edns >= 0 else 512
-    return response.to_wire(max_size=size, prefer_truncation=True)
+    return _encode_response(response, size)

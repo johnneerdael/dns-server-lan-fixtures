@@ -70,6 +70,113 @@ source files does not update Cloudflare or another deployed zone. Live captures
 may still contain the earlier type-1 payload; preserve that evidence and record
 the deployed-data limitation until a new lookup confirms the change.
 
+## Additional-section observation records
+
+Import **`cloudflare-additional-records.zone`** separately into the existing
+`quality-assurance.fyi` zone. This file only adds eight new records; it does not
+replace the existing import or change nameservers, DNSSEC, or existing answers.
+Keep every record DNS only. Reimporting may produce duplicate warnings; review
+the existing values before making any updates.
+
+| Question owner | Type and target | Target address records |
+|---|---|---|
+| `<nonce>.additional-mx.dns.quality-assurance.fyi` | MX 10 `additional-mail.dns.quality-assurance.fyi` | A `192.0.2.25`, AAAA `2001:db8::25` |
+| `<nonce>.additional-srv.dns.quality-assurance.fyi` | SRV 10 60 8443 `additional-service.dns.quality-assurance.fyi` | A `192.0.2.40`, AAAA `2001:db8::40` |
+
+The exact `additional-mx` and `additional-srv` owners also exist. Wildcards allow
+fresh question names, but their targets are static: target address lookups can
+reuse cached responses. Both address families are DNS data, not working mail or
+application servers. MX and SRV targets are address owners, not aliases.
+
+Cloudflare controls its authoritative response contents, and recursive resolvers
+can choose whether to return optional address records alongside MX/SRV answers.
+Putting targets in the same zone does not by itself guarantee their inclusion
+in every response. Missing or changed addresses relative to an approved capture
+are a **test-data or path consistency difference**; classify an RFC violation
+only when an applicable normative requirement is established. Direct target
+lookups distinguish absent zone data from omitted optional additional data.
+Neither a successful import nor a successful answer establishes an approved
+baseline; collect and review fresh responses after deployment.
+
+Public NS observations use the existing **`quality-assurance.fyi NS`** RRset.
+There is no new NS import here. An NS owner below the Cloudflare zone apex would
+create a delegation, and pointing it at documentation addresses would create
+an unreachable child zone. A separate public referral/glue test needs reachable
+authoritative child servers and a deliberate delegation. The controlled LAN
+`additional-ns` answer and `additional-referral` tests cover those DNS response
+forms without asserting that a public or Active Directory service was deployed.
+
+After importing, query the same resolver/path that will supply the baseline:
+
+```sh
+dig baseline-run.additional-mx.dns.quality-assurance.fyi MX +dnssec
+dig baseline-run.additional-mx.dns.quality-assurance.fyi MX +tcp +dnssec
+dig additional-mail.dns.quality-assurance.fyi A
+dig additional-mail.dns.quality-assurance.fyi AAAA
+dig baseline-run.additional-srv.dns.quality-assurance.fyi SRV +dnssec
+dig baseline-run.additional-srv.dns.quality-assurance.fyi SRV +tcp +dnssec
+dig additional-service.dns.quality-assurance.fyi A
+dig additional-service.dns.quality-assurance.fyi AAAA
+dig quality-assurance.fyi NS +dnssec
+```
+
+Use a new `baseline-run` label for each independent collection. On macOS, `dig`
+does not use the native resolver's per-domain routing in the same way as ordinary
+applications; omitting `@server` alone does not prove that split DNS or a VPN's
+normal path was used. Record the actual endpoint and use DNS Client's system DNS
+mode for its normal collection workflow.
+
+## OPENPGPKEY and SMIMEA observation records
+
+Import **`cloudflare-security-records.zone`** into the existing
+`quality-assurance.fyi` zone as a separate additive change, keeping records DNS
+only. It contains four records: exact and wildcard owners for OPENPGPKEY and
+SMIMEA. It changes no delegation, signing keys or existing records.
+
+- `openpgpkey.dns.quality-assurance.fyi` and
+  `*.openpgpkey.dns.quality-assurance.fyi` contain a real synthetic transferable
+  OpenPGP public key with a valid self-signature.
+- `smimea.dns.quality-assurance.fyi` and
+  `*.smimea.dns.quality-assurance.fyi` contain `3 1 1` plus the SHA-256 digest of
+  the actual SubjectPublicKeyInfo from a supplied synthetic public certificate.
+
+No private key is shipped. These synthetic owner names are DNS transport probes,
+not the hash-derived mailbox discovery names described by Experimental
+[RFC 7929](https://www.rfc-editor.org/rfc/rfc7929.html) and
+[RFC 8162](https://www.rfc-editor.org/rfc/rfc8162.html). They do not establish a
+trusted mailbox, validate certificates, test an email client, or provide usable
+encryption services. [Public-specimen provenance](../docs/test-records/README.md)
+includes the key fingerprint and independent verification details.
+
+After import, collect fresh UDP and TCP observations for both types, for example:
+
+```sh
+dig baseline-run.openpgpkey.dns.quality-assurance.fyi OPENPGPKEY +bufsize=1232 +dnssec
+dig baseline-run.openpgpkey.dns.quality-assurance.fyi OPENPGPKEY +tcp +dnssec
+dig baseline-run.smimea.dns.quality-assurance.fyi SMIMEA +dnssec
+dig baseline-run.smimea.dns.quality-assurance.fyi SMIMEA +tcp +dnssec
+```
+
+Use a different `baseline-run` label for each collection and preserve the
+actual resolver endpoint. Provider DNSSEC signatures can make a response larger
+than the record itself; truncated UDP requires transport-aware interpretation.
+
+## Provider-managed CAA answers
+
+Cloudflare may add CAA values to support certificate issuance, including
+automatically generated values that do not appear in the DNS dashboard. This is
+documented for Universal SSL when CAA records are configured; see
+[Cloudflare's CAA documentation](https://developers.cloudflare.com/ssl/edge-certificates/caa-records/).
+An extra issuer returned alongside the configured `ca.invalid` test specimen
+therefore does not by itself show an invalid CAA record or an intermediary defect.
+Compare approved captures and check the zone's SSL/TLS configuration.
+
+Those are extra **CAA records in the Answer section**, not address records in the
+DNS **Additional section**. The DNS section names describe wire-message placement;
+the ordinary word “additional” must not be used to confuse these two situations.
+The `ca.invalid` value is synthetic DNS test data, not a usable certificate issuer
+and not a guarantee that the provider will return only that value.
+
 ## Independent BIND reference deployment
 
 `db.dns.quality-assurance.fyi` is a complete standalone zone, including record types the
@@ -103,6 +210,8 @@ current Cloudflare-managed parent setup.
 | File | Purpose |
 |---|---|
 | `cloudflare-records.zone` | Additive public records for the existing Cloudflare zone |
+| `cloudflare-additional-records.zone` | Separate additive MX/SRV observations with dual-stack targets; no delegation changes |
+| `cloudflare-security-records.zone` | Separate additive OPENPGPKEY/SMIMEA public specimens; no mailbox identity or trust claim |
 | `db.dns.quality-assurance.fyi` | Complete standalone BIND reference zone |
 | `named.conf` | Authoritative-only BIND with external-zone DNSSEC signing |
 | `compose.yaml`, `Dockerfile`, `entrypoint.sh` | Local isolated validation with persistent signing keys |

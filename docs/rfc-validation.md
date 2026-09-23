@@ -15,18 +15,27 @@ specific names, records, deployment path, and deliberate faults.
 | Negative answers | NXDOMAIN is independent of QTYPE; existing missing types use NODATA; authoritative negatives carry the correct zero-TTL SOA | [RFC 2308 sections 3 and 5](https://www.rfc-editor.org/rfc/rfc2308.html#section-3): authoritative negative SOA inclusion is a MUST |
 | CNAME/DNAME | Direct alias lookups, CNAME chains and requested target types; fixed DNAME owner; preserved prefix labels; owner NODATA; overlong substitution returns YXDOMAIN | [RFC 6672 sections 2 and 3](https://www.rfc-editor.org/rfc/rfc6672.html#section-2): includes required CNAME synthesis |
 | Referrals | Descendants retain the same NS/glue cut; AA is clear; DS at the cut receives parent-side denial | [RFC 1034 section 4.3.2](https://www.rfc-editor.org/rfc/rfc1034.html#section-4.3.2) |
+| Additional records | Dedicated MX, SRV, LDAP-shaped discovery and authoritative NS responses carry the exact configured dual-stack targets; direct A/AAAA lookups agree over UDP/TCP | Local test-data contract; omission is a consistency difference and is not automatically an RFC violation |
+| Referral glue truncation | All available in-domain A/AAAA glue is included, or TC is set if response-size constraints omit any; optional out-of-domain addresses do not force TC | [RFC 9471 section 3.1](https://www.rfc-editor.org/rfc/rfc9471.html#section-3.1): in-domain available glue inclusion/truncation is a MUST |
 | Minimal ANY | Returned RRset also exists in a direct type-specific lookup | [RFC 8482 section 4.1](https://www.rfc-editor.org/rfc/rfc8482.html#section-4.1) permits a subset |
 | EDNS | UDP size limits, unknown options/flags, DO handling and BADVERS; malformed/duplicate OPT gets FORMERR with one OPT | [RFC 6891 sections 6 and 7](https://www.rfc-editor.org/rfc/rfc6891.html#section-6): includes MUST requirements |
 | Question count | Fresh QUERY with more than one question gets FORMERR without multiple echoed questions; questionless QUERY reaches BIND with its response preserved | [RFC 9619 section 4](https://www.rfc-editor.org/rfc/rfc9619.html#section-4): a MUST for OPCODE 0 |
 | Other opcodes | Fresh unsupported opcodes return NOTIMP; zero-question IQUERY reaches the upstream over UDP/TCP | [RFC 3425 section 3](https://www.rfc-editor.org/rfc/rfc3425.html#section-3): NOTIMP for IQUERY is a SHOULD, not MUST |
 | TCP | Real sockets test sequential/pipelined exchanges, mixed fresh/forwarded names, split requests and response correlation | [RFC 7766 sections 6.2 and 8](https://www.rfc-editor.org/rfc/rfc7766.html#section-6.2): reuse/pipelining are SHOULD recommendations |
 | DNS test record consistency | Shipped record families, TTL boundaries, resolvable service-alias targets, and additional-data follow-ups | Local DNS test data contract; exact addresses and TTL choices are not universal RFC requirements |
+| Mail-security record specimens | Real UDP/TCP OPENPGPKEY and SMIMEA decoding; public-only OpenPGP packet structure/self-signature; SMIMEA SHA-256 matches the supplied certificate SPKI; non-EDNS key response truncates correctly | [RFC 7929 section 2](https://www.rfc-editor.org/rfc/rfc7929.html#section-2), [RFC 8162 section 2](https://www.rfc-editor.org/rfc/rfc8162.html#section-2); bounded specimen checks, not mailbox discovery or trust validation |
 
 The source tests parse complete DNS replies with dnspython and assert semantics
 rather than treating the absence of a parser error as conformance. Socket tests
 exercise dispatch and framing. Explicit fault tests separately check that close,
 duplicate, and reorder stimuli remain available. A deliberately malformed
 response cannot be counted as an ordinary protocol failure or success.
+
+`test_security_records.py` uses GnuPG and OpenSSL for independent specimen checks
+when installed; those specific checks report skipped status if the corresponding
+tool is unavailable. DNS wire and public-packet-structure checks still run without
+those executables. Production containers only serve public constant data and do
+not generate or retain keys.
 
 ## Run the checks
 
@@ -42,7 +51,9 @@ python3 -m unittest discover -s scripts
 
 The `fault_proxy` discovery command includes `test_fresh_fixtures.py` and the
 real-socket/forwarding checks in `test_dns_fault_proxy.py`; no separate invocation
-is needed to include them. The image publication workflow runs all three test
+is needed to include them. `test_additional_records.py` adds exact additional
+contents, direct follow-ups, authoritative NS/SOA consistency, real UDP/TCP
+dispatch, and oversized referral-glue serialization. The image publication workflow runs all three test
 groups before its container verification step.
 
 The maintainer container check builds the source with `compose.build.yaml`,

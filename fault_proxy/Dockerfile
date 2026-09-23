@@ -8,7 +8,7 @@ WORKDIR /app
 COPY requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r /app/requirements.txt
 COPY --chown=10001:10001 dns_fault_proxy.py /app/dns_fault_proxy.py
-COPY --chown=10001:10001 fresh_fixtures.py fresh_transport.py /app/
+COPY --chown=10001:10001 fresh_fixtures.py fresh_transport.py security_records.py /app/
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1

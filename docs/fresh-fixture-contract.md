@@ -59,7 +59,7 @@ IQUERY messages with no question and questionless QUERY messages.
 
 | Family | Behavior |
 |---|---|
-| Ordinary records | A, AAAA, NS, SOA, MX, TXT, PTR, SRV, SVCB, HTTPS, CERT, CAA, NAPTR, TLSA, SSHFP, URI, LOC, HINFO, RP, AFSDB, and private TYPE65280 DNS test records |
+| Ordinary records | A, AAAA, NS, SOA, MX, TXT, PTR, SRV, SVCB, HTTPS, CERT, CAA, NAPTR, TLSA, SSHFP, OPENPGPKEY, SMIMEA, URI, LOC, HINFO, RP, AFSDB, and private TYPE65280 DNS test records |
 | `cname`, `cname-a`, `ad-guid` | Alias to `a.<nonce>.fresh.example.test`; follow requested types at the target |
 | `cname-chain` | Alias through `chain-hop` to `a`; each hop also works as a direct lookup |
 | `dname`, `dname-child` | Fixed DNAME owner redirecting descendants to the corresponding prefix below `target-tree` |
@@ -68,6 +68,9 @@ IQUERY messages with no question and questionless QUERY messages.
 | `negative`, `dnssec-negative` | NXDOMAIN across QTYPEs, including DNSSEC types |
 | `nodata`, `unsupported` | Existing A owners; the catalogue's AAAA and TYPE65400 questions receive NODATA |
 | `referral` | Fixed delegation with NS and glue; descendant queries keep the same cut; DS at the cut receives parent-side unsigned denial |
+| `additional-mx`, `additional-srv`, `additional-ad` | Dedicated MX/SRV answers with nonce-scoped A and AAAA target records in the additional section |
+| `additional-ns` | Authoritative NS/SOA child-zone apex with a nonce-scoped sibling nameserver target and both address families |
+| `additional-referral` | Parent-side referral to an in-domain nameserver with both available A and AAAA glue records |
 | `refused` | Explicit policy-refusal DNS test case |
 | `any` | A minimal answer containing an existing RRset, not an inventory of every type |
 | `large-512`, `large-1232`, `near-max` | Large TXT RDATA, subject to transport size limits |
@@ -77,6 +80,46 @@ Additional MX, NS, and SRV addresses come from the same records as direct target
 lookups. Alias and service targets retain the nonce. The ordinary record TTL is
 zero; `ttl-normal` uses 60 seconds and `ttl-high` uses 86400 seconds. Negative SOA
 TTL and MINIMUM are zero.
+
+### Dedicated additional-section data
+
+The following contract makes omission visible even if UDP and TCP both omit the
+same records. It is a controlled test-data expectation, not a universal rule that
+every MX/SRV/NS answer must contain all same-zone address records.
+
+| Key before `.<nonce>.fresh.example.test` | Answer or authority data | Additional target and addresses |
+|---|---|---|
+| `additional-mx` (MX) | Answer: MX 10 `additional-mail.<nonce>.fresh.example.test` | `additional-mail`: A `192.0.2.25`, AAAA `2001:db8::25` |
+| `additional-srv` (SRV) | Answer: SRV 10 60 8443 `additional-service.<nonce>.fresh.example.test` | `additional-service`: A `192.0.2.40`, AAAA `2001:db8::40` |
+| `additional-ad` (SRV) | Answer: SRV 10 60 389 `additional-dc.<nonce>.fresh.example.test` | `additional-dc`: A `192.0.2.60`, AAAA `2001:db8::60` |
+| `additional-ns` (NS) | Answer: NS `additional-ns-host.<nonce>.fresh.example.test` | `additional-ns-host`: A `192.0.2.53`, AAAA `2001:db8::53` |
+| `additional-referral` (NS or descendant A/AAAA) | Empty answer; authority: NS at `additional-referral.<nonce>.fresh.example.test` to `ns.additional-referral.<nonce>.fresh.example.test`; AA clear | `ns.additional-referral`: A `192.0.2.53`, AAAA `2001:db8::53` |
+
+Every listed record has TTL 0. The first four responses are authoritative and
+their address targets answer direct A/AAAA queries with the identical records.
+The `additional-ad` name models LDAP-shaped DNS discovery; it is not an AD domain
+or a deployed directory server. An actual AD discovery name normally contains
+service/protocol labels such as `_ldap._tcp`.
+
+`additional-ns` models a child zone served by this responder. Its SOA owner is
+that child apex, its MNAME is `additional-ns-host.<nonce>.fresh.example.test`,
+and its negative answers carry the same child SOA. A DS query at the child apex
+receives parent-side unsigned denial. Its nameserver target lies in the parent
+nonce zone; these answer-associated addresses are not in-domain referral glue.
+
+`additional-referral` models the parent side of a delegation. All queries beneath
+that cut, including queries for the glue owner, still receive the referral; the
+parent does not turn its glue into an authoritative child address answer. DS at
+the cut receives parent-side unsigned denial. The glue addresses are documentation
+addresses, so this is a referral-message test, not a working delegated DNS service.
+
+For a referral, all **available in-domain glue** must fit in the response or TC
+must signal truncation; see [RFC 9471 section 3.1](https://www.rfc-editor.org/rfc/rfc9471.html#section-3.1).
+The serializer preserves this rule when the additional section exceeds the size
+limit. The small ordinary referral fits into 512 bytes; oversized referral unit
+tests verify truncation and recovery at a larger response size. A recursive
+resolver may follow a referral and produce a final answer or failure instead of
+returning the referral itself. Record which path was tested before interpreting it.
 
 All fresh data is unsigned. DO does not create DNSSEC records, and fresh answers
 clear AD. DNSSEC-type questions at existing owners receive NODATA; nonexistent
@@ -150,6 +193,14 @@ TLSA and SSHFP data are synthetic values, not proofs about a running TLS or SSH
 service. PTR at a generated owner tests record handling; it does not establish a
 reverse-zone delegation. SRV/service addresses are DNS test data, not deployed
 application endpoints.
+
+`openpgpkey` serves a real synthetic transferable public key; `smimea` serves
+`3 1 1` plus the actual SHA-256 digest of a supplied synthetic certificate's
+SubjectPublicKeyInfo. Only public key/certificate material is retained. These
+plain probe owners do not implement hashed mailbox discovery, identity trust,
+DNSSEC validation or mail encryption. See [the public-only specimens](test-records/README.md)
+for provenance, exact values and RFC 7929/RFC 8162 scope. Requested types select
+only their records; requesting A at these existing owners returns NODATA.
 
 ## Example observations
 
