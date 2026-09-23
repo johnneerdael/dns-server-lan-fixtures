@@ -1,21 +1,40 @@
 {
-  "purpose": "Recorded DNS references; not QA-approved product baselines or full RFC certification",
-  "fixture_source_revision": "0616f4425c380a0af0eb33787fe27f5dd4b99b42",
+  "purpose": "Recorded DNS references, not QA-approved product baselines or full RFC certification",
+  "fixture_source_revision": "06a78e6410e7ada848ec60fa1da5af245fffacc1",
   "engine_source_repository": "https://github.com/johnneerdael/dns-client-gui",
-  "engine_source_revision": "78807ba393bf91b89ca2d0d55f8c90f056533e1b",
+  "engine_source_revision": "4d98d181b186a0a76f7f5481050d7086668ee722",
+  "engine_working_tree_changes": true,
+  "engine_source_files_sha256": {
+    "crates/dns-engine/src/additional.rs": "37992fb2a8ec94a8a5104f6d205ba9b6a7b856299edd936c92be1d48c9bdf758",
+    "crates/dns-engine/src/catalogue.rs": "1153ab8cce1b743c5f60f4df56b3b8a0c8094a4b0ad445d5640562c1e2101a34",
+    "crates/dns-engine/src/checks.rs": "43a1941cc991776d42ada512b4bcb37e770e63790da9c3a227d41995a8f70c61",
+    "crates/dns-engine/src/decode.rs": "e4c610203b633229ba74b3a6c299a9cda1d67efe2ce2d2a05555f739b539ad11",
+    "crates/dns-engine/src/discovery.rs": "ff5dbf631e2f03f633426ecf6137a95f6248119bbf6cdd183c61e12754582aab",
+    "crates/dns-engine/src/lib.rs": "d9ed211da562cc4238f00aeeff1fa4b176136b5b4610aa9422654e5642173872",
+    "crates/dns-engine/src/model.rs": "8a6766d511429ae5379c3d63fc1d0951a19aa0c70340493194bf7980933804e8",
+    "crates/dns-engine/src/presentation.rs": "9d405295750f823bb319aaba0ac077c8a00954f606f63f139d59fd2834def46f",
+    "crates/dns-engine/src/query.rs": "2364dc44cf30a25f7c319fb2291186f5ea3ebee82d819198731502d7eec83744",
+    "crates/dns-engine/src/runner.rs": "a0b27432d9c5c62bb3badd852c7e1d33b60ad243f3785c48198a174c681ec5c4",
+    "crates/dns-engine/src/transport.rs": "7aeca8ec462253cc9a281d7b1f93b1c6a5a14ef8f7a14697c579ffb3ab32978f",
+    "crates/dns-engine/Cargo.toml": "739de231fc060374ecdde8de844a3ea8306b84a514d51d46c981f3d16c597a3e",
+    "Cargo.lock": "cab0fd93679c5b47ee4696a6ec9d6dd716f98b7a621210a49bc31b41ce1d55d5",
+    "catalogue/tests.json": "f45b05e270577dfde2a2d81a8b1d43522321dd4353d1ffcafc918015f5a0c537"
+  },
   "methods": {
-    "lan": "Native DNS engine using direct loopback UDP/TCP sockets to published Docker images; no system DNS selection",
-    "internet": "Native DNS engine using configured system DNS; operator confirmed security intermediary disabled; recursive observation, not direct-authoritative",
-    "publication": "Internet local socket endpoint metadata omitted; DNS wire data and remaining evidence unchanged"
+    "lan": "Native DNS engine direct loopback UDP/TCP to published0.4.0 Dockerimages, IPv4 andIPv6; nosystemDNSselection",
+    "internet": "Configured systemDNS; intermediary state unverified; recursive observation",
+    "additional_control": "Separate explicit publicauthoritativeendpoint108.162.192.65 for six publicadditional cases; not systemDNS and interception not independently excluded",
+    "publication": "Local socket endpoint metadata omitted; original DNSwire bytes retained"
   },
   "limitations": [
-    "Normal responses pass implemented protocol checks; checker controls and fixture semantic gates have finite documented coverage."
+    "Normal exchanges pass implemented protocol checks, not fullRFCcertification. Eleven intentionalfault casesproduce transportfailures; IPv6-onlytests unavailableinIPv4control.",
+    "Optional additionalrecords canbe omitted by recursive paths; capturedreference differences are separate fromRFCfindings."
   ],
   "images": [
     {
       "image": "ghcr.io/johnneerdael/dns-lab-bind",
-      "version": "0.2.1",
-      "digest": "sha256:785479ccdd284d59d6be65c504c4cdda66ba12eb7382746e9669c79bc7837b6e",
+      "version": "0.4.0",
+      "digest": "sha256:9be08cdf830012093e77ac050d84aafc5af47c2c147d5f3a25e80e51534eca50",
       "platforms": [
         {
           "architecture": "amd64",
@@ -27,12 +46,12 @@
         }
       ],
       "captured_architecture": "arm64",
-      "captured_image_id": "sha256:785479ccdd284d59d6be65c504c4cdda66ba12eb7382746e9669c79bc7837b6e"
+      "captured_image_id": "sha256:9be08cdf830012093e77ac050d84aafc5af47c2c147d5f3a25e80e51534eca50"
     },
     {
       "image": "ghcr.io/johnneerdael/dns-lab-fixtures",
-      "version": "0.2.1",
-      "digest": "sha256:c6d79124f96cd66f4c4d908e28849b7aa5085a8f71067055e210c7105236306e",
+      "version": "0.4.0",
+      "digest": "sha256:a473cccd2fe35f0f1e0384666441c44a50fe4dfc169388088abe7a6025ef7509",
       "platforms": [
         {
           "architecture": "amd64",
@@ -44,57 +63,38 @@
         }
       ],
       "captured_architecture": "arm64",
-      "captured_image_id": "sha256:c6d79124f96cd66f4c4d908e28849b7aa5085a8f71067055e210c7105236306e"
+      "captured_image_id": "sha256:a473cccd2fe35f0f1e0384666441c44a50fe4dfc169388088abe7a6025ef7509"
     }
   ],
   "reports": [
     {
       "file": "lan-ipv4.json",
-      "sha256": "f9d1f8fe4adf056e4fac4c6dc11e715c9ede5573086e9b8f3ea325f411474691",
-      "run_id": "d1e5af98ebf8b84f6fe66beb9916763a",
-      "started_at": "2026-09-22T16:23:31.755290+00:00",
-      "scope": "lan",
-      "endpoint": {
-        "address": "127.0.0.1",
-        "port": 5531
-      },
-      "results": 162,
-      "execution_counts": {
-        "completed": 149,
-        "network_error": 11,
-        "unavailable": 2
-      }
+      "sha256": "be165a61423e8a22038782789fd45177ea7085c755c371c9c78133f4ed898044",
+      "tests": 176,
+      "run_id": "052fa3561f6e0b4937c87336d48d0a67",
+      "started_at": "2026-09-23T00:38:53.099641+00:00"
     },
     {
       "file": "lan-ipv6.json",
-      "sha256": "bc737119f73f64b1065a19602718ca7ba70047d09bb2b526b17d7d5850ebaa55",
-      "run_id": "b1e3ff3babd8becf4b527952bd30de47",
-      "started_at": "2026-09-22T16:23:31.755324+00:00",
-      "scope": "lan",
-      "endpoint": {
-        "address": "::1",
-        "port": 5531
-      },
-      "results": 162,
-      "execution_counts": {
-        "completed": 151,
-        "network_error": 11
-      }
+      "sha256": "fd2b67641c41dc6d3b2252380e3538dbef5e298be7939df12f53a176eda47c6d",
+      "tests": 176,
+      "run_id": "c16714171aecd7fee41e0ee29489513a",
+      "started_at": "2026-09-23T00:38:53.109071+00:00"
     },
     {
       "file": "internet-system-dns.json",
-      "sha256": "dbaa9fb098d8ba4839784321aedc5f122cd600515140657bbf3a706059d0ea4f",
-      "run_id": "862a032a290c180d5ac551cde441d98c",
-      "started_at": "2026-09-22T16:25:48.546179+00:00",
-      "scope": "internet",
-      "endpoint": null,
-      "results": 82,
-      "execution_counts": {
-        "completed": 82
-      },
-      "original_capture_sha256": "a51bedd5a1f52f096831d106710dd7e299cd49bc6a5290478177e4954636929e",
-      "provenance_annotation": "Structured operator acknowledgement added from the original capture-session confirmation; original DNS results unchanged. The pre-annotation report remains available at revision c4ec51d."
+      "sha256": "ff052078c36363aa6c19a25cda0e240875579d4842051027cb6fe77ffc1c6ffb",
+      "tests": 92,
+      "run_id": "13574b0645dfd13c547d243f029b9800",
+      "started_at": "2026-09-23T00:37:48.490651+00:00"
+    },
+    {
+      "file": "internet-authoritative-additional.json",
+      "sha256": "b703bf8d5101685d808d752327551f967cec2f89f4d5facbadc44e8c1c959fe3",
+      "tests": 6,
+      "run_id": "3975db676c56712220c06aacd9e8d938",
+      "started_at": "2026-09-23T00:28:03.133461+00:00"
     }
   ],
-  "deployed_cert_verified": "CERT 65280 0 0 AQIDBA== confirmed on fixed and fresh wildcard names; key tag and payload were unchanged."
+  "previous_reference_revision": "0bd49ccdcbbb26e35407ce9ffeae199b58a8f863"
 }

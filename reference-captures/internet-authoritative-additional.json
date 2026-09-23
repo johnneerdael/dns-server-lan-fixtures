@@ -1,0 +1,1048 @@
+{
+  "test_profile": {
+    "id": "profile-authoritative-additional",
+    "name": "Authoritative additional-section control",
+    "test_ids": [
+      "external-additional-mx-udp",
+      "external-additional-mx-tcp",
+      "external-additional-srv-udp",
+      "external-additional-srv-tcp",
+      "external-additional-ns-udp",
+      "external-additional-ns-tcp"
+    ]
+  },
+  "test_scope": "internet",
+  "schema_version": 1,
+  "app_version": "0.4.0",
+  "catalogue_version": "1.4.0",
+  "catalogue_digest": "db42bc1933f76248a734395785e1d9ece2fcfff4bbc7b0059a468232271b0cb2",
+  "run_id": "3975db676c56712220c06aacd9e8d938",
+  "started_at": "2026-09-23T00:28:03.133461+00:00",
+  "finished_at": "2026-09-23T00:28:03.230460+00:00",
+  "state": "completed",
+  "target_provenance": {
+    "endpoint": {
+      "address": "108.162.192.65",
+      "port": 53
+    },
+    "source": "authoritative_control",
+    "notes": [
+      "Native UDP/TCP probes; OS caches, private DNS, and VPN interception are not inferred from discovery.",
+      "Fresh questions avoid exact-name cache hits; external wildcard synthesis and fixed DNSSEC metadata may still involve caches.",
+      "Explicit authoritative endpoint control for the six public additional-data tests only. This differs from normal system-DNS collection; interception is not inferred from the socket destination. Original wire evidence is preserved.",
+      "Publication omits local socket endpoint metadata; DNS wire data and remaining evidence are unchanged. Full local captures retained by the operator."
+    ],
+    "security_intermediary_state": "unverified"
+  },
+  "limits": {
+    "exchange_timeout_ms": 3000,
+    "capture_bytes": 262144,
+    "max_tcp_connections": 1
+  },
+  "results": [
+    {
+      "scope": "external",
+      "case_id": "external-additional-mx-udp",
+      "variant_id": "ipv4",
+      "title": "Internet \u00b7 MX target addresses in Additional over UDP",
+      "family": "additional",
+      "purpose": "Observe public same-zone mx target addresses, including both A and AAAA records. Report missing, unexpected or changed additional addresses against captured reference data separately from RFC assessment. Follow-up target resolution and product-specific rewriting remain QA interpretation. Authoritative provider and recursive resolver policies control optional Additional data; this is not a guaranteed wire copy of the authoritative answer.",
+      "fixture_key": "additional-mx",
+      "references": [
+        {
+          "rfc": 1035,
+          "section": "4.1"
+        }
+      ],
+      "glossary_terms": [
+        "additional",
+        "mx",
+        "udp"
+      ],
+      "logical_name": "additional-mx.dns.quality-assurance.fyi.",
+      "actual_question": "823f23c1aac5b6a50d8a451cf7047513.additional-mx.dns.quality-assurance.fyi.",
+      "cache_strategy": "unique_name",
+      "nonce": "823f23c1aac5b6a50d8a451cf7047513",
+      "execution": "completed",
+      "assessment": "no_violation_observed",
+      "findings": [],
+      "attempts": [
+        {
+          "matched_message_indices": [
+            0
+          ],
+          "sent_base64": "7FQBAAABAAAAAAABIDgyM2YyM2MxYWFjNWI2YTUwZDhhNDUxY2Y3MDQ3NTEzDWFkZGl0aW9uYWwtbXgDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAADwABAAApBNAAAAAAAAA=",
+          "attempt_id": "9d2ea3242a0c1265b654e57b4906e027",
+          "connection_id": null,
+          "transport": "udp",
+          "remote_endpoint": "108.162.192.65:53",
+          "local_endpoint": null,
+          "started_at": "2026-09-23T00:28:03.133593+00:00",
+          "elapsed_ms": 15,
+          "query_base64": [
+            "7FQBAAABAAAAAAABIDgyM2YyM2MxYWFjNWI2YTUwZDhhNDUxY2Y3MDQ3NTEzDWFkZGl0aW9uYWwtbXgDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAADwABAAApBNAAAAAAAAA="
+          ],
+          "received_base64": "7FSFAAABAAEAAAADIDgyM2YyM2MxYWFjNWI2YTUwZDhhNDUxY2Y3MDQ3NTEzDWFkZGl0aW9uYWwtbXgDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAADwABwAwADwABAAABLAAUAAoPYWRkaXRpb25hbC1tYWlswDvAaAABAAEAAAEsAATAAAIZwGgAHAABAAABLAAQIAENuAAAAAAAAAAAAAAAJQAAKQTQAAAAAAAA",
+          "received_length": 177,
+          "capture_complete": true,
+          "frames": [
+            {
+              "offset": 0,
+              "declared_length": 177,
+              "complete": true
+            }
+          ],
+          "messages": [
+            {
+              "wire_base64": "7FSFAAABAAEAAAADIDgyM2YyM2MxYWFjNWI2YTUwZDhhNDUxY2Y3MDQ3NTEzDWFkZGl0aW9uYWwtbXgDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAADwABwAwADwABAAABLAAUAAoPYWRkaXRpb25hbC1tYWlswDvAaAABAAEAAAEsAATAAAIZwGgAHAABAAABLAAQIAENuAAAAAAAAAAAAAAAJQAAKQTQAAAAAAAA",
+              "wire_length": 177,
+              "header": {
+                "id": 60500,
+                "flags_value": 34048,
+                "flags": [
+                  "qr",
+                  "aa",
+                  "rd"
+                ],
+                "opcode": 0,
+                "rcode": 0,
+                "rcode_name": "NOERROR",
+                "qdcount": 1,
+                "ancount": 1,
+                "nscount": 0,
+                "arcount": 3
+              },
+              "question": [
+                {
+                  "name": "823f23c1aac5b6a50d8a451cf7047513.additional-mx.dns.quality-assurance.fyi.",
+                  "type_code": 15,
+                  "type_name": "MX",
+                  "class_code": 1
+                }
+              ],
+              "answer": [
+                {
+                  "owner": "823f23c1aac5b6a50d8a451cf7047513.additional-mx.dns.quality-assurance.fyi.",
+                  "ttl": 300,
+                  "class_code": 1,
+                  "type_code": 15,
+                  "type_name": "MX",
+                  "rdlength": 20,
+                  "rdata_text": "10 additional-mail.dns.quality-assurance.fyi.",
+                  "rdata_hex": "000a0f6164646974696f6e616c2d6d61696cc03b",
+                  "offset": 90,
+                  "decode_warning": null
+                }
+              ],
+              "authority": [],
+              "additional": [
+                {
+                  "owner": "additional-mail.dns.quality-assurance.fyi.",
+                  "ttl": 300,
+                  "class_code": 1,
+                  "type_code": 1,
+                  "type_name": "A",
+                  "rdlength": 4,
+                  "rdata_text": "192.0.2.25",
+                  "rdata_hex": "c0000219",
+                  "offset": 122,
+                  "decode_warning": null
+                },
+                {
+                  "owner": "additional-mail.dns.quality-assurance.fyi.",
+                  "ttl": 300,
+                  "class_code": 1,
+                  "type_code": 28,
+                  "type_name": "AAAA",
+                  "rdlength": 16,
+                  "rdata_text": "2001:db8::25",
+                  "rdata_hex": "20010db8000000000000000000000025",
+                  "offset": 138,
+                  "decode_warning": null
+                },
+                {
+                  "owner": ".",
+                  "ttl": 0,
+                  "class_code": 1232,
+                  "type_code": 41,
+                  "type_name": "OPT",
+                  "rdlength": 0,
+                  "rdata_text": "\\# 0 ",
+                  "rdata_hex": "",
+                  "offset": 166,
+                  "decode_warning": null
+                }
+              ],
+              "edns": [
+                {
+                  "section": "additional",
+                  "record_index": 2,
+                  "version": 0,
+                  "payload": 1232,
+                  "flags": 0,
+                  "extended_rcode": 0,
+                  "options": []
+                }
+              ],
+              "decode_error": null,
+              "consumed_bytes": 177,
+              "presentation": ";; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 60500\n;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 3\n;; flags value: 0x8500\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:  (0x0000); udp: 1232\n;; QUESTION SECTION:\n;823f23c1aac5b6a50d8a451cf7047513.additional-mx.dns.quality-assurance.fyi.\tIN\tMX\n;; ANSWER SECTION:\n823f23c1aac5b6a50d8a451cf7047513.additional-mx.dns.quality-assurance.fyi.\t300\tIN\tMX\t10 additional-mail.dns.quality-assurance.fyi.\n;; AUTHORITY SECTION:\n; (empty; any OPT records are shown above)\n;; ADDITIONAL SECTION:\nadditional-mail.dns.quality-assurance.fyi.\t300\tIN\tA\t192.0.2.25\nadditional-mail.dns.quality-assurance.fyi.\t300\tIN\tAAAA\t2001:db8::25\n;; MSG SIZE rcvd: 177"
+            }
+          ],
+          "stream_events": [
+            {
+              "elapsed_ms": 0,
+              "event": "sent_datagram",
+              "bytes": 101
+            },
+            {
+              "elapsed_ms": 15,
+              "event": "received_datagram",
+              "bytes": 177
+            }
+          ],
+          "terminal_error": null,
+          "matched_responses": 1
+        }
+      ],
+      "unavailable_reason": null,
+      "deliberate_stimulus": false
+    },
+    {
+      "scope": "external",
+      "case_id": "external-additional-mx-tcp",
+      "variant_id": "ipv4",
+      "title": "Internet \u00b7 MX target addresses in Additional over TCP",
+      "family": "additional",
+      "purpose": "Observe public same-zone mx target addresses, including both A and AAAA records. Report missing, unexpected or changed additional addresses against captured reference data separately from RFC assessment. Follow-up target resolution and product-specific rewriting remain QA interpretation. Authoritative provider and recursive resolver policies control optional Additional data; this is not a guaranteed wire copy of the authoritative answer.",
+      "fixture_key": "additional-mx",
+      "references": [
+        {
+          "rfc": 1035,
+          "section": "4.1"
+        }
+      ],
+      "glossary_terms": [
+        "additional",
+        "mx",
+        "tcp"
+      ],
+      "logical_name": "additional-mx.dns.quality-assurance.fyi.",
+      "actual_question": "acfb1c4bca718f4dfe1c4b647deb8c91.additional-mx.dns.quality-assurance.fyi.",
+      "cache_strategy": "unique_name",
+      "nonce": "acfb1c4bca718f4dfe1c4b647deb8c91",
+      "execution": "completed",
+      "assessment": "no_violation_observed",
+      "findings": [],
+      "attempts": [
+        {
+          "matched_message_indices": [
+            0
+          ],
+          "sent_base64": "AGW5sQEAAAEAAAAAAAEgYWNmYjFjNGJjYTcxOGY0ZGZlMWM0YjY0N2RlYjhjOTENYWRkaXRpb25hbC1teANkbnMRcXVhbGl0eS1hc3N1cmFuY2UDZnlpAAAPAAEAACkE0AAAAAAAAA==",
+          "attempt_id": "e68de02dcd6cbe3454becec41ec3ddd5",
+          "connection_id": "bad96c40e6503095",
+          "transport": "tcp",
+          "remote_endpoint": "108.162.192.65:53",
+          "local_endpoint": null,
+          "started_at": "2026-09-23T00:28:03.149444+00:00",
+          "elapsed_ms": 19,
+          "query_base64": [
+            "ubEBAAABAAAAAAABIGFjZmIxYzRiY2E3MThmNGRmZTFjNGI2NDdkZWI4YzkxDWFkZGl0aW9uYWwtbXgDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAADwABAAApBNAAAAAAAAA="
+          ],
+          "received_base64": "ALG5sYUAAAEAAQAAAAMgYWNmYjFjNGJjYTcxOGY0ZGZlMWM0YjY0N2RlYjhjOTENYWRkaXRpb25hbC1teANkbnMRcXVhbGl0eS1hc3N1cmFuY2UDZnlpAAAPAAHADAAPAAEAAAEsABQACg9hZGRpdGlvbmFsLW1haWzAO8BoAAEAAQAAASwABMAAAhnAaAAcAAEAAAEsABAgAQ24AAAAAAAAAAAAAAAlAAAp//8AAAAAAAA=",
+          "received_length": 179,
+          "capture_complete": true,
+          "frames": [
+            {
+              "offset": 0,
+              "declared_length": 177,
+              "complete": true
+            }
+          ],
+          "messages": [
+            {
+              "wire_base64": "ubGFAAABAAEAAAADIGFjZmIxYzRiY2E3MThmNGRmZTFjNGI2NDdkZWI4YzkxDWFkZGl0aW9uYWwtbXgDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAADwABwAwADwABAAABLAAUAAoPYWRkaXRpb25hbC1tYWlswDvAaAABAAEAAAEsAATAAAIZwGgAHAABAAABLAAQIAENuAAAAAAAAAAAAAAAJQAAKf//AAAAAAAA",
+              "wire_length": 177,
+              "header": {
+                "id": 47537,
+                "flags_value": 34048,
+                "flags": [
+                  "qr",
+                  "aa",
+                  "rd"
+                ],
+                "opcode": 0,
+                "rcode": 0,
+                "rcode_name": "NOERROR",
+                "qdcount": 1,
+                "ancount": 1,
+                "nscount": 0,
+                "arcount": 3
+              },
+              "question": [
+                {
+                  "name": "acfb1c4bca718f4dfe1c4b647deb8c91.additional-mx.dns.quality-assurance.fyi.",
+                  "type_code": 15,
+                  "type_name": "MX",
+                  "class_code": 1
+                }
+              ],
+              "answer": [
+                {
+                  "owner": "acfb1c4bca718f4dfe1c4b647deb8c91.additional-mx.dns.quality-assurance.fyi.",
+                  "ttl": 300,
+                  "class_code": 1,
+                  "type_code": 15,
+                  "type_name": "MX",
+                  "rdlength": 20,
+                  "rdata_text": "10 additional-mail.dns.quality-assurance.fyi.",
+                  "rdata_hex": "000a0f6164646974696f6e616c2d6d61696cc03b",
+                  "offset": 90,
+                  "decode_warning": null
+                }
+              ],
+              "authority": [],
+              "additional": [
+                {
+                  "owner": "additional-mail.dns.quality-assurance.fyi.",
+                  "ttl": 300,
+                  "class_code": 1,
+                  "type_code": 1,
+                  "type_name": "A",
+                  "rdlength": 4,
+                  "rdata_text": "192.0.2.25",
+                  "rdata_hex": "c0000219",
+                  "offset": 122,
+                  "decode_warning": null
+                },
+                {
+                  "owner": "additional-mail.dns.quality-assurance.fyi.",
+                  "ttl": 300,
+                  "class_code": 1,
+                  "type_code": 28,
+                  "type_name": "AAAA",
+                  "rdlength": 16,
+                  "rdata_text": "2001:db8::25",
+                  "rdata_hex": "20010db8000000000000000000000025",
+                  "offset": 138,
+                  "decode_warning": null
+                },
+                {
+                  "owner": ".",
+                  "ttl": 0,
+                  "class_code": 65535,
+                  "type_code": 41,
+                  "type_name": "OPT",
+                  "rdlength": 0,
+                  "rdata_text": "\\# 0 ",
+                  "rdata_hex": "",
+                  "offset": 166,
+                  "decode_warning": null
+                }
+              ],
+              "edns": [
+                {
+                  "section": "additional",
+                  "record_index": 2,
+                  "version": 0,
+                  "payload": 65535,
+                  "flags": 0,
+                  "extended_rcode": 0,
+                  "options": []
+                }
+              ],
+              "decode_error": null,
+              "consumed_bytes": 177,
+              "presentation": ";; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 47537\n;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 3\n;; flags value: 0x8500\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:  (0x0000); udp: 65535\n;; QUESTION SECTION:\n;acfb1c4bca718f4dfe1c4b647deb8c91.additional-mx.dns.quality-assurance.fyi.\tIN\tMX\n;; ANSWER SECTION:\nacfb1c4bca718f4dfe1c4b647deb8c91.additional-mx.dns.quality-assurance.fyi.\t300\tIN\tMX\t10 additional-mail.dns.quality-assurance.fyi.\n;; AUTHORITY SECTION:\n; (empty; any OPT records are shown above)\n;; ADDITIONAL SECTION:\nadditional-mail.dns.quality-assurance.fyi.\t300\tIN\tA\t192.0.2.25\nadditional-mail.dns.quality-assurance.fyi.\t300\tIN\tAAAA\t2001:db8::25\n;; MSG SIZE rcvd: 177"
+            }
+          ],
+          "stream_events": [
+            {
+              "elapsed_ms": 8,
+              "event": "connected",
+              "bytes": 0
+            },
+            {
+              "elapsed_ms": 8,
+              "event": "write",
+              "bytes": 103
+            },
+            {
+              "elapsed_ms": 19,
+              "event": "read",
+              "bytes": 179
+            }
+          ],
+          "terminal_error": null,
+          "matched_responses": 1
+        }
+      ],
+      "unavailable_reason": null,
+      "deliberate_stimulus": false
+    },
+    {
+      "scope": "external",
+      "case_id": "external-additional-srv-udp",
+      "variant_id": "ipv4",
+      "title": "Internet \u00b7 SRV target addresses in Additional over UDP",
+      "family": "additional",
+      "purpose": "Observe public same-zone srv target addresses, including both A and AAAA records. Report missing, unexpected or changed additional addresses against captured reference data separately from RFC assessment. Follow-up target resolution and product-specific rewriting remain QA interpretation. Authoritative provider and recursive resolver policies control optional Additional data; this is not a guaranteed wire copy of the authoritative answer.",
+      "fixture_key": "additional-srv",
+      "references": [
+        {
+          "rfc": 2782,
+          "section": ""
+        }
+      ],
+      "glossary_terms": [
+        "additional",
+        "srv",
+        "udp"
+      ],
+      "logical_name": "additional-srv.dns.quality-assurance.fyi.",
+      "actual_question": "39f73bf8877d58fd08879a43b1b38c2d.additional-srv.dns.quality-assurance.fyi.",
+      "cache_strategy": "unique_name",
+      "nonce": "39f73bf8877d58fd08879a43b1b38c2d",
+      "execution": "completed",
+      "assessment": "no_violation_observed",
+      "findings": [],
+      "attempts": [
+        {
+          "matched_message_indices": [
+            0
+          ],
+          "sent_base64": "rxgBAAABAAAAAAABIDM5ZjczYmY4ODc3ZDU4ZmQwODg3OWE0M2IxYjM4YzJkDmFkZGl0aW9uYWwtc3J2A2RucxFxdWFsaXR5LWFzc3VyYW5jZQNmeWkAACEAAQAAKQTQAAAAAAAA",
+          "attempt_id": "45333de4d5fe48f2d6f8e14e39ecd8c3",
+          "connection_id": null,
+          "transport": "udp",
+          "remote_endpoint": "108.162.192.65:53",
+          "local_endpoint": null,
+          "started_at": "2026-09-23T00:28:03.169488+00:00",
+          "elapsed_ms": 11,
+          "query_base64": [
+            "rxgBAAABAAAAAAABIDM5ZjczYmY4ODc3ZDU4ZmQwODg3OWE0M2IxYjM4YzJkDmFkZGl0aW9uYWwtc3J2A2RucxFxdWFsaXR5LWFzc3VyYW5jZQNmeWkAACEAAQAAKQTQAAAAAAAA"
+          ],
+          "received_base64": "rxiFAAABAAEAAAADIDM5ZjczYmY4ODc3ZDU4ZmQwODg3OWE0M2IxYjM4YzJkDmFkZGl0aW9uYWwtc3J2A2RucxFxdWFsaXR5LWFzc3VyYW5jZQNmeWkAACEAAcAMACEAAQAAASwANAAKADwg+xJhZGRpdGlvbmFsLXNlcnZpY2UDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQDAbQABAAEAAAEsAATAAAIowG0AHAABAAABLAAQIAENuAAAAAAAAAAAAAAAQAAAKQTQAAAAAAAA",
+          "received_length": 210,
+          "capture_complete": true,
+          "frames": [
+            {
+              "offset": 0,
+              "declared_length": 210,
+              "complete": true
+            }
+          ],
+          "messages": [
+            {
+              "wire_base64": "rxiFAAABAAEAAAADIDM5ZjczYmY4ODc3ZDU4ZmQwODg3OWE0M2IxYjM4YzJkDmFkZGl0aW9uYWwtc3J2A2RucxFxdWFsaXR5LWFzc3VyYW5jZQNmeWkAACEAAcAMACEAAQAAASwANAAKADwg+xJhZGRpdGlvbmFsLXNlcnZpY2UDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQDAbQABAAEAAAEsAATAAAIowG0AHAABAAABLAAQIAENuAAAAAAAAAAAAAAAQAAAKQTQAAAAAAAA",
+              "wire_length": 210,
+              "header": {
+                "id": 44824,
+                "flags_value": 34048,
+                "flags": [
+                  "qr",
+                  "aa",
+                  "rd"
+                ],
+                "opcode": 0,
+                "rcode": 0,
+                "rcode_name": "NOERROR",
+                "qdcount": 1,
+                "ancount": 1,
+                "nscount": 0,
+                "arcount": 3
+              },
+              "question": [
+                {
+                  "name": "39f73bf8877d58fd08879a43b1b38c2d.additional-srv.dns.quality-assurance.fyi.",
+                  "type_code": 33,
+                  "type_name": "SRV",
+                  "class_code": 1
+                }
+              ],
+              "answer": [
+                {
+                  "owner": "39f73bf8877d58fd08879a43b1b38c2d.additional-srv.dns.quality-assurance.fyi.",
+                  "ttl": 300,
+                  "class_code": 1,
+                  "type_code": 33,
+                  "type_name": "SRV",
+                  "rdlength": 52,
+                  "rdata_text": "10 60 8443 additional-service.dns.quality-assurance.fyi.",
+                  "rdata_hex": "000a003c20fb126164646974696f6e616c2d7365727669636503646e73117175616c6974792d6173737572616e63650366796900",
+                  "offset": 91,
+                  "decode_warning": null
+                }
+              ],
+              "authority": [],
+              "additional": [
+                {
+                  "owner": "additional-service.dns.quality-assurance.fyi.",
+                  "ttl": 300,
+                  "class_code": 1,
+                  "type_code": 1,
+                  "type_name": "A",
+                  "rdlength": 4,
+                  "rdata_text": "192.0.2.40",
+                  "rdata_hex": "c0000228",
+                  "offset": 155,
+                  "decode_warning": null
+                },
+                {
+                  "owner": "additional-service.dns.quality-assurance.fyi.",
+                  "ttl": 300,
+                  "class_code": 1,
+                  "type_code": 28,
+                  "type_name": "AAAA",
+                  "rdlength": 16,
+                  "rdata_text": "2001:db8::40",
+                  "rdata_hex": "20010db8000000000000000000000040",
+                  "offset": 171,
+                  "decode_warning": null
+                },
+                {
+                  "owner": ".",
+                  "ttl": 0,
+                  "class_code": 1232,
+                  "type_code": 41,
+                  "type_name": "OPT",
+                  "rdlength": 0,
+                  "rdata_text": "\\# 0 ",
+                  "rdata_hex": "",
+                  "offset": 199,
+                  "decode_warning": null
+                }
+              ],
+              "edns": [
+                {
+                  "section": "additional",
+                  "record_index": 2,
+                  "version": 0,
+                  "payload": 1232,
+                  "flags": 0,
+                  "extended_rcode": 0,
+                  "options": []
+                }
+              ],
+              "decode_error": null,
+              "consumed_bytes": 210,
+              "presentation": ";; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 44824\n;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 3\n;; flags value: 0x8500\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:  (0x0000); udp: 1232\n;; QUESTION SECTION:\n;39f73bf8877d58fd08879a43b1b38c2d.additional-srv.dns.quality-assurance.fyi.\tIN\tSRV\n;; ANSWER SECTION:\n39f73bf8877d58fd08879a43b1b38c2d.additional-srv.dns.quality-assurance.fyi.\t300\tIN\tSRV\t10 60 8443 additional-service.dns.quality-assurance.fyi.\n;; AUTHORITY SECTION:\n; (empty; any OPT records are shown above)\n;; ADDITIONAL SECTION:\nadditional-service.dns.quality-assurance.fyi.\t300\tIN\tA\t192.0.2.40\nadditional-service.dns.quality-assurance.fyi.\t300\tIN\tAAAA\t2001:db8::40\n;; MSG SIZE rcvd: 210"
+            }
+          ],
+          "stream_events": [
+            {
+              "elapsed_ms": 0,
+              "event": "sent_datagram",
+              "bytes": 102
+            },
+            {
+              "elapsed_ms": 11,
+              "event": "received_datagram",
+              "bytes": 210
+            }
+          ],
+          "terminal_error": null,
+          "matched_responses": 1
+        }
+      ],
+      "unavailable_reason": null,
+      "deliberate_stimulus": false
+    },
+    {
+      "scope": "external",
+      "case_id": "external-additional-srv-tcp",
+      "variant_id": "ipv4",
+      "title": "Internet \u00b7 SRV target addresses in Additional over TCP",
+      "family": "additional",
+      "purpose": "Observe public same-zone srv target addresses, including both A and AAAA records. Report missing, unexpected or changed additional addresses against captured reference data separately from RFC assessment. Follow-up target resolution and product-specific rewriting remain QA interpretation. Authoritative provider and recursive resolver policies control optional Additional data; this is not a guaranteed wire copy of the authoritative answer.",
+      "fixture_key": "additional-srv",
+      "references": [
+        {
+          "rfc": 2782,
+          "section": ""
+        }
+      ],
+      "glossary_terms": [
+        "additional",
+        "srv",
+        "tcp"
+      ],
+      "logical_name": "additional-srv.dns.quality-assurance.fyi.",
+      "actual_question": "4ae95df98bf1a954d1976ba03810d9bb.additional-srv.dns.quality-assurance.fyi.",
+      "cache_strategy": "unique_name",
+      "nonce": "4ae95df98bf1a954d1976ba03810d9bb",
+      "execution": "completed",
+      "assessment": "no_violation_observed",
+      "findings": [],
+      "attempts": [
+        {
+          "matched_message_indices": [
+            0
+          ],
+          "sent_base64": "AGYTRQEAAAEAAAAAAAEgNGFlOTVkZjk4YmYxYTk1NGQxOTc2YmEwMzgxMGQ5YmIOYWRkaXRpb25hbC1zcnYDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAAIQABAAApBNAAAAAAAAA=",
+          "attempt_id": "3fd5292f2f3549de386cdb461ef745b5",
+          "connection_id": "11a3d27ffe7c5daf",
+          "transport": "tcp",
+          "remote_endpoint": "108.162.192.65:53",
+          "local_endpoint": null,
+          "started_at": "2026-09-23T00:28:03.180873+00:00",
+          "elapsed_ms": 19,
+          "query_base64": [
+            "E0UBAAABAAAAAAABIDRhZTk1ZGY5OGJmMWE5NTRkMTk3NmJhMDM4MTBkOWJiDmFkZGl0aW9uYWwtc3J2A2RucxFxdWFsaXR5LWFzc3VyYW5jZQNmeWkAACEAAQAAKQTQAAAAAAAA"
+          ],
+          "received_base64": "ANITRYUAAAEAAQAAAAMgNGFlOTVkZjk4YmYxYTk1NGQxOTc2YmEwMzgxMGQ5YmIOYWRkaXRpb25hbC1zcnYDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAAIQABwAwAIQABAAABLAA0AAoAPCD7EmFkZGl0aW9uYWwtc2VydmljZQNkbnMRcXVhbGl0eS1hc3N1cmFuY2UDZnlpAMBtAAEAAQAAASwABMAAAijAbQAcAAEAAAEsABAgAQ24AAAAAAAAAAAAAABAAAAp//8AAAAAAAA=",
+          "received_length": 212,
+          "capture_complete": true,
+          "frames": [
+            {
+              "offset": 0,
+              "declared_length": 210,
+              "complete": true
+            }
+          ],
+          "messages": [
+            {
+              "wire_base64": "E0WFAAABAAEAAAADIDRhZTk1ZGY5OGJmMWE5NTRkMTk3NmJhMDM4MTBkOWJiDmFkZGl0aW9uYWwtc3J2A2RucxFxdWFsaXR5LWFzc3VyYW5jZQNmeWkAACEAAcAMACEAAQAAASwANAAKADwg+xJhZGRpdGlvbmFsLXNlcnZpY2UDZG5zEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQDAbQABAAEAAAEsAATAAAIowG0AHAABAAABLAAQIAENuAAAAAAAAAAAAAAAQAAAKf//AAAAAAAA",
+              "wire_length": 210,
+              "header": {
+                "id": 4933,
+                "flags_value": 34048,
+                "flags": [
+                  "qr",
+                  "aa",
+                  "rd"
+                ],
+                "opcode": 0,
+                "rcode": 0,
+                "rcode_name": "NOERROR",
+                "qdcount": 1,
+                "ancount": 1,
+                "nscount": 0,
+                "arcount": 3
+              },
+              "question": [
+                {
+                  "name": "4ae95df98bf1a954d1976ba03810d9bb.additional-srv.dns.quality-assurance.fyi.",
+                  "type_code": 33,
+                  "type_name": "SRV",
+                  "class_code": 1
+                }
+              ],
+              "answer": [
+                {
+                  "owner": "4ae95df98bf1a954d1976ba03810d9bb.additional-srv.dns.quality-assurance.fyi.",
+                  "ttl": 300,
+                  "class_code": 1,
+                  "type_code": 33,
+                  "type_name": "SRV",
+                  "rdlength": 52,
+                  "rdata_text": "10 60 8443 additional-service.dns.quality-assurance.fyi.",
+                  "rdata_hex": "000a003c20fb126164646974696f6e616c2d7365727669636503646e73117175616c6974792d6173737572616e63650366796900",
+                  "offset": 91,
+                  "decode_warning": null
+                }
+              ],
+              "authority": [],
+              "additional": [
+                {
+                  "owner": "additional-service.dns.quality-assurance.fyi.",
+                  "ttl": 300,
+                  "class_code": 1,
+                  "type_code": 1,
+                  "type_name": "A",
+                  "rdlength": 4,
+                  "rdata_text": "192.0.2.40",
+                  "rdata_hex": "c0000228",
+                  "offset": 155,
+                  "decode_warning": null
+                },
+                {
+                  "owner": "additional-service.dns.quality-assurance.fyi.",
+                  "ttl": 300,
+                  "class_code": 1,
+                  "type_code": 28,
+                  "type_name": "AAAA",
+                  "rdlength": 16,
+                  "rdata_text": "2001:db8::40",
+                  "rdata_hex": "20010db8000000000000000000000040",
+                  "offset": 171,
+                  "decode_warning": null
+                },
+                {
+                  "owner": ".",
+                  "ttl": 0,
+                  "class_code": 65535,
+                  "type_code": 41,
+                  "type_name": "OPT",
+                  "rdlength": 0,
+                  "rdata_text": "\\# 0 ",
+                  "rdata_hex": "",
+                  "offset": 199,
+                  "decode_warning": null
+                }
+              ],
+              "edns": [
+                {
+                  "section": "additional",
+                  "record_index": 2,
+                  "version": 0,
+                  "payload": 65535,
+                  "flags": 0,
+                  "extended_rcode": 0,
+                  "options": []
+                }
+              ],
+              "decode_error": null,
+              "consumed_bytes": 210,
+              "presentation": ";; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 4933\n;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 3\n;; flags value: 0x8500\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:  (0x0000); udp: 65535\n;; QUESTION SECTION:\n;4ae95df98bf1a954d1976ba03810d9bb.additional-srv.dns.quality-assurance.fyi.\tIN\tSRV\n;; ANSWER SECTION:\n4ae95df98bf1a954d1976ba03810d9bb.additional-srv.dns.quality-assurance.fyi.\t300\tIN\tSRV\t10 60 8443 additional-service.dns.quality-assurance.fyi.\n;; AUTHORITY SECTION:\n; (empty; any OPT records are shown above)\n;; ADDITIONAL SECTION:\nadditional-service.dns.quality-assurance.fyi.\t300\tIN\tA\t192.0.2.40\nadditional-service.dns.quality-assurance.fyi.\t300\tIN\tAAAA\t2001:db8::40\n;; MSG SIZE rcvd: 210"
+            }
+          ],
+          "stream_events": [
+            {
+              "elapsed_ms": 8,
+              "event": "connected",
+              "bytes": 0
+            },
+            {
+              "elapsed_ms": 8,
+              "event": "write",
+              "bytes": 104
+            },
+            {
+              "elapsed_ms": 19,
+              "event": "read",
+              "bytes": 212
+            }
+          ],
+          "terminal_error": null,
+          "matched_responses": 1
+        }
+      ],
+      "unavailable_reason": null,
+      "deliberate_stimulus": false
+    },
+    {
+      "scope": "external",
+      "case_id": "external-additional-ns-udp",
+      "variant_id": "ipv4",
+      "title": "Internet \u00b7 NS target addresses in Additional over UDP",
+      "family": "additional",
+      "purpose": "Observe NS answers for quality-assurance.fyi and any additional A/AAAA addresses returned by the configured resolver. Cloudflare nameserver targets are outside this zone. Their presence is provider/resolver-dependent; this is not a same-zone glue test.",
+      "fixture_key": "additional-ns",
+      "references": [
+        {
+          "rfc": 1035,
+          "section": "4.1"
+        }
+      ],
+      "glossary_terms": [
+        "additional",
+        "ns",
+        "udp"
+      ],
+      "logical_name": "quality-assurance.fyi.",
+      "actual_question": "quality-assurance.fyi.",
+      "cache_strategy": "fixed_name_cache_possible",
+      "nonce": "3b1268f8a941f917b41616028a9f7309",
+      "execution": "completed",
+      "assessment": "no_violation_observed",
+      "findings": [],
+      "attempts": [
+        {
+          "matched_message_indices": [
+            0
+          ],
+          "sent_base64": "ta4BAAABAAAAAAABEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAAAgABAAApBNAAAAAAAAA=",
+          "attempt_id": "f4a498dd44a68603a6fbf19ad25011f4",
+          "connection_id": null,
+          "transport": "udp",
+          "remote_endpoint": "108.162.192.65:53",
+          "local_endpoint": null,
+          "started_at": "2026-09-23T00:28:03.200458+00:00",
+          "elapsed_ms": 11,
+          "query_base64": [
+            "ta4BAAABAAAAAAABEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAAAgABAAApBNAAAAAAAAA="
+          ],
+          "received_base64": "ta6FAAABAAIAAAABEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAAAgABwAwAAgABAAFRgAAaBmFuZ2VsYQJucwpjbG91ZGZsYXJlA2NvbQDADAACAAEAAVGAAAgFaHVudHPAOgAAKQTQAAAAAAAA",
+          "received_length": 108,
+          "capture_complete": true,
+          "frames": [
+            {
+              "offset": 0,
+              "declared_length": 108,
+              "complete": true
+            }
+          ],
+          "messages": [
+            {
+              "wire_base64": "ta6FAAABAAIAAAABEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAAAgABwAwAAgABAAFRgAAaBmFuZ2VsYQJucwpjbG91ZGZsYXJlA2NvbQDADAACAAEAAVGAAAgFaHVudHPAOgAAKQTQAAAAAAAA",
+              "wire_length": 108,
+              "header": {
+                "id": 46510,
+                "flags_value": 34048,
+                "flags": [
+                  "qr",
+                  "aa",
+                  "rd"
+                ],
+                "opcode": 0,
+                "rcode": 0,
+                "rcode_name": "NOERROR",
+                "qdcount": 1,
+                "ancount": 2,
+                "nscount": 0,
+                "arcount": 1
+              },
+              "question": [
+                {
+                  "name": "quality-assurance.fyi.",
+                  "type_code": 2,
+                  "type_name": "NS",
+                  "class_code": 1
+                }
+              ],
+              "answer": [
+                {
+                  "owner": "quality-assurance.fyi.",
+                  "ttl": 86400,
+                  "class_code": 1,
+                  "type_code": 2,
+                  "type_name": "NS",
+                  "rdlength": 26,
+                  "rdata_text": "angela.ns.cloudflare.com.",
+                  "rdata_hex": "06616e67656c61026e730a636c6f7564666c61726503636f6d00",
+                  "offset": 39,
+                  "decode_warning": null
+                },
+                {
+                  "owner": "quality-assurance.fyi.",
+                  "ttl": 86400,
+                  "class_code": 1,
+                  "type_code": 2,
+                  "type_name": "NS",
+                  "rdlength": 8,
+                  "rdata_text": "hunts.ns.cloudflare.com.",
+                  "rdata_hex": "0568756e7473c03a",
+                  "offset": 77,
+                  "decode_warning": null
+                }
+              ],
+              "authority": [],
+              "additional": [
+                {
+                  "owner": ".",
+                  "ttl": 0,
+                  "class_code": 1232,
+                  "type_code": 41,
+                  "type_name": "OPT",
+                  "rdlength": 0,
+                  "rdata_text": "\\# 0 ",
+                  "rdata_hex": "",
+                  "offset": 97,
+                  "decode_warning": null
+                }
+              ],
+              "edns": [
+                {
+                  "section": "additional",
+                  "record_index": 0,
+                  "version": 0,
+                  "payload": 1232,
+                  "flags": 0,
+                  "extended_rcode": 0,
+                  "options": []
+                }
+              ],
+              "decode_error": null,
+              "consumed_bytes": 108,
+              "presentation": ";; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 46510\n;; flags: qr aa rd; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1\n;; flags value: 0x8500\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:  (0x0000); udp: 1232\n;; QUESTION SECTION:\n;quality-assurance.fyi.\tIN\tNS\n;; ANSWER SECTION:\nquality-assurance.fyi.\t86400\tIN\tNS\tangela.ns.cloudflare.com.\nquality-assurance.fyi.\t86400\tIN\tNS\thunts.ns.cloudflare.com.\n;; AUTHORITY SECTION:\n; (empty; any OPT records are shown above)\n;; ADDITIONAL SECTION:\n; (empty; any OPT records are shown above)\n;; MSG SIZE rcvd: 108"
+            }
+          ],
+          "stream_events": [
+            {
+              "elapsed_ms": 0,
+              "event": "sent_datagram",
+              "bytes": 50
+            },
+            {
+              "elapsed_ms": 10,
+              "event": "received_datagram",
+              "bytes": 108
+            }
+          ],
+          "terminal_error": null,
+          "matched_responses": 1
+        }
+      ],
+      "unavailable_reason": null,
+      "deliberate_stimulus": false
+    },
+    {
+      "scope": "external",
+      "case_id": "external-additional-ns-tcp",
+      "variant_id": "ipv4",
+      "title": "Internet \u00b7 NS target addresses in Additional over TCP",
+      "family": "additional",
+      "purpose": "Observe NS answers for quality-assurance.fyi and any additional A/AAAA addresses returned by the configured resolver. Cloudflare nameserver targets are outside this zone. Their presence is provider/resolver-dependent; this is not a same-zone glue test.",
+      "fixture_key": "additional-ns",
+      "references": [
+        {
+          "rfc": 1035,
+          "section": "4.1"
+        }
+      ],
+      "glossary_terms": [
+        "additional",
+        "ns",
+        "tcp"
+      ],
+      "logical_name": "quality-assurance.fyi.",
+      "actual_question": "quality-assurance.fyi.",
+      "cache_strategy": "fixed_name_cache_possible",
+      "nonce": "17f741ea3f5b51c7bdfae8c68d2b169e",
+      "execution": "completed",
+      "assessment": "no_violation_observed",
+      "findings": [],
+      "attempts": [
+        {
+          "matched_message_indices": [
+            0
+          ],
+          "sent_base64": "ADLGlQEAAAEAAAAAAAERcXVhbGl0eS1hc3N1cmFuY2UDZnlpAAACAAEAACkE0AAAAAAAAA==",
+          "attempt_id": "5d68f0b5e35c9f98df92b11f25ad7dc6",
+          "connection_id": "ab0c3969f82422f0",
+          "transport": "tcp",
+          "remote_endpoint": "108.162.192.65:53",
+          "local_endpoint": null,
+          "started_at": "2026-09-23T00:28:03.211536+00:00",
+          "elapsed_ms": 18,
+          "query_base64": [
+            "xpUBAAABAAAAAAABEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAAAgABAAApBNAAAAAAAAA="
+          ],
+          "received_base64": "AGzGlYUAAAEAAgAAAAERcXVhbGl0eS1hc3N1cmFuY2UDZnlpAAACAAHADAACAAEAAVGAABoGYW5nZWxhAm5zCmNsb3VkZmxhcmUDY29tAMAMAAIAAQABUYAACAVodW50c8A6AAAp//8AAAAAAAA=",
+          "received_length": 110,
+          "capture_complete": true,
+          "frames": [
+            {
+              "offset": 0,
+              "declared_length": 108,
+              "complete": true
+            }
+          ],
+          "messages": [
+            {
+              "wire_base64": "xpWFAAABAAIAAAABEXF1YWxpdHktYXNzdXJhbmNlA2Z5aQAAAgABwAwAAgABAAFRgAAaBmFuZ2VsYQJucwpjbG91ZGZsYXJlA2NvbQDADAACAAEAAVGAAAgFaHVudHPAOgAAKf//AAAAAAAA",
+              "wire_length": 108,
+              "header": {
+                "id": 50837,
+                "flags_value": 34048,
+                "flags": [
+                  "qr",
+                  "aa",
+                  "rd"
+                ],
+                "opcode": 0,
+                "rcode": 0,
+                "rcode_name": "NOERROR",
+                "qdcount": 1,
+                "ancount": 2,
+                "nscount": 0,
+                "arcount": 1
+              },
+              "question": [
+                {
+                  "name": "quality-assurance.fyi.",
+                  "type_code": 2,
+                  "type_name": "NS",
+                  "class_code": 1
+                }
+              ],
+              "answer": [
+                {
+                  "owner": "quality-assurance.fyi.",
+                  "ttl": 86400,
+                  "class_code": 1,
+                  "type_code": 2,
+                  "type_name": "NS",
+                  "rdlength": 26,
+                  "rdata_text": "angela.ns.cloudflare.com.",
+                  "rdata_hex": "06616e67656c61026e730a636c6f7564666c61726503636f6d00",
+                  "offset": 39,
+                  "decode_warning": null
+                },
+                {
+                  "owner": "quality-assurance.fyi.",
+                  "ttl": 86400,
+                  "class_code": 1,
+                  "type_code": 2,
+                  "type_name": "NS",
+                  "rdlength": 8,
+                  "rdata_text": "hunts.ns.cloudflare.com.",
+                  "rdata_hex": "0568756e7473c03a",
+                  "offset": 77,
+                  "decode_warning": null
+                }
+              ],
+              "authority": [],
+              "additional": [
+                {
+                  "owner": ".",
+                  "ttl": 0,
+                  "class_code": 65535,
+                  "type_code": 41,
+                  "type_name": "OPT",
+                  "rdlength": 0,
+                  "rdata_text": "\\# 0 ",
+                  "rdata_hex": "",
+                  "offset": 97,
+                  "decode_warning": null
+                }
+              ],
+              "edns": [
+                {
+                  "section": "additional",
+                  "record_index": 0,
+                  "version": 0,
+                  "payload": 65535,
+                  "flags": 0,
+                  "extended_rcode": 0,
+                  "options": []
+                }
+              ],
+              "decode_error": null,
+              "consumed_bytes": 108,
+              "presentation": ";; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 50837\n;; flags: qr aa rd; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1\n;; flags value: 0x8500\n;; OPT PSEUDOSECTION:\n; EDNS: version: 0, flags:  (0x0000); udp: 65535\n;; QUESTION SECTION:\n;quality-assurance.fyi.\tIN\tNS\n;; ANSWER SECTION:\nquality-assurance.fyi.\t86400\tIN\tNS\tangela.ns.cloudflare.com.\nquality-assurance.fyi.\t86400\tIN\tNS\thunts.ns.cloudflare.com.\n;; AUTHORITY SECTION:\n; (empty; any OPT records are shown above)\n;; ADDITIONAL SECTION:\n; (empty; any OPT records are shown above)\n;; MSG SIZE rcvd: 108"
+            }
+          ],
+          "stream_events": [
+            {
+              "elapsed_ms": 10,
+              "event": "connected",
+              "bytes": 0
+            },
+            {
+              "elapsed_ms": 10,
+              "event": "write",
+              "bytes": 52
+            },
+            {
+              "elapsed_ms": 18,
+              "event": "read",
+              "bytes": 110
+            }
+          ],
+          "terminal_error": null,
+          "matched_responses": 1
+        }
+      ],
+      "unavailable_reason": null,
+      "deliberate_stimulus": false
+    }
+  ],
+  "volatility": [
+    "run_id, timestamps, durations, message IDs, local ports, nonces and nonce-bearing owners/targets",
+    "TTL, signature inception/expiration/signature bytes, and record ordering may vary; the external comparator chooses its policy"
+  ],
+  "interruption_reason": null
+}

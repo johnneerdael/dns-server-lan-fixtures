@@ -113,7 +113,7 @@ Alternatively, configure a dedicated test device's normal system DNS to use the 
 
 If a scenario queries static reverse zones directly, forward those test-only namespaces as well: 2.0.192.in-addr.arpa, 100.51.198.in-addr.arpa and 8.b.d.0.1.0.0.2.ip6.arpa. The app's current fresh-name PTR DNS test records are reached beneath fresh.example.test.
 
-From the test device, repeat a fresh question without an @server override and confirm the system path reaches the intended DNS test server. A displayed socket destination does not by itself identify which resolver or access intermediary generated the answer.
+From the test device, run DNS Client with resolver override off and confirm its recorded target/provenance. A plain dig command without @server uses its configured resolver list and is not proof of the native macOS split-DNS/application path. Compare an OS-native/application lookup separately when evaluating that path. A displayed socket destination does not by itself identify which resolver or access intermediary generated the answer.
 
 ## 7. Collect evidence and approve a baseline
 
@@ -193,3 +193,25 @@ TTL and DNS messages, RFC 1035: https://www.rfc-editor.org/rfc/rfc1035.html
 DNS over TCP, RFC 7766: https://www.rfc-editor.org/rfc/rfc7766.html
 
 The package includes UPSTREAM.json and SHA256SUMS.txt. These identify the source revision and packaged-file hashes. Signing keys, personal credentials, deployment-specific .env files and the public-zone signing volume are not included. Record the image tags and digests with your baseline. Source and publication workflows are available at https://github.com/johnneerdael/dns-server-lan-fixtures .
+
+## 13. Version 0.4.0 additional data and security records
+
+Dedicated additional-mx, additional-srv, additional-ad and additional-ns names
+provide A and AAAA target records, with matching follow-up lookups. The NS
+lookup names a child zone whose server target belongs to its parent nonce
+zone; this is helpful data, not in-domain referral glue. The separate
+additional-referral case supplies both available in-domain glue families and
+sets TC if the available glue cannot fit. The directory case is synthetic SRV
+data, not a functioning directory service.
+
+DNS Client reports missing, unexpected and changed additional addresses against
+a captured reference independently for UDP and TCP. Equal omissions on both
+transports remain visible. This is controlled-data consistency, not automatically
+an RFC failure. Optional MX/SRV address data and mandatory available in-domain
+referral glue have different protocol requirements. A product's intentional
+address rewriting must be evaluated against its declared scenario policy.
+
+OPENPGPKEY and SMIMEA specimens contain valid synthetic public data. Their
+fresh-name owners test DNS record transport; they do not perform real
+mailbox-hash discovery, identity verification or cryptographic trust validation.
+No private generation material is distributed.
