@@ -1,9 +1,10 @@
 $ORIGIN exact-match.test.
 $TTL 60
 @ IN SOA ns1.example.test. hostmaster.example.test. (
-    2026092501 300 60 604800 60
+    2026092502 300 60 604800 60
 )
-  IN NS ns1.example.test.
+  IN NS allapp-ns-01.exact-match.test.
+  IN NS allapp-ns-02.exact-match.test.
 
 allapp-a-01 IN A 192.0.2.101
 allapp-a-01 IN AAAA 2001:db8::101
@@ -35,13 +36,17 @@ allapp-service-01 IN AAAA 2001:db8::121
 allapp-service-02 IN A 192.0.2.122
 allapp-service-02 IN AAAA 2001:db8::122
 
-allapp-child-01 IN NS allapp-ns-01.exact-match.test.
-allapp-child-02 IN NS allapp-ns-02.exact-match.test.
+_ldap._tcp.allapp-ad-srv-01 IN SRV 0 100 389 allapp-ad-dc-01.exact-match.test.
+_ldap._tcp.allapp-ad-srv-02 IN SRV 0 100 389 allapp-ad-dc-02.exact-match.test.
+allapp-ad-dc-01 IN A 192.0.2.151
+allapp-ad-dc-01 IN AAAA 2001:db8::151
+allapp-ad-dc-02 IN A 192.0.2.152
+allapp-ad-dc-02 IN AAAA 2001:db8::152
+
 allapp-ns-01 IN A 192.0.2.131
 allapp-ns-01 IN AAAA 2001:db8::131
 allapp-ns-02 IN A 192.0.2.132
 allapp-ns-02 IN AAAA 2001:db8::132
-
 allapp-https-01 IN HTTPS 1 allapp-https-target-01.exact-match.test. alpn="h2,h3" port=8443 ipv4hint=192.0.2.141 ipv6hint=2001:db8::141
 allapp-https-02 IN HTTPS 1 allapp-https-target-02.exact-match.test. alpn="h2,h3" port=8443 ipv4hint=192.0.2.142 ipv6hint=2001:db8::142
 allapp-https-target-01 IN A 192.0.2.141

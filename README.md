@@ -21,7 +21,7 @@ docker compose up -d --wait
 docker compose ps
 ```
 
-Use UDP/TCP port **53** for client traffic. BIND port **5300** is published on host loopback only. Keep DNS Client on **system DNS**; configure the resolver or access path under test to route `example.test`, `exact-match.test` and the test reverse zones to the DNS test service. The app’s Downloads page includes an exact-destination CSV; every hostname and every MX/SRV/NS address target in it must be an explicit exact app destination for the exact-match profile. Importing the static BIND records alone is insufficient for the fresh-name and transport suite.
+Use UDP/TCP port **53** for client traffic. BIND port **5300** is published on host loopback only. Keep DNS Client on **system DNS**; configure the resolver or access path under test to route `example.test`, `exact-match.test` and the test reverse zones to the DNS test service. The app’s Downloads page includes an exact-destination CSV; every hostname and every MX/SRV/AD-SRV/NS address target in it must be an explicit exact app destination for the exact-match profile. Importing the static BIND records alone is insufficient for the fresh-name and transport suite.
 
 ## Public tests and interpretation
 
@@ -31,8 +31,8 @@ DNS test records supply prepared names and answers; transport scenarios exercise
 
 ## Published images
 
-- `ghcr.io/johnneerdael/dns-lab-bind:0.5.0`
-- `ghcr.io/johnneerdael/dns-lab-fixtures:0.5.0`
+- `ghcr.io/johnneerdael/dns-lab-bind:0.5.1`
+- `ghcr.io/johnneerdael/dns-lab-fixtures:0.5.1`
 
 Linux amd64 and arm64 images are published from release tags by GitHub Actions. End users only need Compose and `.env`; source builds are for maintainers.
 

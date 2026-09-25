@@ -40,7 +40,7 @@ class ExactMatchZoneTests(unittest.TestCase):
             for rrtype, owner, target in (
                 ("MX", f"allapp-mx-{suffix}", f"allapp-mail-{suffix}"),
                 ("SRV", f"allapp-srv-{suffix}", f"allapp-service-{suffix}"),
-                ("NS", f"allapp-child-{suffix}", f"allapp-ns-{suffix}"),
+                ("SRV", f"_ldap._tcp.allapp-ad-srv-{suffix}", f"allapp-ad-dc-{suffix}"),
             ):
                 rrset = self.rrset(f"{owner}.exact-match.test.", rrtype)
                 self.assertTrue(any(
@@ -65,6 +65,26 @@ class ExactMatchZoneTests(unittest.TestCase):
         self.assertIn("$GENERATE 1-240 allapp-large-a-01 IN A 192.0.2.$", zone_text)
         self.assertIn("$GENERATE 1-240 allapp-large-a-02 IN A 198.51.100.$", zone_text)
 
+    def test_exact_zone_apex_ns_targets_have_address_records(self):
+        rrset = self.rrset("exact-match.test.", "NS")
+        targets = {str(rr.target).lower() for rr in rrset}
+        self.assertEqual(targets, {"allapp-ns-01.exact-match.test.", "allapp-ns-02.exact-match.test."})
+        for target in targets:
+            self.rrset(target, "A")
+            self.rrset(target, "AAAA")
+
+    def test_example_zone_apex_ns_targets_have_address_records(self):
+        source = (ROOT / "bind/zones/db.example.test").read_text()
+        source = "\n".join(line for line in source.splitlines() if not line.startswith("$INCLUDE"))
+        zone = dns.zone.from_text(source, origin=dns.name.from_text("example.test."), relativize=False)
+        ns = zone.get_node(dns.name.from_text("example.test.")).find_rdataset(dns.rdataclass.IN, dns.rdatatype.NS)
+        self.assertEqual(ns.ttl, 60)
+        self.assertEqual({str(rr.target).lower() for rr in ns}, {"ns1.example.test.", "ns2.example.test."})
+        for target in ("ns1.example.test.", "ns2.example.test."):
+            node = zone.get_node(dns.name.from_text(target))
+            self.assertIsNotNone(node.find_rdataset(dns.rdataclass.IN, dns.rdatatype.A))
+            self.assertIsNotNone(node.find_rdataset(dns.rdataclass.IN, dns.rdatatype.AAAA))
+
     def test_reverse_zone_ptr_owners_map_to_exact_test_targets(self):
         with (ROOT / "bind/zones/db.192.0.2").open() as source:
             reverse = dns.zone.from_file(
@@ -72,7 +92,7 @@ class ExactMatchZoneTests(unittest.TestCase):
                 origin=dns.name.from_text("2.0.192.in-addr.arpa."),
                 relativize=False,
             )
-        for octet, target in ((101, "allapp-a-01"), (102, "allapp-a-02"), (111, "allapp-mail-01"), (121, "allapp-service-01")):
+        for octet, target in ((101, "allapp-a-01"), (102, "allapp-a-02"), (111, "allapp-mail-01"), (121, "allapp-service-01"), (131, "allapp-ns-01"), (132, "allapp-ns-02"), (151, "allapp-ad-dc-01"), (152, "allapp-ad-dc-02")):
             owner = dns.name.from_text(f"{octet}.2.0.192.in-addr.arpa.")
             rrset = reverse.get_node(owner).find_rdataset(dns.rdataclass.IN, dns.rdatatype.PTR)
             self.assertEqual(rrset.ttl, 60)

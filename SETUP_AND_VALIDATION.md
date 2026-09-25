@@ -122,7 +122,7 @@ Fresh nonce names under fresh.example.test prove the wildcard route only. They
 cannot prove exact matching. The exact pool uses two fixed query names per
 case, with TTL 60 seconds, and the TCP/UDP variants rotate between them. Import
 the exact-match destination CSV and configure each listed owner and each
-MX/SRV/NS address target as an exact destination. Keep this configuration
+MX/SRV/Active Directory SRV/NS address target as an exact destination. Keep this configuration
 separate from the wildcard profile so a wildcard rule cannot make an exact
 match test pass accidentally.
 
@@ -130,7 +130,7 @@ The profile includes CNAME-to-A/AAAA answers, MX and SRV Additional targets,
 in-domain NS glue, HTTPS address hints, a large TCP A RRset and actual reverse
 PTR names. A/AAAA records in Answer and Additional must be reviewed under the
 exact target's configured mapping. The NPLAN-6694 PRD initially specifies the
-All App Validation switch for QTYPE A; MX/SRV/NS Additional checks are explicit
+All App Validation switch for QTYPE A; MX/SRV/AD-SRV/NS Additional checks are explicit
 additional acceptance coverage, not currently written into that PRD.
 
 ## 7. Collect evidence and approve a baseline
@@ -234,13 +234,14 @@ fresh-name owners test DNS record transport; they do not perform real
 mailbox-hash discovery, identity verification or cryptographic trust validation.
 No private generation material is distributed.
 
-## 14. Exact-match app and address-section test data (0.5.0)
+## 14. Exact-match app and address-section test data (0.5.1)
 
 The BIND backend now serves a separate unsigned `exact-match.test` zone. Its
-exact A/AAAA, CNAME, MX, SRV, NS and HTTPS owners use a fixed two-name pool and
-60-second TTLs. MX/SRV/NS responses include same-zone A and AAAA address data in
-Additional; HTTPS publishes IPv4/IPv6 hints in the HTTPS RDATA. The large A
-RRsets support the selected large-over-TCP check.
+exact A/AAAA, CNAME, MX, SRV, Active Directory LDAP SRV, NS and HTTPS owners use
+a fixed two-name pool and 60-second TTLs. MX/SRV/AD-SRV/NS-answer responses
+include same-zone A and AAAA address data in Additional; the NS-answer case is
+separate from a delegation/referral-glue test. HTTPS publishes IPv4/IPv6 hints
+in the HTTPS RDATA. The large A RRsets support the selected large-over-TCP check.
 
 DNS Client Downloads includes `exact-match-test-destinations.csv`. For an
 exact-match access-policy scenario, add every listed hostname as a distinct
@@ -256,7 +257,7 @@ The client profile CSV is a list of DNS test destinations, not a NPA import
 format. Configure those explicit names in the access product under test.
 
 NPLAN-6694 currently scopes All App DNS Validation to QTYPE A and rewrites A
-RDATA. The exact MX/SRV/NS Additional checks are extra acceptance coverage
+RDATA. The exact MX/SRV/AD-SRV/NS Additional checks are extra acceptance coverage
 requested for this test profile. Review the intended exact-target stub mapping
 for each Additional A/AAAA owner separately; these records are test fixtures,
 not a universal RFC rule that recursive responses must include optional

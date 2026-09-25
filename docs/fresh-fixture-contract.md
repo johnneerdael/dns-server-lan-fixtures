@@ -92,7 +92,7 @@ TTL and MINIMUM are zero.
 
 `exact-match.test` is outside the example.test wildcard names. It contains two
 fixed exact-match owners per supported address-bearing case; UDP and TCP use
-different pool members within the profile. The associated MX, SRV, NS and HTTPS
+different pool members within the profile. The associated MX, SRV, Active Directory LDAP SRV, NS and HTTPS
 targets also have address records and distinct names. These records are all TTL
 60, so QA can rotate between the two exact host entries and allow the ordinary
 cache lifetime to age out between reruns.
@@ -107,7 +107,7 @@ retain the reverse wildcard destinations shown in the sample access-policy
 configuration.
 
 The All App DNS Validation PRD initially describes QTYPE A. The profile also
-contains explicit MX/SRV/NS Additional-address cases because exact target-owner
+contains explicit MX/SRV/Active Directory SRV/NS Additional-address cases because exact target-owner
 handling is a requested acceptance extension. Treat A rewrite, AAAA retention
 and Additional-section behavior as scenario-specific expectations; do not
 label them generic RFC failures.

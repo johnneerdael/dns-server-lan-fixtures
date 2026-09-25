@@ -2,7 +2,7 @@ name: dns-client-lab
 
 services:
   authoritative:
-    image: ghcr.io/johnneerdael/dns-lab-bind:0.5.0
+    image: ghcr.io/johnneerdael/dns-lab-bind:0.5.1
     init: true
     restart: unless-stopped
     read_only: true
@@ -37,7 +37,7 @@ services:
       start_period: 3s
 
   fault-proxy:
-    image: ghcr.io/johnneerdael/dns-lab-fixtures:0.5.0
+    image: ghcr.io/johnneerdael/dns-lab-fixtures:0.5.1
     init: true
     restart: unless-stopped
     read_only: true

@@ -209,7 +209,9 @@ tests = [
     ("allapp-cname-a-01.exact-match.test.", "A", "192.0.2.103"),
     ("allapp-mx-01.exact-match.test.", "MX", "allapp-mail-01.exact-match.test."),
     ("allapp-srv-01.exact-match.test.", "SRV", "allapp-service-01.exact-match.test."),
-    ("allapp-child-01.exact-match.test.", "NS", "allapp-ns-01.exact-match.test."),
+    ("_ldap._tcp.allapp-ad-srv-01.exact-match.test.", "SRV", "allapp-ad-dc-01.exact-match.test."),
+    ("example.test.", "NS", "ns1.example.test."),
+    ("exact-match.test.", "NS", "allapp-ns-01.exact-match.test."),
     ("allapp-https-01.exact-match.test.", "HTTPS", "192.0.2.141"),
     ("101.2.0.192.in-addr.arpa.", "PTR", "allapp-a-01.exact-match.test."),
 ]
@@ -223,12 +225,18 @@ for name, qtype, expected in tests:
             assert any(rrset.rdtype == dns.rdatatype.AAAA and str(rrset[0]) == "2001:db8::111" for rrset in response.additional), response.to_text()
         elif qtype == "SRV":
             assert any(rrset.rdtype == dns.rdatatype.SRV and str(rrset[0].target) == expected for rrset in response.answer), response.to_text()
-            assert any(rrset.rdtype == dns.rdatatype.A and str(rrset[0]) == "192.0.2.121" for rrset in response.additional), response.to_text()
-            assert any(rrset.rdtype == dns.rdatatype.AAAA and str(rrset[0]) == "2001:db8::121" for rrset in response.additional), response.to_text()
+            octet = "151" if "allapp-ad-" in expected else "121"
+            assert any(rrset.rdtype == dns.rdatatype.A and str(rrset.name) == expected and str(rrset[0]) == "192.0.2." + octet for rrset in response.additional), response.to_text()
+            assert any(rrset.rdtype == dns.rdatatype.AAAA and str(rrset.name) == expected and str(rrset[0]) == "2001:db8::" + octet for rrset in response.additional), response.to_text()
         elif qtype == "NS":
-            assert any(rrset.rdtype == dns.rdatatype.NS and str(rrset[0].target) == expected for rrset in response.authority), response.to_text()
-            assert any(rrset.rdtype == dns.rdatatype.A and str(rrset[0]) == "192.0.2.131" for rrset in response.additional), response.to_text()
-            assert any(rrset.rdtype == dns.rdatatype.AAAA and str(rrset[0]) == "2001:db8::131" for rrset in response.additional), response.to_text()
+            assert any(rrset.rdtype == dns.rdatatype.NS and str(rrset[0].target) == expected for rrset in response.answer), response.to_text()
+            if name == "example.test.":
+                targets = {"ns1.example.test.": ("192.0.2.53", "2001:db8::53"), "ns2.example.test.": ("192.0.2.54", "2001:db8::54")}
+            else:
+                targets = {"allapp-ns-01.exact-match.test.": ("192.0.2.131", "2001:db8::131"), "allapp-ns-02.exact-match.test.": ("192.0.2.132", "2001:db8::132")}
+            for target, (ipv4, ipv6) in targets.items():
+                assert any(rrset.rdtype == dns.rdatatype.A and str(rrset.name) == target and str(rrset[0]) == ipv4 for rrset in response.additional), response.to_text()
+                assert any(rrset.rdtype == dns.rdatatype.AAAA and str(rrset.name) == target and str(rrset[0]) == ipv6 for rrset in response.additional), response.to_text()
         elif qtype == "HTTPS":
             assert any(rrset.rdtype == dns.rdatatype.HTTPS and "192.0.2.141" in rrset.to_text() for rrset in response.answer), response.to_text()
         elif qtype == "PTR":
