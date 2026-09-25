@@ -1,10 +1,15 @@
 $ORIGIN example.test.
 $TTL 60
 @ IN SOA ns1.example.test. hostmaster.example.test. (
-    2026092201 300 60 604800 60
+    2026092501 300 60 604800 60
 )
   IN NS ns1.example.test.
   IN NS ns2.example.test.
+  IN A 192.0.2.9
+  IN AAAA 2001:db8::9
+
+wildcard-app-01 IN A 192.0.2.61
+wildcard-app-02 IN A 192.0.2.62
 
 ns1 IN A 192.0.2.53
 ns1 IN AAAA 2001:db8::53
@@ -46,6 +51,8 @@ unknown IN TYPE65280 \# 4 DEADBEEF
 
 nodata IN A 192.0.2.41
 *.wild IN A 192.0.2.42
+wildcard-app-01 IN A 192.0.2.61
+wildcard-app-02 IN A 192.0.2.62
 exact IN A 192.0.2.43
 partial-name IN A 192.0.2.44
 transparent-upstream IN A 192.0.2.45

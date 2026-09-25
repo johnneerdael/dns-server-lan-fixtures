@@ -1,10 +1,13 @@
 # Fresh DNS test data contract
 
 The client-facing service answers generated names under `fresh.example.test` and
-forwards other names to BIND. The lab is vendor-neutral: route `example.test` and
-its descendants through the resolver, VPN, private-access gateway, or cloud DNS
-path under test. Importing the static BIND zone alone does not install the fresh
-DNS test records or transport scenarios.
+forwards other names to BIND. BIND serves static `example.test`,
+`exact-match.test` and reverse zones. The exact-match zone is a fixed, non-wildcard
+pool used by policy tests; its records and the corresponding reverse owners have
+TTL 60 seconds. Route those namespaces through the
+resolver, VPN, private-access gateway or cloud DNS path under test. Importing
+the static BIND zones alone does not install the fresh DNS test records or
+transport scenarios.
 
 ## Deployment and query paths
 
@@ -25,7 +28,8 @@ host-local diagnostic endpoint is `127.0.0.1:5300` (`DNS_PORT`). Container ports
 guide](../SETUP_AND_VALIDATION.md) for host preparation and network integration.
 
 Fresh names are answered locally without recursive lookup. BIND serves the
-unsigned static LAN zones and provides DNSSEC-validating, forward-only recursion
+unsigned static LAN zones (`example.test`, exact-name `exact-match.test` and reverse zones) and
+provides DNSSEC-validating, forward-only recursion
 for other names through `DNS_UPSTREAMS`. The client-facing service forwards those
 non-fresh queries to BIND over the query's transport. Never configure an upstream
 that routes queries back to this service. Internet DNS test records are independent of
@@ -77,9 +81,36 @@ IQUERY messages with no question and questionless QUERY messages.
 | `large-multi-a`, `large-multi-aaaa`, `large-srv` | Large A, AAAA, and SRV RRsets |
 
 Additional MX, NS, and SRV addresses come from the same records as direct target
-lookups. Alias and service targets retain the nonce. The ordinary record TTL is
-zero; `ttl-normal` uses 60 seconds and `ttl-high` uses 86400 seconds. Negative SOA
+lookups. Alias and service targets retain the nonce. The fresh ordinary record
+TTL is zero; `ttl-normal` uses 60 seconds and `ttl-high` uses 86400 seconds. The
+static `exact-match.test` and reverse-zone pool records use a 60-second TTL so
+a small set of explicitly configured exact destinations can rotate between
+UDP/TCP cases while limiting stale cache reuse. Negative SOA
 TTL and MINIMUM are zero.
+
+### Exact-app validation and reverse PTR names
+
+`exact-match.test` is outside the example.test wildcard names. It contains two
+fixed exact-match owners per supported address-bearing case; UDP and TCP use
+different pool members within the profile. The associated MX, SRV, NS and HTTPS
+targets also have address records and distinct names. These records are all TTL
+60, so QA can rotate between the two exact host entries and allow the ordinary
+cache lifetime to age out between reruns.
+
+Import the exact-destination CSV from DNS Client Downloads when configuring an
+exact-match access policy. Include each queried owner and each address target as
+an explicit destination; do not cover `exact-match.test` with a wildcard for
+this profile. The `example.test` apex is also included as a direct exact-match
+control. Existing `2.0.192.in-addr.arpa` and `100.51.198.in-addr.arpa` zones
+serve real PTR owners for reverse-lookup testing; forward these namespaces and
+retain the reverse wildcard destinations shown in the sample access-policy
+configuration.
+
+The All App DNS Validation PRD initially describes QTYPE A. The profile also
+contains explicit MX/SRV/NS Additional-address cases because exact target-owner
+handling is a requested acceptance extension. Treat A rewrite, AAAA retention
+and Additional-section behavior as scenario-specific expectations; do not
+label them generic RFC failures.
 
 ### Dedicated additional-section data
 

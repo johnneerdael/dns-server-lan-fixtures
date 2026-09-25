@@ -198,6 +198,52 @@ if os.getenv('CHECK_RECURSION') == '1':
     assert keys.rcode() == dns.rcode.NOERROR and keys.flags & dns.flags.AD, keys.to_text()
     print('Configured upstream: UDP/TCP recursion and validated DNSKEY response passed.')
 PY
+compose exec -T fault-proxy python3 - <<'PY'
+import dns.name
+import dns.query
+import dns.rcode
+import dns.rdatatype
+
+tests = [
+    ("example.test.", "A", "192.0.2.9"),
+    ("allapp-cname-a-01.exact-match.test.", "A", "192.0.2.103"),
+    ("allapp-mx-01.exact-match.test.", "MX", "allapp-mail-01.exact-match.test."),
+    ("allapp-srv-01.exact-match.test.", "SRV", "allapp-service-01.exact-match.test."),
+    ("allapp-child-01.exact-match.test.", "NS", "allapp-ns-01.exact-match.test."),
+    ("allapp-https-01.exact-match.test.", "HTTPS", "192.0.2.141"),
+    ("101.2.0.192.in-addr.arpa.", "PTR", "allapp-a-01.exact-match.test."),
+]
+for name, qtype, expected in tests:
+    for exchange in (dns.query.udp, dns.query.tcp):
+        response = exchange(dns.message.make_query(name, qtype), "127.0.0.1", port=5301, timeout=5)
+        assert response.rcode() == dns.rcode.NOERROR, (name, qtype, response.to_text())
+        if qtype == "MX":
+            assert any(rrset.rdtype == dns.rdatatype.MX and str(rrset[0].exchange) == expected for rrset in response.answer), response.to_text()
+            assert any(rrset.rdtype == dns.rdatatype.A and str(rrset[0]) == "192.0.2.111" for rrset in response.additional), response.to_text()
+            assert any(rrset.rdtype == dns.rdatatype.AAAA and str(rrset[0]) == "2001:db8::111" for rrset in response.additional), response.to_text()
+        elif qtype == "SRV":
+            assert any(rrset.rdtype == dns.rdatatype.SRV and str(rrset[0].target) == expected for rrset in response.answer), response.to_text()
+            assert any(rrset.rdtype == dns.rdatatype.A and str(rrset[0]) == "192.0.2.121" for rrset in response.additional), response.to_text()
+            assert any(rrset.rdtype == dns.rdatatype.AAAA and str(rrset[0]) == "2001:db8::121" for rrset in response.additional), response.to_text()
+        elif qtype == "NS":
+            assert any(rrset.rdtype == dns.rdatatype.NS and str(rrset[0].target) == expected for rrset in response.authority), response.to_text()
+            assert any(rrset.rdtype == dns.rdatatype.A and str(rrset[0]) == "192.0.2.131" for rrset in response.additional), response.to_text()
+            assert any(rrset.rdtype == dns.rdatatype.AAAA and str(rrset[0]) == "2001:db8::131" for rrset in response.additional), response.to_text()
+        elif qtype == "HTTPS":
+            assert any(rrset.rdtype == dns.rdatatype.HTTPS and "192.0.2.141" in rrset.to_text() for rrset in response.answer), response.to_text()
+        elif qtype == "PTR":
+            assert any(rrset.rdtype == dns.rdatatype.PTR and str(rrset[0].target) == expected for rrset in response.answer), response.to_text()
+        elif name.startswith("allapp-cname"):
+            assert sum(rrset.rdtype == dns.rdatatype.CNAME for rrset in response.answer) == 1, response.to_text()
+            assert any(rrset.rdtype == dns.rdatatype.A and str(rrset[0]) == expected for rrset in response.answer), response.to_text()
+        else:
+            assert any(rrset.rdtype == dns.rdatatype.A and str(rrset[0]) == expected for rrset in response.answer), response.to_text()
+        assert all(rrset.ttl == 60 for rrset in response.answer + response.authority + response.additional), response.to_text()
+
+large = dns.query.tcp(dns.message.make_query("allapp-large-a-01.exact-match.test.", "A"), "127.0.0.1", port=5301, timeout=10)
+assert large.rcode() == dns.rcode.NOERROR and sum(len(rrset) for rrset in large.answer if rrset.rdtype == dns.rdatatype.A) == 240, large.to_text()
+print("Exact-name rotation pool, answer/address sections, reverse PTR, TTL 60, and large TCP A response passed over the LAN DNS service.")
+PY
 # The sibling container is not in the client allowlist. Verify both ingress paths.
 for transport in udp tcp; do
   tcp_option=+notcp

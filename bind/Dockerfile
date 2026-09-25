@@ -12,7 +12,7 @@ LABEL org.opencontainers.image.source="https://github.com/johnneerdael/dns-serve
 LABEL org.opencontainers.image.description="BIND backend for the vendor-neutral example.test DNS QA lab"
 USER root
 COPY --chown=root:bind named.conf /etc/bind/named.conf
-COPY --chown=root:bind zones/db.example.test zones/db.ad.example.test zones/db._msdcs.ad.example.test zones/db.192.0.2 zones/db.198.51.100 zones/db.2001.db8 /etc/bind/zones/
+COPY --chown=root:bind zones/db.example.test zones/db.exact-match.test zones/db.ad.example.test zones/db._msdcs.ad.example.test zones/db.192.0.2 zones/db.198.51.100 zones/db.2001.db8 /etc/bind/zones/
 COPY --from=fixture-builder --chown=root:bind /build/generated/db.large.inc /etc/bind/zones/generated/db.large.inc
 COPY --from=fixture-builder --chown=root:bind /build/generated/large-manifest.json /usr/local/share/dns-lab/large-manifest.json
 COPY --chown=root:bind scripts/entrypoint.sh /usr/local/bin/dns-lab-entrypoint

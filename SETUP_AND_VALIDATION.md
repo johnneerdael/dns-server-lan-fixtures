@@ -20,7 +20,7 @@ The client-facing path is: DNS Client -> the resolver or access path under test 
 
 The lab uses BIND 9, Python and dnspython. Public prebuilt images are published at ghcr.io/johnneerdael/dns-lab-bind and ghcr.io/johnneerdael/dns-lab-fixtures. The download contains the Compose configuration and instructions; users do not need source files, Python or local image builds. Docker Engine and the Compose plugin pull the images from GitHub Container Registry. The first installation requires registry access or an approved image mirror. No GitHub login is required for public pulls.
 
-The local zone is example.test, beneath the reserved .test namespace. It is deliberately unsigned. Internet tests use the separately hosted dns.quality-assurance.fyi namespace; installing this LAN package does not deploy that public zone. DNSSEC validation is enabled in BIND for ordinary recursive lookups, independently of the unsigned local zones.
+The LAN test zones are example.test and exact-match.test, beneath the reserved .test namespace. They are deliberately unsigned. Static reverse zones cover 192.0.2.0/24 and 198.51.100.0/24. Internet tests use the separately hosted dns.quality-assurance.fyi namespace; installing this LAN package does not deploy that public zone. DNSSEC validation is enabled in BIND for ordinary recursive lookups, independently of the unsigned local zones.
 
 ## 3. Prepare a reachable host
 
@@ -105,15 +105,33 @@ Record the actual response, DNSSEC data and flags. DNSKEY/RRSIG presence alone i
 
 Keep DNS Client on system DNS during normal collection. Choose one topology deliberately and record it in the baseline notes.
 
-With an existing local resolver or internal cloud DNS service, configure conditional forwarding for example.test and its descendants to the lab's LAN address on UDP/TCP 53. Update any cloud outbound resolver endpoints, routes and access controls needed to reach the host. Do not create an empty authoritative example.test zone on the forwarding resolver: that can answer NXDOMAIN locally instead of forwarding.
+With an existing local resolver or internal cloud DNS service, configure conditional forwarding for example.test, exact-match.test and the reverse test zones to the lab's LAN address on UDP/TCP 53. Update any cloud outbound resolver endpoints, routes and access controls needed to reach the host. Do not create empty authoritative zones on the forwarding resolver: that can answer NXDOMAIN locally instead of forwarding.
 
-For VPN or ZTNA testing, arrange the solution's DNS steering or private-DNS integration so the test namespace reaches this same endpoint. Include generated names under fresh.example.test, related alias/service targets, and both transports. Product-specific wildcard and split-DNS rules differ; verify the effective route rather than assuming a wildcard expression has identical meaning everywhere. A permitted SRV or MX query may still require a follow-up A/AAAA lookup of its returned target.
+For VPN or ZTNA testing, arrange the solution's DNS steering or private-DNS integration so the test namespace reaches this same endpoint. Include generated names under fresh.example.test, exact-match.test names from the DNS Client destination-list CSV, related alias/service targets, reverse-zone PTR names and both transports. Configure every hostname in the CSV as an exact destination for the exact-app test profile; do not cover exact-match.test with a wildcard. Keep a separate wildcard-app profile as the control. Wildcard and exact destination precedence varies by product, so verify the effective route for both profiles. A permitted SRV or MX query may still require a follow-up A/AAAA lookup of its returned target.
 
 Alternatively, configure a dedicated test device's normal system DNS to use the lab endpoint. The service then answers lab names and forwards unrelated names upstream. This topology makes the lab a resolver for that device. Record the previous device DNS configuration so it can be restored after testing.
 
-If a scenario queries static reverse zones directly, forward those test-only namespaces as well: 2.0.192.in-addr.arpa, 100.51.198.in-addr.arpa and 8.b.d.0.1.0.0.2.ip6.arpa. The app's current fresh-name PTR DNS test records are reached beneath fresh.example.test.
+If a scenario queries static reverse zones directly, forward those test-only namespaces as well: 2.0.192.in-addr.arpa, 100.51.198.in-addr.arpa and 8.b.d.0.1.0.0.2.ip6.arpa. The fresh-name PTR record-format probes are beneath fresh.example.test; the LAN reverse-zone PTR cases query actual names in the static reverse zones and exercise the reverse destinations directly.
 
 From the test device, run DNS Client with resolver override off and confirm its recorded target/provenance. A plain dig command without @server uses its configured resolver list and is not proof of the native macOS split-DNS/application path. Compare an OS-native/application lookup separately when evaluating that path. A displayed socket destination does not by itself identify which resolver or access intermediary generated the answer.
+
+## 6A. Distinguish wildcard and exact-name app validation
+
+The DNS Client profile has separate wildcard controls and exact-name cases.
+Fresh nonce names under fresh.example.test prove the wildcard route only. They
+cannot prove exact matching. The exact pool uses two fixed query names per
+case, with TTL 60 seconds, and the TCP/UDP variants rotate between them. Import
+the exact-match destination CSV and configure each listed owner and each
+MX/SRV/NS address target as an exact destination. Keep this configuration
+separate from the wildcard profile so a wildcard rule cannot make an exact
+match test pass accidentally.
+
+The profile includes CNAME-to-A/AAAA answers, MX and SRV Additional targets,
+in-domain NS glue, HTTPS address hints, a large TCP A RRset and actual reverse
+PTR names. A/AAAA records in Answer and Additional must be reviewed under the
+exact target's configured mapping. The NPLAN-6694 PRD initially specifies the
+All App Validation switch for QTYPE A; MX/SRV/NS Additional checks are explicit
+additional acceptance coverage, not currently written into that PRD.
 
 ## 7. Collect evidence and approve a baseline
 
@@ -215,3 +233,31 @@ OPENPGPKEY and SMIMEA specimens contain valid synthetic public data. Their
 fresh-name owners test DNS record transport; they do not perform real
 mailbox-hash discovery, identity verification or cryptographic trust validation.
 No private generation material is distributed.
+
+## 14. Exact-match app and address-section test data (0.5.0)
+
+The BIND backend now serves a separate unsigned `exact-match.test` zone. Its
+exact A/AAAA, CNAME, MX, SRV, NS and HTTPS owners use a fixed two-name pool and
+60-second TTLs. MX/SRV/NS responses include same-zone A and AAAA address data in
+Additional; HTTPS publishes IPv4/IPv6 hints in the HTTPS RDATA. The large A
+RRsets support the selected large-over-TCP check.
+
+DNS Client Downloads includes `exact-match-test-destinations.csv`. For an
+exact-match access-policy scenario, add every listed hostname as a distinct
+exact destination. The file includes query owners and each answer/Additional
+target owner. Keep the wildcard-control profile separate and do not add a
+wildcard covering `exact-match.test` to the exact-match configuration.
+
+The LAN reverse zones contain real PTR owners for addresses in `192.0.2.0/24`
+and `198.51.100.0/24`. Forward `2.0.192.in-addr.arpa` and
+`100.51.198.in-addr.arpa` to this service for reverse-PTR checks; the app's
+older PTR record-format cases under `example.test` do not query these zones.
+The client profile CSV is a list of DNS test destinations, not a NPA import
+format. Configure those explicit names in the access product under test.
+
+NPLAN-6694 currently scopes All App DNS Validation to QTYPE A and rewrites A
+RDATA. The exact MX/SRV/NS Additional checks are extra acceptance coverage
+requested for this test profile. Review the intended exact-target stub mapping
+for each Additional A/AAAA owner separately; these records are test fixtures,
+not a universal RFC rule that recursive responses must include optional
+Additional addresses.
