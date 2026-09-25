@@ -1,43 +1,42 @@
 {
   "purpose": "Recorded DNS references, not QA-approved product baselines or full RFC certification",
-  "fixture_source_revision": "06a78e6410e7ada848ec60fa1da5af245fffacc1",
+  "fixture_source_revision": "ab6ee15bf1a231069af366ddd6f2e6af73f4708f",
   "engine_source_repository": "https://github.com/johnneerdael/dns-client-gui",
-  "engine_source_revision": "719ad76f353d6fc41c7d7b4d3e1ab69f81c6b1ba",
-  "engine_working_tree_changes": true,
+  "engine_source_revision": "d1aafaa014a5a2b4725ab9d81a01be19b64db983",
+  "engine_working_tree_changes": false,
   "engine_source_files_sha256": {
     "crates/dns-engine/src/additional.rs": "37992fb2a8ec94a8a5104f6d205ba9b6a7b856299edd936c92be1d48c9bdf758",
     "crates/dns-engine/src/catalogue.rs": "1153ab8cce1b743c5f60f4df56b3b8a0c8094a4b0ad445d5640562c1e2101a34",
     "crates/dns-engine/src/checks.rs": "43a1941cc991776d42ada512b4bcb37e770e63790da9c3a227d41995a8f70c61",
-    "crates/dns-engine/src/decode.rs": "e4c610203b633229ba74b3a6c299a9cda1d67efe2ce2d2a05555f739b539ad11",
+    "crates/dns-engine/src/decode.rs": "b47d3bbd93b381e90866d6f466a0fab951126115fdb4b9d28b78265fbf749a51",
     "crates/dns-engine/src/discovery.rs": "ff5dbf631e2f03f633426ecf6137a95f6248119bbf6cdd183c61e12754582aab",
     "crates/dns-engine/src/lib.rs": "d9ed211da562cc4238f00aeeff1fa4b176136b5b4610aa9422654e5642173872",
-    "crates/dns-engine/src/model.rs": "8a6766d511429ae5379c3d63fc1d0951a19aa0c70340493194bf7980933804e8",
+    "crates/dns-engine/src/model.rs": "f074200a94e8ec341d360d4ef4e99fcad1f08f35c1e7a3847f3d234ce173d4f5",
     "crates/dns-engine/src/presentation.rs": "9d405295750f823bb319aaba0ac077c8a00954f606f63f139d59fd2834def46f",
-    "crates/dns-engine/src/query.rs": "2364dc44cf30a25f7c319fb2291186f5ea3ebee82d819198731502d7eec83744",
-    "crates/dns-engine/src/runner.rs": "a0b27432d9c5c62bb3badd852c7e1d33b60ad243f3785c48198a174c681ec5c4",
+    "crates/dns-engine/src/query.rs": "09dc84b73724ee0c05831255a2c481e3d9cc736199a7fa720ac1cb2e0c9ebdf0",
+    "crates/dns-engine/src/runner.rs": "3e937c1bb715aa6b78a5660733659acf9287bdc9900d4b648dd435f54042592f",
     "crates/dns-engine/src/transport.rs": "7aeca8ec462253cc9a281d7b1f93b1c6a5a14ef8f7a14697c579ffb3ab32978f",
-    "crates/dns-engine/Cargo.toml": "739de231fc060374ecdde8de844a3ea8306b84a514d51d46c981f3d16c597a3e",
-    "Cargo.lock": "cab0fd93679c5b47ee4696a6ec9d6dd716f98b7a621210a49bc31b41ce1d55d5",
-    "catalogue/tests.json": "f45b05e270577dfde2a2d81a8b1d43522321dd4353d1ffcafc918015f5a0c537"
+    "crates/dns-engine/Cargo.toml": "72bbbe0461a42735f58f8fcd04f6e2e0ea0c6c84c3055c9faa49f477c0db24eb",
+    "Cargo.lock": "51b6db29d79563171ec57366ab28695095bf9b82c2327fa323fd13e61148e7e1",
+    "catalogue/tests.json": "fcfa5315da52f9a03288221abb82e51f14e5ea60404353b6f2a36007bab756b6"
   },
   "methods": {
-    "lan": "Native DNS engine using explicit loopback UDP/TCP endpoints 127.0.0.1:5531 and [::1]:5531 against published 0.4.0 Docker images; no system DNS selection. Operator confirmed the client disabled; not independently detected.",
+    "lan": "Native DNS engine captured all 216 LAN cases directly against 127.0.0.1:5531 and [::1]:5531 on an isolated GitHub-hosted Ubuntu runner. The containers use public 0.5.1 image digests with amd64 selected by the runner. No system DNS or private-access publisher was selected.",
     "internet": "Configured system DNS at the observed 1.1.1.1:53 endpoint; operator confirmed the security intermediary disabled. Recursive observation, not direct authoritative or cache-free proof.",
     "additional_control": "Separate explicit public authoritative endpoint 108.162.192.65:53 for six public additional-data cases; not system DNS. Operator confirmed client disabled; socket destination alone does not exclude interception.",
-    "publication": "Set local socket endpoint metadata to null and append a publication note. Preserve all DNS wire bytes, decoded records, timings, remote endpoints and run identity."
+    "publication": "Set each local_endpoint field to null and append a publication note. Preserve all DNS wire bytes, decoded records, remote endpoints, timings, events and run identity. Record original-capture and published-report SHA-256 hashes."
   },
   "limitations": [
-    "Implemented protocol checks are bounded, not full DNS RFC certification or product-baseline approval. Eleven deliberate-fault cases have network_error/inconclusive outcomes in each LAN report; two IPv6-only cases are unavailable in the IPv4 report.",
-    "Operator-confirmed-disabled records the supplied acknowledgement, not independent detection of client state or the complete network path.",
-    "Optional additional addresses and policy rewrites require scenario interpretation; a reference difference is separate from an RFC finding.",
-    "The DNS-behavior recheck ignores all positive TTL differences, generated nonces, timings and other documented volatility. It is not byte identity or an explicit-expectations policy pass.",
-    "Old/new catalogue digests differ; the comparison warning remains visible in the published recheck reports."
+    "The LAN reports cover 216 tests each. Eleven deliberate transport-fault cases retain network_error/inconclusive outcomes in both reports; two IPv6-only cases are unavailable in the IPv4 report.",
+    "Capture through isolated runner loopback verifies fixture data and the engine capture path; it is not a product resolver, VPN or ZTNA baseline.",
+    "Optional Additional data and policy rewrites require scenario interpretation; these captures do not make optional data a universal RFC MUST.",
+    "DNS-behavior comparisons ignore documented run volatility and are not byte identity, TTL-policy approval, full RFC certification or product-baseline signoff."
   ],
   "images": [
     {
       "image": "ghcr.io/johnneerdael/dns-lab-bind",
-      "version": "0.4.0",
-      "digest": "sha256:9be08cdf830012093e77ac050d84aafc5af47c2c147d5f3a25e80e51534eca50",
+      "version": "0.5.1",
+      "digest": "sha256:6bf9551bc0f43dbcc3b0b0aafd60a04c49acbb2fe16bd314c3d02eebf6d7473b",
       "platforms": [
         {
           "architecture": "amd64",
@@ -48,13 +47,12 @@
           "os": "linux"
         }
       ],
-      "captured_architecture": "arm64",
-      "captured_image_id": "sha256:9be08cdf830012093e77ac050d84aafc5af47c2c147d5f3a25e80e51534eca50"
+      "captured_architecture": "amd64"
     },
     {
       "image": "ghcr.io/johnneerdael/dns-lab-fixtures",
-      "version": "0.4.0",
-      "digest": "sha256:a473cccd2fe35f0f1e0384666441c44a50fe4dfc169388088abe7a6025ef7509",
+      "version": "0.5.1",
+      "digest": "sha256:0fdfd0a64a99972a2c0cc3d5965e4566e8de55fc2a5a3947584193a936b39f83",
       "platforms": [
         {
           "architecture": "amd64",
@@ -65,50 +63,49 @@
           "os": "linux"
         }
       ],
-      "captured_architecture": "arm64",
-      "captured_image_id": "sha256:a473cccd2fe35f0f1e0384666441c44a50fe4dfc169388088abe7a6025ef7509"
+      "captured_architecture": "amd64"
     }
   ],
   "reports": [
     {
       "file": "lan-ipv4.json",
-      "sha256": "ea541638dcd22219dc44cc0228839bb4a464208605f32b366a22fa510559c7de",
-      "original_capture_sha256": "f0f3d0e049783f38665d69d47496368b83a056be8091b94a64d8f21fe39e095f",
-      "tests": 176,
-      "run_id": "73a51dd7e0639291e1f64c0f8809c1c7",
-      "started_at": "2026-09-23T01:07:19.510430+00:00",
-      "finished_at": "2026-09-23T01:07:25.174892+00:00",
-      "app_version": "0.4.0",
-      "catalogue_digest": "0b3421c5adce78bb51741cfd5de136081483bcc2eb0dbad2dc7766b351272da1",
-      "security_intermediary_state": "operator_confirmed_disabled",
+      "sha256": "9ed1e4f99d52a670fd53b976c1cc3a271715000fcaf34fa4717e421b58bb8085",
+      "original_capture_sha256": "cbbe4357b5f484d5eddf5b8d48d8cd2de5ac164dfe3fb993505c59e8747f7de4",
+      "tests": 216,
+      "run_id": "ea25205953763fa7845d824d1bbe2162",
+      "started_at": "2026-09-25T07:25:04.327198944+00:00",
+      "finished_at": "2026-09-25T07:25:09.760375011+00:00",
+      "app_version": "0.5.0",
+      "catalogue_digest": "3f4a4727a1ada63ba4d5a71db3d6de5b975e41383ea74f11fe1f1172372409c9",
+      "security_intermediary_state": "unverified",
       "execution_counts": {
-        "completed": 163,
+        "completed": 203,
         "network_error": 11,
         "unavailable": 2
       },
       "assessment_counts": {
-        "no_violation_observed": 163,
+        "no_violation_observed": 203,
         "inconclusive": 11,
         "not_assessed": 2
       }
     },
     {
       "file": "lan-ipv6.json",
-      "sha256": "f58bba3331a4109cb76eb3a896ec22459a5ebdcbf973c467c810bdda996662d6",
-      "original_capture_sha256": "bb5f999a6eefda0e55a8938233bddb12a79df153aa2175b73d4f2564c691daa5",
-      "tests": 176,
-      "run_id": "191d9f49ec3acd2efd32f9b81dc39ea1",
-      "started_at": "2026-09-23T01:07:19.497934+00:00",
-      "finished_at": "2026-09-23T01:07:25.175636+00:00",
-      "app_version": "0.4.0",
-      "catalogue_digest": "0b3421c5adce78bb51741cfd5de136081483bcc2eb0dbad2dc7766b351272da1",
-      "security_intermediary_state": "operator_confirmed_disabled",
+      "sha256": "14021cc1d2659820462e3eb8f4475627c00bb434a1a238bc300af79fa16b15a7",
+      "original_capture_sha256": "da6f4849e539dc2796cfa9a764315e1e9649e93ea0c3d59467b6b3c7f8d87bf8",
+      "tests": 216,
+      "run_id": "cf600f386e70068646293935eaa3f971",
+      "started_at": "2026-09-25T07:25:25.542463848+00:00",
+      "finished_at": "2026-09-25T07:25:30.910535580+00:00",
+      "app_version": "0.5.0",
+      "catalogue_digest": "3f4a4727a1ada63ba4d5a71db3d6de5b975e41383ea74f11fe1f1172372409c9",
+      "security_intermediary_state": "unverified",
       "execution_counts": {
-        "completed": 165,
+        "completed": 205,
         "network_error": 11
       },
       "assessment_counts": {
-        "no_violation_observed": 165,
+        "no_violation_observed": 205,
         "inconclusive": 11
       }
     },
@@ -149,8 +146,8 @@
       }
     }
   ],
-  "previous_reference_revision": "8e330aade76c84aac259f0d82004391c3e7789c3",
-  "engine_source_files_provenance": "Retained pre-recheck source hash map from the prior capture manifest. Every listed hash was independently verified against the tracked file at engine_source_revision. The capture workspace had uncommitted work (including authoritative-control acknowledgement handling); this map fingerprints the listed core files, not every helper/build input. Captures precede the 0.4.1 RP/AFSDB/DNAME decoder change and preserve their original 0.4.0 decoding.",
+  "previous_reference_revision": "ab6ee15bf1a231069af366ddd6f2e6af73f4708f",
+  "engine_source_files_provenance": "Core source files, catalogue and lockfile hashes were computed from the committed app source revision listed above. LAN reports were collected on a GitHub-hosted Ubuntu runner against the public, multi-architecture 0.5.1 images using direct loopback endpoints. Only local socket endpoint fields were redacted from the published report copies; original hashes are retained.",
   "behavior_rechecks": [
     {
       "file": "rechecks/lan-ipv4-recheck.json",
